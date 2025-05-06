@@ -11,7 +11,7 @@ function preload() {
 // let WIDTH = 
 
 function setup() {
-  createCanvas(windowWidth, windowHeight, WEBGL);
+  createCanvas(windowWidth, windowHeight, WEBGL).parent('sketch');
 
   describe('A spinning goat.');
 
