@@ -41,7 +41,6 @@ function draw() {
 
 // Handle mouse or touch interaction
 function mousePressed() {
-  if (!sound.isPlaying()) {
     // Convert screen click to normalized device coordinates
     let x = (mouseX / width - 0.5) * 2;
     let y = (mouseY / height - 0.5) * -2;
@@ -55,5 +54,4 @@ function mousePressed() {
     if (distance < modelRadius * modelScale) {
       sound.play();
     }
-  }
 }
