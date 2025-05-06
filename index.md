@@ -3,7 +3,6 @@ layout: home
 title: cabeza de chivo
 ---
 
-<div id="ascii-border-top" class="ascii-shows-border"></div>
 
 ## UPCOMING SHOWS - 2025
 
@@ -15,28 +14,3 @@ title: cabeza de chivo
 
 <div id="ascii-border-bottom" class="ascii-shows-border"></div>
 
-
-<script>
-const borderFrames = [
-  "~~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~~*",
-  "~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~",
-  "~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*",
-  "*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~*~~*~~*~*~~*~~*~*~~*~",
-];
-
-let frame = 0;
-function animateBorders() {
-  const top = document.getElementById("ascii-border-top");
-  const bottom = document.getElementById("ascii-border-bottom");
-  const line = borderFrames[frame % borderFrames.length];
-
-  if (top && bottom) {
-    top.innerText = line;
-    bottom.innerText = line;
-  }
-
-  frame++;
-  setTimeout(animateBorders, 150);
-}
-animateBorders();
-</script>
