@@ -19,7 +19,7 @@ function makeSketch(startIndex, containerId) {
 
     function recalculateSizes() {
       const effectiveWidth = p.width;
-      imgWidth = Math.floor(effectiveWidth / 3.5); // show 3 images with space
+      imgWidth = Math.floor(effectiveWidth / 5); // show 3 images with space
       imgHeight = imgWidth; // square images
     }
 
