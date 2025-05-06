@@ -1,29 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/addons/p5.sound.min.js"></script>
-    <link rel="stylesheet" href={{"/assets/css/style.css" | relative_url }}>
-
-    <title>chivo</title>
-
-    
-
-    <link rel="stylesheet" type="text/css" href="style.css">
-    
-  </head>
-  
-  <body>
-    {% include header.html %}
-    <div class="content">
-      {{ content }}
-    </div>
-    <div id="sketch"></div>
-    <div class="content2">
-      dale click al chivo
-    </div>
-    <script src="sketch.js"></script>
-  </body>
+<html>
+<head>
+<main>
+  <meta charset="UTF-8">
+  <title>{{ page.title }}</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/addons/p5.sound.min.js"></script>
+  <link rel="stylesheet" href={{"/assets/css/style.css" | relative_url }}>
+</head>
+<body>
+  {% include header.html %}
+  <div class="content">
+    {{ content }}
+  </div>
+  <div id="sketch"></div>
+  <div class="content2">
+    dale click al chivo
+  </div>
+  <script src="sketch.js"></script>
+</body>
+</main>
 </html>
