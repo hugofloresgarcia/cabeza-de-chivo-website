@@ -13,9 +13,25 @@ let hoveredIndex = -1;
 function makeSketch(startIndex, containerId) {
   return function (p) {
     let positions = [];
-    let imgWidth = 400;
-    let imgHeight = 400;
+    let imgWidth = 200;
+    let imgHeight = 200;
     let spacing = 0;
+
+    function recalculateSizes() {
+      const effectiveWidth = p.width;
+      imgWidth = Math.floor(effectiveWidth / 3.5); // show 3 images with space
+      imgHeight = imgWidth; // square images
+    }
+
+    function recalculatePositions() {
+      positions = [];
+      const totalWidth = 3 * imgWidth;
+      const startX = (p.width - totalWidth) / 2;
+      for (let i = 0; i < 3; i++) {
+        let x = startX + i * imgWidth;
+        positions.push({ x, y: 0, w: imgWidth, h: imgHeight, index: startIndex + i });
+      }
+    }
 
     p.preload = function () {
       if (images.length === 0) {
@@ -24,35 +40,29 @@ function makeSketch(startIndex, containerId) {
     };
 
     p.setup = function () {
+      recalculateSizes();
       p.createCanvas(p.windowWidth, imgHeight).parent(containerId);
       recalculatePositions();
+    
+      // Trigger resize again shortly after to account for zoom/layout adjustments
+      setTimeout(() => {
+        recalculateSizes();
+        p.resizeCanvas(p.windowWidth, imgHeight);
+        recalculatePositions();
+      }, 100); // 100ms is usually enough
     };
 
     p.windowResized = function () {
+      recalculateSizes();
       p.resizeCanvas(p.windowWidth, imgHeight);
       recalculatePositions();
     };
 
-    function recalculatePositions() {
-      positions = [];
-      let totalWidth = 3 * imgWidth + 2 * spacing;
-      let startX = (p.width - totalWidth) / 2;
-      for (let i = 0; i < 3; i++) {
-        let x = startX + i * (imgWidth + spacing);
-        positions.push({ x, y: 0, w: imgWidth, h: imgHeight, index: startIndex + i });
-      }
-      // for (let i = 0; i < 3; i++) {
-       
-      //   let x = (p.width - (3 * imgWidth + 2 * spacing)) / 2 + i * (imgWidth + spacing);
-      //   positions.push({ x, y: 0, w: imgWidth, h: imgHeight, index: startIndex + i });
-      // }
-    }
-
     p.draw = function () {
       p.background(0);
       for (let pos of positions) {
-        let img = images[pos.index];
-        let ratio = img.width / img.height;
+        const img = images[pos.index];
+        const ratio = img.width / img.height;
         let w = pos.w;
         let h = pos.w / ratio;
 
@@ -61,9 +71,8 @@ function makeSketch(startIndex, containerId) {
           w = pos.h * ratio;
         }
 
-        let offsetX = (pos.w - w) / 2;
-        let offsetY = (pos.h - h) / 2;
-
+        const offsetX = (pos.w - w) / 2;
+        const offsetY = (pos.h - h) / 2;
         p.image(img, pos.x + offsetX, pos.y + offsetY, w, h);
       }
     };
