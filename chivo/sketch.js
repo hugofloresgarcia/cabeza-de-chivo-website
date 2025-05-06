@@ -6,7 +6,7 @@ let modelRadius = 100; // approximate clickable radius
 
 function preload() {
   shape = loadModel('/assets/chivo.obj', true);
-  sound = loadSound('/assets/audio/chivo-delay.wav');
+  sound = loadSound('/assets/audio/chivo-delay.mp3');
 }
 
 function setup() {
