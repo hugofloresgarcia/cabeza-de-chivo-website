@@ -29,7 +29,7 @@ function color_vary(clr, amt) {
 
 function draw() {
   background(bgColor);
-  orbitControl();
+  // orbitControl();
 
   rotateY(frameCount * 0.01);
   rotateX(frameCount * 0.01);
