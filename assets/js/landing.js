@@ -59,7 +59,7 @@ function makeSketch(startIndex, containerId) {
     };
 
     p.draw = function () {
-      p.background(0);
+      p.background("#211a1e");
       for (let pos of positions) {
         const img = images[pos.index];
         const ratio = img.width / img.height;

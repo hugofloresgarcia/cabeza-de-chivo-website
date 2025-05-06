@@ -1,10 +1,11 @@
 :root {
   /* Accent Colors */
-  --primary-red: #D1495B; /* Existing red */
-  --secondary-orange: #EDA94B; /* Golden orange */
+  --primary-red: #ff1d42; /* Existing red */
+  --secondary-orange: #edf060; /* Golden orange */
   --mint-green: #57A773; /* Mint green */
-  --teal-blue: #639FAB; /* Teal blue */
-  --hot-pink: #E86A92; /* Hot pink */
+  --teal-blue: #ff0000; /* Teal blue */
+  --link-blue: #5093ff; /* Teal blue */
+  --hot-pink: #E86A92; /* Hot pink */ 
 }
 
 /* body {
@@ -17,10 +18,13 @@
   padding: 0;
   text-align: center;
 } */
+* {
+  background-color: #211a1e;
+}
 
 body {
   font-family: 'IBM Plex Mono', monospace;
-  background-color: black;
+  background-color: #211a1e;
   color: var(--primary-red);
   font-size: 20px; /* Increased from 16px */
   line-height: 1.6; /* Slightly looser spacing for legibility */
@@ -30,14 +34,14 @@ body {
 }
 
 main, .content, .ascii-shows, header, footer {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
 }
   
 nav ul {
   list-style: none;
-  background: #000000;
+  background: #211a1e;
   padding: 10px; /* was 5px */
   display: flex;
   justify-content: space-around;
@@ -61,15 +65,16 @@ nav li a:hover {
   font-family: 'IBM Plex Mono', monospace;
   background: #111;
   padding: 1rem;
-  border: 2px dashed var(--primary-red);
   color: var(--primary-red);
-  max-width: 1000px;
+  max-width: 2000px;
   margin: auto;
   white-space: pre-wrap;
+  border: 4px double var(--primary-red);
+  box-shadow: 0 0 12px var(--hot-pink);
 }
 
 .ascii-shows a {
-  color: var(--mint-green);
+  color: var(--link-blue);
 }
 
 .ascii-shows a:hover {
@@ -79,7 +84,7 @@ nav li a:hover {
 
 .ascii-shows-border {
   font-family: 'IBM Plex Mono', monospace;
-  color: #ff9900;
+  color: var(--secondary-orange);
   font-size: 1.2rem;
   text-align: center;
   white-space: pre;
@@ -88,7 +93,7 @@ nav li a:hover {
 
 .ascii-title {
   font-size: 1.5rem;
-  color: var(--secondary-orange);
+  color: var(--primary-red);
 }
 
 .accent-pink {
@@ -96,7 +101,7 @@ nav li a:hover {
 }
 
 .accent-blue {
-  color: var(--teal-blue);
+  color: var(--link-blue);
 }
 
 #sketch-container, #top-sketch, #bottom-sketch {
@@ -126,7 +131,7 @@ h1 {
 }
 
 strong, em {
-  color: var(--mint-green);
+  color: var(--link-blue);
 }
 
 .show-note {
@@ -139,12 +144,12 @@ strong, em {
 
 
 .show-date {
-  color: #00FFD1; /* Aqua */
+  color: var(--teal-blue); 
   font-weight: bold;
 }
 
 .show-venue {
-  color: #FFB700; /* Bright gold */
+  color: var(--teal-blue); 
   font-style: italic;
 }
 
