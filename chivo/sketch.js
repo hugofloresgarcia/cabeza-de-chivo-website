@@ -10,8 +10,7 @@ function preload() {
 }
 
 function setup() {
-  const canvas = createCanvas(windowWidth, 600, WEBGL); // 600px tall, adjust as needed
-  canvas.parent('sketch');
+  createCanvas(windowWidth, 600, WEBGL).parent("sketch"); // 600px tall, adjust as needed
   describe('A spinning goat. Click or tap to play a sound.');
   bgColor = color("#211a1e");
 }
