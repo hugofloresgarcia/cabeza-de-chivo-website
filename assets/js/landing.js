@@ -2,9 +2,9 @@ let images = [];
 
 function preloadAll(p) {
   for (let i = 1; i <= 5; i++) {
-    images.push(p.loadImage(`//assets/img/photo/masked-polaroids/masked-${i}.jpg`));
+    images.push(p.loadImage(`/assets/img/photo/masked-polaroids/masked-${i}.jpg`));
   }
-  images.push(p.loadImage(`//assets/img/photo/masked-polaroids/the-mask.jpg`));
+  images.push(p.loadImage(`/assets/img/photo/masked-polaroids/the-mask.jpg`));
 }
 
 // Shared state for shuffling

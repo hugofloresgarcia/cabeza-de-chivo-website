@@ -13,7 +13,6 @@ title: cabeza de chivo
 </pre>
 
 
-
 <pre id="ascii-border-bottom" class="ascii-shows-border"></pre>
 
 
