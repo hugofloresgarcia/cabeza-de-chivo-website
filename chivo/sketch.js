@@ -1,28 +1,22 @@
-// Click and drag the mouse to view the scene from different angles.
-
 let shape;
 let bgColor;
+let sound;
+let modelScale = 2;
+let modelRadius = 100; // approximate clickable radius
 
-// Load the file and create a p5.Geometry object.
 function preload() {
   shape = loadModel('/assets/chivo.obj', true);
+  sound = loadSound('/assets/audio/chivo-delay.wav');
 }
-
-// let WIDTH = 
 
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL).parent('sketch');
-
-  describe('A spinning goat.');
-
+  describe('A spinning goat. Click or tap to play a sound.');
   bgColor = color("#211a1e");
-  // bgColor = color("#5B2027");
 }
 
 
-
 function color_vary(clr, amt) {
-  // vary hsb by amt
   let h = hue(clr);
   let s = saturation(clr);
   let b = brightness(clr);
@@ -34,30 +28,31 @@ function color_vary(clr, amt) {
 }
 
 function draw() {
-  // background("#5B2027");
-  // slight variation on the background color
-  // bgColor.setAlpha(255);
-
-  // bgColor = color_vary(bgColor, 10);
-
-  // vary color only every 10 frames
-  // if (frameCount % 10 == 0) {
-  //   bgColor = color_vary(bgColor, 10);
-  // }
-  
   background(bgColor);
-
-
-  // Enable orbiting with the mouse.
   orbitControl();
 
-  // noStroke();
   rotateY(frameCount * 0.01);
   rotateX(frameCount * 0.01);
 
-  // zoom in a bit
-  scale(2);
-
+  scale(modelScale);
   model(shape);
+}
 
+// Handle mouse or touch interaction
+function mousePressed() {
+  if (!sound.isPlaying()) {
+    // Convert screen click to normalized device coordinates
+    let x = (mouseX / width - 0.5) * 2;
+    let y = (mouseY / height - 0.5) * -2;
+
+    // Approximate if we're near the model center (origin in WEBGL mode)
+    // You could enhance this by projecting 3D coordinates to screen space, but this works for a centered object.
+    let dx = mouseX - width / 2;
+    let dy = mouseY - height / 2;
+    let distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < modelRadius * modelScale) {
+      sound.play();
+    }
+  }
 }
