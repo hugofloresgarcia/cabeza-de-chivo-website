@@ -13,8 +13,8 @@ let hoveredIndex = -1;
 function makeSketch(startIndex, containerId) {
   return function (p) {
     let positions = [];
-    let imgWidth = 200;
-    let imgHeight = 200;
+    let imgWidth = 400;
+    let imgHeight = 400;
     let spacing = 0;
 
     p.preload = function () {

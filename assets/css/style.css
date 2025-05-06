@@ -105,3 +105,30 @@ h1 {
 strong, em {
   color: var(--mint-green);
 }
+
+.show-note {
+  color: #FF6347; /* Tomato red or any color you prefer */
+  font-weight: bold; /* Make it bolder for emphasis */
+  font-style: italic; /* Optional: italicize the text for more emphasis */
+  background-color: #FFF0F0; /* Optional: Add a light background to make it pop */
+  padding: 2px 5px; /* Add some padding to give it a "highlighted" effect */
+}
+
+
+.show-date {
+  color: #00FFD1; /* Aqua */
+  font-weight: bold;
+}
+
+.show-venue {
+  color: #FFB700; /* Bright gold */
+  font-style: italic;
+}
+
+.show-note {
+  color: #FF6347; /* Tomato red */
+  font-weight: bold;
+  font-style: italic;
+  background-color: #FFF0F0;
+  padding: 2px 5px;
+}
