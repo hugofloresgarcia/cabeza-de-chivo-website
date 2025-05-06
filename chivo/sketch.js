@@ -50,7 +50,5 @@ function mousePressed() {
     let dy = mouseY - height / 2;
     let distance = Math.sqrt(dx * dx + dy * dy);
 
-    if (distance < modelRadius * modelScale) {
-      sound.play();
-    }
+    sound.play();
 }
