@@ -33,6 +33,12 @@ body {
   text-align: center;
 }
 
+a {
+  color: var(--link-blue);
+  /* text-decoration: none; */
+  transition: color 0.3s ease;
+}
+
 main, .content, .ascii-shows, header, footer {
   max-width: 1200px;
   margin: 0 auto;

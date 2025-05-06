@@ -3,7 +3,6 @@ layout: home
 title: cabeza de chivo
 ---
 
-
 ## UPCOMING SHOWS - 2025
 
 <pre class="ascii-shows">
