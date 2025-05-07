@@ -9,7 +9,7 @@ let fastUntil = 0;
 // Preload model & sound
 function preload() {
   shape = loadModel('/assets/chivo.obj', true);
-  soundFormats('wav');
+  soundFormats('wav', 'mp3', 'ogg');
   sound = loadSound('/assets/audio/chivo-delay.wav');
 }
 
