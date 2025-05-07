@@ -10,7 +10,7 @@ let fastUntil = 0;
 function preload() {
   shape = loadModel('/assets/chivo.obj', true);
   soundFormats('wav');
-  sound = loadSound('/assets/audio/chivo-delay.mp3');
+  sound = loadSound('/assets/audio/chivo-delay.wav');
 }
 
 function setup() {
