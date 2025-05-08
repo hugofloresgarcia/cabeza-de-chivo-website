@@ -17,6 +17,7 @@ function setup() {
   createCanvas(windowWidth, 600, WEBGL).parent("sketch");
   describe('A spinning goat. Click or tap to play a sound.');
   bgColor = color("#211a1e");
+  userStartAudio();  // required for sound to work on mobile
   
   // play as soon as it's ready
   sound.play();
