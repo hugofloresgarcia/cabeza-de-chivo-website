@@ -13,21 +13,21 @@ let hoveredIndex = -1;
 function makeSketch(startIndex, containerId) {
   return function (p) {
     let positions = [];
-    let imgWidth = 200;
-    let imgHeight = 200;
+    let imgWidth = 50;
+    let imgHeight = 50;
     let spacing = 0;
 
     function recalculateSizes() {
       const effectiveWidth = p.width;
-      imgWidth = Math.floor(effectiveWidth / 4); // show 3 images with space
+      imgWidth = Math.floor(effectiveWidth / (6+1)); // show 6 images with space
       imgHeight = imgWidth; // square images
     }
 
     function recalculatePositions() {
       positions = [];
-      const totalWidth = 3 * imgWidth;
+      const totalWidth = 6 * imgWidth;
       const startX = (p.width - totalWidth) / 2;
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 6; i++) {
         let x = startX + i * imgWidth;
         positions.push({ x, y: 0, w: imgWidth, h: imgHeight, index: startIndex + i });
       }
@@ -43,13 +43,22 @@ function makeSketch(startIndex, containerId) {
       recalculateSizes();
       p.createCanvas(p.windowWidth, imgHeight).parent(containerId);
       recalculatePositions();
-    
+
       // Trigger resize again shortly after to account for zoom/layout adjustments
-      setTimeout(() => {
+      setInterval(() => {
         recalculateSizes();
         p.resizeCanvas(p.windowWidth, imgHeight);
         recalculatePositions();
-      }, 100); // 100ms is usually enough
+      }, 300); // 100ms is usually enough
+
+      setInterval(() => {
+        // flip a coin with 33% skip prob
+        if (Math.random() > 0.33) {
+          recalculateSizes();
+          shuffleImages();
+          recalculatePositions();
+        }
+      }, 300); // 100ms is usually enough
     };
 
     p.windowResized = function () {
@@ -107,4 +116,4 @@ function makeSketch(startIndex, containerId) {
 
 // Create the two sketches
 new p5(makeSketch(0, 'top-sketch'));
-new p5(makeSketch(3, 'bottom-sketch'));
+new p5(makeSketch(0, 'bottom-sketch'));
