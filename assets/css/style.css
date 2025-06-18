@@ -26,7 +26,7 @@ body {
   font-family: 'IBM Plex Mono', monospace;
   background-color: #211a1e;
   color: var(--primary-red);
-  font-size: 20px; /* Increased from 16px */
+  font-size: 22px; /* Increased from 16px */
   line-height: 1.6; /* Slightly looser spacing for legibility */
   margin: 0;
   padding: 0;
@@ -58,7 +58,7 @@ nav ul {
 nav li a {
   color: var(--primary-red);
   font-weight: bold;
-  font-size: 1.75rem; /* 28px roughly */
+  font-size: 1.85rem; /* 28px roughly */
   transition: color 0.3s ease;
 }
 
@@ -91,14 +91,14 @@ nav li a:hover {
 .ascii-shows-border {
   font-family: 'IBM Plex Mono', monospace;
   color: var(--secondary-orange);
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   text-align: center;
   white-space: pre;
   padding: 0.5rem 0;
 }
 
 .ascii-title {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   color: var(--primary-red);
 }
 
@@ -128,7 +128,7 @@ h1, h2, h3 {
   color: var(--secondary-orange);
 }
 h1 {
-  font-size: 5rem; /* Adjust this to make the font much bigger */
+  font-size: 4rem; /* Adjust this to make the font much bigger */
   font-weight: 900; /* Optional: Increase font weight for a bolder look */
   letter-spacing: 0.1em; /* Optional: Add some letter spacing for a wider effect */
   color: var(--secondary-orange); /* Retaining the secondary orange color for emphasis */
