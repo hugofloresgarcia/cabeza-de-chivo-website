@@ -77,6 +77,8 @@ nav li a:hover {
   white-space: pre-wrap;
   border: 4px double var(--primary-red);
   box-shadow: 0 0 12px var(--hot-pink);
+  /* text-indent: 0; */
+  text-align: left;
 }
 
 .ascii-shows a {
