@@ -4,5 +4,3 @@ title: bio
 ---
 
 
-
-## let's fahking go!
