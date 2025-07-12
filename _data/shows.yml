@@ -10,10 +10,6 @@
   venue: Thalia Hall, Chicago
   url: https://www.thaliahallchicago.com/shows
   note: supporting for Son Rompe Pera
-# - date: 2025-07-25
-#   venue: Sleeping Village, Chicago
-#   url: 
-#   note: DJ Night!
 - date: 2025-08-02
   venue: Farm Block
   url:
@@ -22,6 +18,11 @@
   venue: Avrom Farm Party
   url: https://avromfarmparty.com/
   note: 
+- date: 2025-08-17
+  venue: Cactus Club, Milwaukee
+  url:
+  note:
+# past shows
 - date: 2025-04-05
   venue: Mission Creek Fest, Iowa City
   url: ""
