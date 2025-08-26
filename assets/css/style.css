@@ -25,7 +25,7 @@
 body {
   font-family: 'IBM Plex Mono', monospace;
   background-color: #211a1e;
-  color: var(--primary-red);
+  color: var(--teal-blue);
   font-size: 22px; /* Increased from 16px */
   line-height: 1.6; /* Slightly looser spacing for legibility */
   margin: 0;
