@@ -3,7 +3,7 @@ layout: home
 title: cabeza de chivo
 ---
 
-## UPCOMING SHOWS - 2025
+## UPCOMING SHOWS - 2026
 <pre class="ascii-shows">
 {% assign today = site.time | date: "%Y-%m-%d" %}{% assign upcoming_shows = site.data.shows | sort: "date" %}{% assign has_upcoming = false %}{% for show in upcoming_shows %}{% assign show_date = show.date | date: "%Y-%m-%d" %}{% if show_date >= today %}{% assign has_upcoming = true %}
 >>> <span class="show-date">{{ show.date | date: "%B %e" }}</span> at <span class="show-venue">{{ show.venue }}</span>.{% if show.url %} <a href="{{ show.url }}" target="_blank">[tickets]</a>{% endif %}{% if show.note %} <span class="show-note">({{ show.note }})</span>{% endif %}{% endif %}{% endfor %}{% unless has_upcoming %}<span class="show-date">{{ "sike! you missed all of them! check back soon ;0" }}</span>{% endunless %}</pre>
