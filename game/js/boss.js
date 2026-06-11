@@ -145,7 +145,8 @@ export class Boss extends Fighter {
       this.setState('walk');
     } else {
       this.move = pick;
-      world?.sfx?.bossTelegraph?.();
+      const telegraphSfx = this.moves[pick].telegraphSfx ?? 'bossTelegraph';
+      world?.sfx?.[telegraphSfx]?.();
       this.setState('attack');
     }
   }
@@ -175,6 +176,7 @@ export class Boss extends Fighter {
       }
       if (!this.hasSpawned) {
         this.hasSpawned = true;
+        if (m.strikeSfx) world?.sfx?.[m.strikeSfx]?.();
         if (m.proj) {
           world?.spawnProjectile?.(this, { dmg: a.dmg, proj: m.proj });
           world?.sfx?.bleat?.();

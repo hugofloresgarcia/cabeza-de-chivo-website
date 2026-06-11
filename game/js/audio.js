@@ -178,6 +178,48 @@ export const sfx = {
     tone({ type: 'square', from: 2100, to: 2700, dur: 0.12, vol: 0.04, delay: 0.3, wobbleHz: 12, wobbleDepth: 120 });
   },
 
+  // per-move boss telegraphs & strikes — all dissonant and wobbly
+  goatSwipe() {
+    // minor-second shimmer sliding down over a low groan
+    tone({ type: 'sawtooth', from: 220, to: 170, dur: 0.35, vol: 0.09, wobbleHz: 8, wobbleDepth: 28 });
+    tone({ type: 'sawtooth', from: 233, to: 180, dur: 0.35, vol: 0.07, wobbleHz: 7, wobbleDepth: 24 });
+    tone({ type: 'sine', from: 46, to: 42, dur: 0.4, vol: 0.14 });
+  },
+  swipeStrike() {
+    noise({ dur: 0.12, vol: 0.2, from: 4000, to: 600 });
+    tone({ type: 'square', from: 140, to: 70, dur: 0.12, vol: 0.15, wobbleHz: 20, wobbleDepth: 30 });
+  },
+  goatRam() {
+    // hoof stomps under a rising wobbling growl
+    for (let i = 0; i < 3; i++) {
+      tone({ type: 'sine', from: 70, to: 40, dur: 0.09, vol: 0.22, delay: i * 0.14 });
+    }
+    tone({ type: 'sawtooth', from: 45, to: 85, dur: 0.55, vol: 0.18, delay: 0.1, wobbleHz: 4.5, wobbleDepth: 12 });
+    noise({ dur: 0.5, vol: 0.08, from: 300, to: 60, delay: 0.15 });
+  },
+  bleatWind() {
+    // eerie detuned inhale before the scream
+    tone({ type: 'sawtooth', from: 300, to: 430, dur: 0.3, vol: 0.06, wobbleHz: 6, wobbleDepth: 30 });
+    tone({ type: 'sawtooth', from: 318, to: 455, dur: 0.3, vol: 0.05, wobbleHz: 6, wobbleDepth: 26 });
+  },
+  devilTrident() {
+    // metallic scrape sliding down, growl underneath
+    tone({ type: 'sawtooth', from: 1180, to: 520, dur: 0.4, vol: 0.06, wobbleHz: 10, wobbleDepth: 60 });
+    tone({ type: 'sawtooth', from: 1208, to: 540, dur: 0.4, vol: 0.05, wobbleHz: 9, wobbleDepth: 55 });
+    tone({ type: 'sawtooth', from: 52, to: 47, dur: 0.45, vol: 0.15, wobbleHz: 3, wobbleDepth: 8 });
+  },
+  tridentStrike() {
+    noise({ dur: 0.1, vol: 0.22, from: 6000, to: 1500 });
+    tone({ type: 'square', from: 800, to: 1600, dur: 0.08, vol: 0.07, wobbleHz: 30, wobbleDepth: 200 });
+  },
+  devilRam() {
+    // heavier stomps, deeper roar
+    for (let i = 0; i < 3; i++) {
+      tone({ type: 'sine', from: 60, to: 34, dur: 0.1, vol: 0.24, delay: i * 0.16 });
+    }
+    tone({ type: 'sawtooth', from: 36, to: 66, dur: 0.6, vol: 0.2, wobbleHz: 3.5, wobbleDepth: 9 });
+    noise({ dur: 0.6, vol: 0.1, from: 250, to: 50, delay: 0.1 });
+  },
 };
 
 // ---- musical combat ------------------------------------------------------
@@ -196,8 +238,9 @@ function patchNote(patch, f, { dur = 0.1, vol = 0.1, delay = 0 } = {}) {
     case 'saw':
       tone({ type: 'sawtooth', from: f, to: f, dur, vol, delay });
       break;
-    case 'square':
+    case 'square': // Andres: bass register, always with a sub-octave sine
       tone({ type: 'square', from: f, to: f, dur, vol, delay });
+      tone({ type: 'sine', from: f / 2, to: f / 2, dur: dur * 1.3, vol: vol * 1.3, delay });
       break;
     case 'organ':
       tone({ type: 'square', from: f, to: f, dur: dur * 1.6, vol: vol * 0.8, delay });
@@ -229,6 +272,7 @@ export function buttonNote(patch, degree) {
   const ch = CHORDS[lastChord];
   const f = ch.triad[DEGREE_INDEX[degree]];
   if (patch === 'siren') return sirenSweep(f * 1.9, f * 2.1, 0.16, 0.1);
+  if (patch === 'square') return patchNote(patch, f / 2, { dur: 0.13, vol: 0.16 }); // bass
   patchNote(patch, f * 2, { dur: 0.09, vol: 0.09 });
 }
 
@@ -242,6 +286,12 @@ export function specialSound(patch) {
     fill.forEach((d, i) => setTimeout(() => drumHit(d), i * 90));
   } else if (patch === 'siren') {
     sirenSweep(ch.siren[0], ch.siren[1]);
+  } else if (patch === 'square') {
+    // bass chord: triad an octave down over a deep root sub
+    for (const f of ch.triad) {
+      patchNote('square', f / 2, { dur: 0.5, vol: 0.11 });
+    }
+    tone({ type: 'sine', from: ch.bass, to: ch.bass, dur: 0.65, vol: 0.3 });
   } else {
     for (const f of ch.triad) {
       patchNote(patch, f, { dur: 0.45, vol: 0.1 });

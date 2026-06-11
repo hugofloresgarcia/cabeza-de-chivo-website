@@ -261,18 +261,21 @@ export const BOSSES = {
     moves: {
       swipe: {
         anim: 'swipe', windAnim: 'wind',
+        telegraphSfx: 'goatSwipe', strikeSfx: 'swipeStrike',
         dmg: 9, telegraph: 18, startup: 6, active: 6, recovery: 20,
         hitstun: 18, knockback: 1.4,
         box: { dx: 8, dy: -34, w: 18, h: 12 },
       },
       ram: {
         anim: 'charge', windAnim: 'wind', motion: 'ram',
+        telegraphSfx: 'goatRam',
         dmg: 12, telegraph: 30, startup: 4, active: 50, recovery: 26,
         hitstun: 0, knockback: 0, knockdown: true, speed: 2.6,
         box: { dx: 2, dy: -30, w: 16, h: 26 },
       },
       bleat: {
         anim: 'bleat', windAnim: 'bleat',
+        telegraphSfx: 'bleatWind',
         dmg: 8, telegraph: 20, startup: 4, active: 2, recovery: 30,
         proj: { w: 8, h: 8, speed: 2.0, color: '#ffedfb', orb: true },
       },
@@ -310,12 +313,14 @@ export const BOSSES = {
     moves: {
       trident: {
         anim: 'swipe', windAnim: 'wind',
+        telegraphSfx: 'devilTrident', strikeSfx: 'tridentStrike',
         dmg: 12, telegraph: 14, startup: 5, active: 6, recovery: 22,
         hitstun: 20, knockback: 1.8,
         box: { dx: 10, dy: -52, w: 26, h: 10 },
       },
       ram: {
         anim: 'charge', windAnim: 'wind', motion: 'ram', armor: true,
+        telegraphSfx: 'devilRam',
         dmg: 14, telegraph: 24, startup: 4, active: 46, recovery: 24,
         hitstun: 0, knockback: 0, knockdown: true, speed: 2.8,
         box: { dx: 2, dy: -50, w: 20, h: 44 },
