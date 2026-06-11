@@ -1,0 +1,134 @@
+/* LA PELEA DEL CHIVO — game-page styles.
+   Everything scoped under #game-root: site style.css has a global
+   `* { background-color: #211a1e; }` that would otherwise paint every
+   element; we re-override with transparent/explicit backgrounds here. */
+
+#game-root,
+#game-root * {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#game-root {
+  position: relative;
+  width: 100%;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+#game-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: #000;
+}
+
+#game-canvas {
+  display: block;
+  background-color: #000;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Touch control zones — populated by input.js only on touch devices */
+#touch-left,
+#touch-right {
+  position: absolute;
+  bottom: 12px;
+  display: none;
+  z-index: 10;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+#touch-left {
+  left: 12px;
+  width: 160px;
+}
+
+#touch-right {
+  right: 12px;
+  width: 160px;
+  justify-content: flex-end;
+}
+
+#game-root .touch-btn {
+  width: 64px;
+  height: 64px;
+  border: 2px solid #E86A92;
+  border-radius: 50%;
+  background-color: rgba(33, 26, 30, 0.5);
+  color: #ffedfb;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 22px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none; /* hit-testing is done in JS via coordinates */
+}
+
+#game-root .touch-btn.active {
+  background-color: rgba(255, 29, 66, 0.55);
+  border-color: #edf060;
+}
+
+#rotate-overlay {
+  display: none;
+}
+
+/* ---- Phone-ish screens: game takes the full viewport ---- */
+@media (max-height: 580px), (max-width: 700px) {
+  #game-stage {
+    height: 100dvh;
+  }
+}
+
+/* Collapse the site header on short landscape screens so the arena
+   gets the vertical space (phones in landscape). */
+@media (max-height: 580px) and (orientation: landscape) {
+  body:has(#game-root) h1.title,
+  body:has(#game-root) #ascii-border-top,
+  body:has(#game-root) nav,
+  body:has(#game-root) .content {
+    display: none;
+  }
+}
+
+/* Portrait on small screens: ask for landscape */
+@media (orientation: portrait) and (max-width: 700px) {
+  #rotate-overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    background-color: #211a1e;
+    color: #edf060;
+    font-family: 'IBM Plex Mono', monospace;
+    z-index: 100;
+  }
+  #rotate-overlay .rotate-phone {
+    font-size: 64px;
+    animation: pelea-rotate 1.6s ease-in-out infinite;
+  }
+  #rotate-overlay p {
+    margin-top: 1rem;
+    font-size: 16px;
+    padding: 0 2rem;
+  }
+}
+
+@keyframes pelea-rotate {
+  0%, 20% { transform: rotate(0deg); }
+  60%, 100% { transform: rotate(90deg); }
+}
