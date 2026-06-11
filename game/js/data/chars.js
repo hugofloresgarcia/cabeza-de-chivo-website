@@ -411,8 +411,9 @@ export const CHARS = {
     },
     patches: {
       head: [
-        { x: 8, y: 0, rows: ['_______'] },
-        { x: 7, y: 1, rows: ['_________'] },
+        // bald dome instead of hair (not just erased — he needs a skull!)
+        { x: 8, y: 0, rows: ['_sssss_'] },
+        { x: 7, y: 1, rows: ['_sssssss_'] },
         { x: 7, y: 2, rows: ['ss'] },
         { x: 7, y: 3, rows: ['s'] },
         { x: 7, y: 4, rows: ['s'] },
