@@ -282,7 +282,11 @@ const KO_DOWN = [
 ];
 
 // Patch part rows (head/torso/legs) for one character, then compose frames.
-function buildFrames(patches = {}) {
+// body options: shorten (rows removed from the legs, character stays
+// bottom-anchored), legPatches (e.g. a dress drawn over the legs —
+// skipped for kick frames so the kicking leg stays visible).
+function buildFrames(patches = {}, body = {}) {
+  const { shorten = 0, legPatches = null } = body;
   const patch = (part, list) => (list ? applyPatches(part, list) : part);
   const head = patch(HEAD, patches.head);
   // The hit head is the normal head art shifted 2px left, so reuse the
@@ -296,39 +300,50 @@ function buildFrames(patches = {}) {
 
   const compose = (...parts) => [].concat(...parts);
 
+  // Standard frame = head + torso + legs, optionally shortened/dressed.
+  const legsPart = (part, dress) => {
+    let rows = shorten ? [...part.slice(0, 2), ...part.slice(2 + shorten)] : part;
+    if (legPatches && dress) rows = applyPatches(rows, legPatches);
+    return rows;
+  };
+  const std = (h, t, l, dress = true) => {
+    const f = compose(h, t, legsPart(l, dress));
+    return shorten ? [...blank(shorten), ...f] : f;
+  };
+
   return {
     idle: {
       fps: 3,
       frames: [
-        compose(head, torso(T_IDLE_A), L_STAND),
-        compose(head, torso(T_IDLE_B), L_STAND),
+        std(head, torso(T_IDLE_A), L_STAND),
+        std(head, torso(T_IDLE_B), L_STAND),
       ],
     },
     walk: {
       fps: 8,
       frames: [
-        compose(head, torso(T_IDLE_A), L_WALK1),
-        compose(head, torso(T_IDLE_A), L_STAND),
-        compose(head, torso(T_IDLE_A), L_WALK3),
-        compose(head, torso(T_IDLE_A), L_STAND),
+        std(head, torso(T_IDLE_A), L_WALK1),
+        std(head, torso(T_IDLE_A), L_STAND),
+        std(head, torso(T_IDLE_A), L_WALK3),
+        std(head, torso(T_IDLE_A), L_STAND),
       ],
     },
-    jump: { fps: 1, frames: [compose(head, torso(T_IDLE_A), L_JUMP)] },
+    jump: { fps: 1, frames: [std(head, torso(T_IDLE_A), L_JUMP)] },
     crouch: { fps: 1, frames: [compose(blank(10), head, CROUCH_BODY)] },
     punch: {
       fps: 1, // attack anims are driven by move phase, not fps
       frames: [
-        compose(head, torso(T_WIND), L_STAND),
-        compose(head, torso(T_EXT), L_STAND),
-        compose(head, torso(T_WIND), L_STAND),
+        std(head, torso(T_WIND), L_STAND),
+        std(head, torso(T_EXT), L_STAND),
+        std(head, torso(T_WIND), L_STAND),
       ],
     },
     kick: {
       fps: 1,
       frames: [
-        compose(head, torso(T_IDLE_A), L_KICK_WIND),
-        compose(head, torso(T_IDLE_A), L_KICK_EXT),
-        compose(head, torso(T_IDLE_A), L_KICK_WIND),
+        std(head, torso(T_IDLE_A), L_KICK_WIND, false),
+        std(head, torso(T_IDLE_A), L_KICK_EXT, false),
+        std(head, torso(T_IDLE_A), L_KICK_WIND, false),
       ],
     },
     crouchPunch: {
@@ -340,15 +355,15 @@ function buildFrames(patches = {}) {
       ],
     },
     jumpKick: { fps: 1, frames: [compose(head, JUMPKICK_BODY)] },
-    block: { fps: 1, frames: [compose(head, torso(T_BLOCK), L_STAND)] },
-    special: { fps: 1, frames: [compose(head, torso(T_CAST), L_STAND)] },
-    hit: { fps: 1, frames: [compose(headHit, torso(T_HIT), L_STAND)] },
+    block: { fps: 1, frames: [std(head, torso(T_BLOCK), L_STAND)] },
+    special: { fps: 1, frames: [std(head, torso(T_CAST), L_STAND)] },
+    hit: { fps: 1, frames: [std(headHit, torso(T_HIT), L_STAND)] },
     ko: {
       fps: 1,
       loop: false,
-      frames: [compose(headHit, torso(T_HIT), L_WALK1), KO_DOWN],
+      frames: [std(headHit, torso(T_HIT), L_WALK1), KO_DOWN],
     },
-    win: { fps: 1, frames: [compose(head, torso(T_CAST), L_STAND)] },
+    win: { fps: 1, frames: [std(head, torso(T_CAST), L_STAND)] },
   };
 }
 
@@ -363,14 +378,14 @@ export const CHARS = {
     role: 'bateria',
     stats: { speed: 1.15, power: 0.95, hp: 90 },
     special: {
-      type: 'projectile', label: '¡PALOS!', castSfx: 'sticks',
+      type: 'projectile', label: '¡PALOS!', patch: 'drums',
       dmg: 12, startup: 12, recovery: 18,
       proj: { w: 10, h: 3, speed: 2.5, color: '#d9a866', spin: true },
     },
-    palette: {
+    palette: { // all black fit
       s: '#e8c39e', S: '#caa07c', h: '#5a3a22', e: '#1a1a1a',
-      c: '#ff1d42', C: '#c01532', p: '#2a3550', b: '#1a1a1a',
-      H: '#2b2118',
+      c: '#2b2b30', C: '#1a1a1e', p: '#1d1d22', b: '#000000',
+      H: '#161310',
     },
     patches: {
       head: [
@@ -385,7 +400,7 @@ export const CHARS = {
     role: 'bajo',
     stats: { speed: 1.0, power: 1.05, hp: 100 },
     special: {
-      type: 'shockwave', label: '¡BAJEO!', castSfx: 'bassdrop',
+      type: 'shockwave', label: '¡BAJEO!', patch: 'square',
       dmg: 13, startup: 16, recovery: 24,
       proj: { w: 14, h: 10, speed: 1.8, range: 100, knockdown: true, color: '#57A773', ground: true },
     },
@@ -411,7 +426,7 @@ export const CHARS = {
     role: 'percusion / dub siren',
     stats: { speed: 0.85, power: 1.2, hp: 115 },
     special: {
-      type: 'grab', label: 'DUB SIREN', castSfx: 'siren',
+      type: 'grab', label: 'DUB SIREN', patch: 'siren',
       dmg: 14, startup: 10, recovery: 28, range: 20, unblockable: true, knockdown: true,
     },
     palette: {
@@ -430,19 +445,33 @@ export const CHARS = {
     role: 'organo',
     stats: { speed: 0.9, power: 1.0, hp: 105 },
     special: {
-      type: 'projectile', label: '¡ORGANAZO!', castSfx: 'organ',
+      type: 'projectile', label: '¡ORGANAZO!', patch: 'organ',
       dmg: 13, startup: 16, recovery: 22,
       proj: { w: 9, h: 9, speed: 1.2, color: '#edf060', orb: true },
     },
     palette: {
       s: '#a86a3d', S: '#8a5530', h: '#6e6e6e', e: '#1a1a1a',
-      c: '#c2452e', C: '#edf060', p: '#5a4632', b: '#3a2c1c',
-      H: '#5a3215', D: '#edf060',
+      c: '#c2452e', C: '#edf060', p: '#7a5c40', b: '#3a2c1c',
+      H: '#5a3215', D: '#edf060', d: '#c2452e', F: '#63a9ff',
     },
     patches: {
       head: [
         { x: 8, y: 0, rows: ['HHHHHHH'] },
         { x: 7, y: 1, rows: ['HDHDHDHDH'] },
+      ],
+    },
+    body: {
+      shorten: 4, // Vee is the short one
+      legPatches: [
+        // dress with colorful woven pattern, flaring toward the hem
+        { x: 4, y: 0, rows: [
+          '.ddddddddddddd.',
+          '.dDdFdDdFdDdFd.',
+          '.ddddddddddddd.',
+          'dFdDdFdDdFdDdFd',
+          'ddddddddddddddd',
+          'DdFdDdFdDdFdDdF',
+        ] },
       ],
     },
   },
@@ -451,7 +480,7 @@ export const CHARS = {
     role: 'guitarra / noise',
     stats: { speed: 1.2, power: 0.9, hp: 90 },
     special: {
-      type: 'lunge', label: '¡FEEDBACK!', castSfx: 'feedback',
+      type: 'lunge', label: '¡FEEDBACK!', patch: 'saw',
       dmg: 10, startup: 6, lungeSpeed: 4, lungeTicks: 12, recovery: 16,
     },
     palette: {
@@ -471,7 +500,7 @@ export const CHAR_ORDER = ['alex', 'andres', 'chase', 'vee', 'hugo'];
 
 // Returns rows-based anims for a character, ready for buildAnims().
 export function charAnimRows(id) {
-  return buildFrames(CHARS[id].patches);
+  return buildFrames(CHARS[id].patches, CHARS[id].body ?? {});
 }
 
 // Validation helper (run under node): every row must be 24 chars.

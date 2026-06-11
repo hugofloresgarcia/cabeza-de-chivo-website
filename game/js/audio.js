@@ -67,21 +67,20 @@ const CHORDS = {
 
 // A continuous siren: square wave whose pitch is swept between lo and hi
 // by a sine LFO, decaying away like a dub delay tail.
-function sirenSweep(lo, hi) {
+function sirenSweep(lo, hi, dur = 1.2, vol = 0.15) {
   if (!ac) return;
   const t0 = now();
-  const dur = 1.2;
   const osc = ac.createOscillator();
   osc.type = 'square';
   osc.frequency.setValueAtTime((lo + hi) / 2, t0);
   const lfo = ac.createOscillator();
   lfo.type = 'sine';
-  lfo.frequency.setValueAtTime(3.2, t0);
+  lfo.frequency.setValueAtTime(dur < 0.5 ? 8 : 3.2, t0);
   const lfoDepth = ac.createGain();
   lfoDepth.gain.setValueAtTime((hi - lo) / 2, t0);
   lfo.connect(lfoDepth).connect(osc.frequency);
   const gain = ac.createGain();
-  gain.gain.setValueAtTime(0.15, t0);
+  gain.gain.setValueAtTime(vol, t0);
   gain.gain.exponentialRampToValueAtTime(0.002, t0 + dur);
   osc.connect(gain).connect(ac.destination);
   osc.start(t0);
@@ -141,40 +140,78 @@ export const sfx = {
       noise({ dur: 0.03, vol: 0.28, from: 4200 + i * 300, to: 3200, delay: i * 0.11 });
     }
   },
-  // Latin minor harmony: every special cast plays material from EITHER
-  // the i chord (Am) or the V chord (E major). The chord is chosen per
-  // cast — after a V it usually resolves to i — so mashing specials
-  // comps a loose i-V montuno instead of the same lick every time.
-  bassdrop() { // Andres: bass tumbao on the chord (root-fifth-root-octave)
-    const ch = pickChord();
-    const r = ch.bass;
-    const riff = [[r, 0], [r * 1.5, 0.12], [r, 0.24], [r * 2, 0.4]];
-    for (const [f, d] of riff) {
-      tone({ type: 'sawtooth', from: f, to: f, dur: 0.14, vol: 0.26, delay: d });
-      tone({ type: 'square', from: f * 2, to: f * 2, dur: 0.14, vol: 0.08, delay: d });
-    }
-  },
-  siren() { // Chase: dub siren — one oscillator, LFO wobbling the pitch
-    const ch = pickChord();
-    const [lo, hi] = ch.siren;
-    sirenSweep(lo, hi);
-  },
-  organ() { // Vee: sustained organ stab on the chord
-    const ch = pickChord();
-    for (const f of ch.triad) {
-      tone({ type: 'square', from: f, to: f, dur: 0.5, vol: 0.08 });
-      tone({ type: 'sawtooth', from: f * 2, to: f * 2, dur: 0.5, vol: 0.04 });
-    }
-  },
-  feedback() { // Hugo: power chord stab on the chord into noise feedback
-    const ch = pickChord();
-    for (const f of ch.power) {
-      tone({ type: 'sawtooth', from: f, to: f, dur: 0.35, vol: 0.13 });
-    }
-    noise({ dur: 0.35, vol: 0.14, from: 600, to: 5000, delay: 0.08 });
-    tone({ type: 'sawtooth', from: 1200, to: 2600, dur: 0.3, vol: 0.06, delay: 0.12 });
-  },
 };
+
+// ---- musical combat ------------------------------------------------------
+// Latin minor harmony: there is always an ACTIVE chord, either i (Am) or
+// V (E major). The attack buttons are pitched to the active chord —
+// punch=root, kick=third, block=fifth — so attacking arpeggiates it.
+// Landing the P,K,B combo triggers the special, which plays the full
+// chord in the character's own synth patch, then moves the harmony on.
+
+// Each fighter has a patch: 'organ' (Vee), 'saw' (Hugo), 'square'
+// (Andres), 'siren' (Chase: short siren blips, no chords), 'drums'
+// (Alex: pitched drum hits, special is a little fill).
+
+function patchNote(patch, f, { dur = 0.1, vol = 0.1, delay = 0 } = {}) {
+  switch (patch) {
+    case 'saw':
+      tone({ type: 'sawtooth', from: f, to: f, dur, vol, delay });
+      break;
+    case 'square':
+      tone({ type: 'square', from: f, to: f, dur, vol, delay });
+      break;
+    case 'organ':
+      tone({ type: 'square', from: f, to: f, dur: dur * 1.6, vol: vol * 0.8, delay });
+      tone({ type: 'sine', from: f * 2, to: f * 2, dur: dur * 1.6, vol: vol * 0.5, delay });
+      tone({ type: 'sine', from: f * 3, to: f * 3, dur: dur * 1.6, vol: vol * 0.25, delay });
+      break;
+    default:
+      tone({ type: 'square', from: f, to: f, dur, vol, delay });
+  }
+}
+
+function drumHit(degree) {
+  if (degree === 'root') {        // kick
+    tone({ type: 'sine', from: 120, to: 45, dur: 0.12, vol: 0.3 });
+  } else if (degree === 'third') { // snare
+    noise({ dur: 0.08, vol: 0.22, from: 1800, to: 700 });
+    tone({ type: 'triangle', from: 220, to: 180, dur: 0.05, vol: 0.1 });
+  } else {                         // hat
+    noise({ dur: 0.04, vol: 0.16, from: 8000, to: 6000 });
+  }
+}
+
+const DEGREE_INDEX = { root: 0, third: 1, fifth: 2 };
+
+// One pitched blip for an attack button press.
+export function buttonNote(patch, degree) {
+  if (!ac) return;
+  if (patch === 'drums') return drumHit(degree);
+  const ch = CHORDS[lastChord];
+  const f = ch.triad[DEGREE_INDEX[degree]];
+  if (patch === 'siren') return sirenSweep(f * 1.9, f * 2.1, 0.16, 0.1);
+  patchNote(patch, f * 2, { dur: 0.09, vol: 0.09 });
+}
+
+// The combo landed: play the active chord in the character's patch
+// (or a siren sweep / drum fill), then advance the harmony.
+export function specialSound(patch) {
+  const ch = CHORDS[lastChord];
+  if (patch === 'drums') {
+    // little fill: kick kick snare, kick snare-snare
+    const fill = ['root', 'root', 'third', 'root', 'third', 'third'];
+    fill.forEach((d, i) => setTimeout(() => drumHit(d), i * 90));
+  } else if (patch === 'siren') {
+    sirenSweep(ch.siren[0], ch.siren[1]);
+  } else {
+    for (const f of ch.triad) {
+      patchNote(patch, f, { dur: 0.45, vol: 0.1 });
+      patchNote(patch, f * 2, { dur: 0.45, vol: 0.04 });
+    }
+  }
+  pickChord();
+}
 
 // ---- MUSIC SLOT ----------------------------------------------------------
 // To add fight music later, drop a track in /assets/audio/ and call

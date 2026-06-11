@@ -77,11 +77,11 @@ const TOUCH_LAYOUT = {
     { name: 'right', label: '▶' },
     { name: 'down',  label: '▼' },
   ],
+  // special = pressing 👊 🦵 🛡️ in order (the chord arpeggio)
   right: [
     { name: 'punch',   label: '👊' },
     { name: 'kick',    label: '🦵' },
     { name: 'block',   label: '🛡️' },
-    { name: 'special', label: '😈' },
   ],
 };
 

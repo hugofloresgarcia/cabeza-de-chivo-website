@@ -30,6 +30,8 @@ export class Fighter {
 
     this.state = 'idle';
     this.t = 0;                  // ticks in current state
+    this.age = 0;                // ticks since spawn (for combo timing)
+    this.combo = [];             // recent attack-button presses
     this.animTime = 0;
     this.specialCd = 0;
     this.hasHit = false;         // current attack already connected
@@ -146,12 +148,18 @@ export class Fighter {
   // ---- Per-tick update. ctrl is a pad-like object. ----
   update(ctrl, opp, world) {
     this.t++;
+    this.age++;
     this.animTime++;
     if (this.specialCd > 0) this.specialCd--;
     if (this.hitFlash > 0) this.hitFlash--;
     this.vx = 0;
 
     if (this.frozen) return;
+
+    // Attack buttons are pitched (punch=root, kick=third, block=fifth of
+    // the active chord); playing them in order — the arpeggio — is the
+    // combo that triggers the special.
+    if (this.special && !this.isBoss) this.trackCombo(ctrl, world);
 
     // Face the opponent whenever free to do so on the ground.
     if (['idle', 'walkF', 'walkB', 'crouch', 'block'].includes(this.state)) {
@@ -227,18 +235,41 @@ export class Fighter {
     this.physics();
   }
 
+  // Record pitched presses and fire the special when the arpeggio
+  // (punch, kick, block in order) is played.
+  trackCombo(ctrl, world) {
+    const presses = [
+      [ctrl.punch, 'root'], [ctrl.kick, 'third'], [ctrl.block, 'fifth'],
+    ];
+    for (const [btn, degree] of presses) {
+      if (btn.pressed) {
+        world?.note?.(this.special.patch, degree);
+        this.combo.push({ degree, age: this.age });
+        if (this.combo.length > 3) this.combo.shift();
+      }
+    }
+
+    const [a, b, c] = this.combo;
+    const comboLanded = this.combo.length === 3
+      && a.degree === 'root' && b.degree === 'third' && c.degree === 'fifth'
+      && b.age - a.age <= 40 && c.age - b.age <= 40;
+    const canCancel = this.grounded
+      && ['idle', 'walkF', 'walkB', 'punch', 'kick', 'block'].includes(this.state);
+
+    if ((comboLanded || ctrl.special.pressed) && this.specialCd === 0 && canCancel) {
+      this.combo = [];
+      this.specialCd = SPECIAL_COOLDOWN;
+      world?.special?.(this.special.patch);
+      this.setState('special');
+    }
+  }
+
   groundControls(ctrl, world) {
     if (ctrl.block.held) return this.setState('block');
     if (ctrl.down.held) return this.setState('crouch');
     if (ctrl.up.pressed) return this.startJump(ctrl, world);
     if (ctrl.punch.pressed) return this.startAttack('punch', world);
     if (ctrl.kick.pressed) return this.startAttack('kick', world);
-    if (ctrl.special.pressed && this.special && this.specialCd === 0) {
-      this.specialCd = SPECIAL_COOLDOWN;
-      const cast = this.special.castSfx ?? 'special';
-      (world?.sfx?.[cast] ?? world?.sfx?.special)?.();
-      return this.setState('special');
-    }
 
     let dir = 0;
     if (ctrl.left.held) dir = -1;
@@ -266,7 +297,7 @@ export class Fighter {
   }
 
   startAttack(kind, world) {
-    world?.sfx?.whoosh?.();
+    if (!this.special) world?.sfx?.whoosh?.(); // bosses keep the whoosh
     this.setState(kind);
   }
 
@@ -400,7 +431,20 @@ export class Fighter {
     ctx.drawImage(frame, dx + sway, dy);
     ctx.globalAlpha = 1;
 
-    // Chase's timbalazo: expanding dub-siren rings while reaching
+    // Andres's head catches fire during his special
+    if (this.id === 'andres' && this.state === 'special') {
+      const top = dy + 1;
+      for (let i = 0; i < 6; i++) {
+        ctx.fillStyle = ['#edf060', '#ff6a33', '#ff1d42'][i % 3];
+        ctx.fillRect(
+          Math.round(this.x - 4 + Math.random() * 9),
+          Math.round(top - 1 - Math.random() * 6),
+          2, 2 + (i % 2),
+        );
+      }
+    }
+
+    // Chase's dub siren: expanding rings while reaching
     if (this.state === 'special' && this.special?.type === 'grab' && this.attackPhase() <= 1) {
       const r = 5 + (this.t * 1.2) % 16;
       ctx.strokeStyle = 'rgba(99,169,255,0.8)';

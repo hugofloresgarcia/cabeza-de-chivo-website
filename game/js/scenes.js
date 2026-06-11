@@ -11,7 +11,7 @@ import { Fighter, Projectile, tryHit, resolvePush } from './fighter.js';
 import { Boss, FireColumn } from './boss.js';
 import { Stage } from './stage.js';
 import { FX, Announcer, HealthBars, drawTimer } from './hud.js';
-import { sfx } from './audio.js';
+import { sfx, buttonNote, specialSound } from './audio.js';
 import { CHARS, CHAR_ORDER } from './data/chars.js';
 
 const FONT = '"IBM Plex Mono", monospace';
@@ -103,10 +103,13 @@ class TitleScene {
     const diffLabel = DIFFICULTIES[DIFF_ORDER[this.diffIndex]].label;
     text(ctx, `< ${diffLabel} >`, W / 2, 134, { size: 12, color: PALETTE.orange });
 
-    // keyboard help (touch players get on-screen buttons instead)
-    if (!IS_TOUCH) {
+    // controls help — the special is the J,K,L arpeggio combo
+    if (IS_TOUCH) {
+      text(ctx, 'especial: 👊 🦵 🛡️ seguidos', W / 2, 166, { size: 8, color: PALETTE.blue });
+    } else {
       text(ctx, 'WASD o flechas: mover/saltar', W / 2, 160, { size: 7, color: PALETTE.blue });
-      text(ctx, 'J punch · K kick · L block · ; especial', W / 2, 172, { size: 7, color: PALETTE.blue });
+      text(ctx, 'J punch · K kick · L block', W / 2, 172, { size: 7, color: PALETTE.blue });
+      text(ctx, 'especial: J,K,L seguidos (arpegio)', W / 2, 184, { size: 7, color: PALETTE.orange });
     }
 
     if (Math.floor(this.t / 30) % 2 === 0) {
@@ -260,6 +263,8 @@ class FightScene {
 
     this.world = {
       sfx,
+      note: (patch, degree) => buttonNote(patch, degree),
+      special: (patch) => specialSound(patch),
       addSpark: (x, y, kind) => this.fx.addSpark(x, y, kind),
       spawnProjectile: (owner, sp) => this.projectiles.push(new Projectile(owner, sp)),
       spawnFireRain: (owner, dmg) => {
