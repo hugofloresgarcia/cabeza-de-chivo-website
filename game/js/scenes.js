@@ -105,7 +105,8 @@ class TitleScene {
 
     // controls help — the special is the J,K,L arpeggio combo
     if (IS_TOUCH) {
-      text(ctx, 'especial: 👊 🦵 🛡️ seguidos', W / 2, 166, { size: 8, color: PALETTE.blue });
+      text(ctx, 'especial: golpe, patada,', W / 2, 160, { size: 8, color: PALETTE.blue });
+      text(ctx, 'escudo seguidos', W / 2, 172, { size: 8, color: PALETTE.blue });
     } else {
       text(ctx, 'WASD o flechas: mover/saltar', W / 2, 160, { size: 7, color: PALETTE.blue });
       text(ctx, 'J punch · K kick · L block', W / 2, 172, { size: 7, color: PALETTE.blue });
@@ -157,10 +158,10 @@ class SelectScene {
       ctx.strokeStyle = selected && Math.floor(this.t / 8) % 2 === 0 ? PALETTE.orange : PALETTE.red;
       ctx.strokeRect(x + 0.5, y + 0.5, boxW - 1, boxH - 1);
 
-      // face crop from idle frame (frames are 2x, so source coords double)
+      // face crop from idle frame, scaled 3x
       const frame = anims.idle.frames[0];
       ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(frame, 12, 0, 24, 26, x + 1, y + 3, 36, 39);
+      ctx.drawImage(frame, 6, 0, 12, 13, x + 1, y + 3, 36, 39);
 
       text(ctx, def.name, x + boxW / 2, y + boxH + 10, {
         size: 7, color: selected ? PALETTE.orange : PALETTE.paper,

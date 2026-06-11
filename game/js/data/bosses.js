@@ -242,10 +242,10 @@ export const BOSSES = {
   goat: {
     id: 'goat',
     name: 'EL CHIVO',
-    scale: 4,
+    scale: 2,
     palette: GOAT_PALETTE,
     stats: { speed: 0.8, power: 1.0, hp: 160 },
-    size: { w: 46, h: 92, crouchH: 92, airH: 92 },
+    size: { w: 22, h: 46, crouchH: 46, airH: 46 },
     introText: 'EL CHIVO TE ESPERA',
     finishText: '¡SE LO LLEVO EL CHIVO!',
     anims: {
@@ -262,23 +262,23 @@ export const BOSSES = {
       swipe: {
         anim: 'swipe', windAnim: 'wind',
         dmg: 9, telegraph: 18, startup: 6, active: 6, recovery: 20,
-        hitstun: 18, knockback: 2.8,
-        box: { dx: 16, dy: -70, w: 38, h: 24 },
+        hitstun: 18, knockback: 1.4,
+        box: { dx: 8, dy: -34, w: 18, h: 12 },
       },
       ram: {
         anim: 'charge', windAnim: 'wind', motion: 'ram',
         dmg: 12, telegraph: 30, startup: 4, active: 50, recovery: 26,
-        hitstun: 0, knockback: 0, knockdown: true, speed: 4,
-        box: { dx: 4, dy: -62, w: 32, h: 54 },
+        hitstun: 0, knockback: 0, knockdown: true, speed: 2.6,
+        box: { dx: 2, dy: -30, w: 16, h: 26 },
       },
       bleat: {
         anim: 'bleat', windAnim: 'bleat',
         dmg: 8, telegraph: 20, startup: 4, active: 2, recovery: 30,
-        proj: { w: 18, h: 18, speed: 3, color: '#ffedfb', orb: true },
+        proj: { w: 8, h: 8, speed: 2.0, color: '#ffedfb', orb: true },
       },
     },
     ai: {
-      near: 78, mid: 160,
+      near: 42, mid: 110,
       weights: {
         near: [['swipe', 50], ['retreat', 25], ['wait', 25]],
         mid: [['approach', 45], ['ram', 30], ['wait', 25]],
@@ -291,10 +291,10 @@ export const BOSSES = {
   devil: {
     id: 'devil',
     name: 'EL DIABLO',
-    scale: 3,
+    scale: 2,
     palette: DEVIL_PALETTE,
     stats: { speed: 0.9, power: 1.0, hp: 220 },
-    size: { w: 40, h: 114, crouchH: 114, airH: 114 },
+    size: { w: 26, h: 76, crouchH: 76, airH: 76 },
     introText: '¡EL DIABLO APARECE!',
     finishText: '¡DE VUELTA AL MICTLAN!',
     anims: {
@@ -311,14 +311,14 @@ export const BOSSES = {
       trident: {
         anim: 'swipe', windAnim: 'wind',
         dmg: 12, telegraph: 14, startup: 5, active: 6, recovery: 22,
-        hitstun: 20, knockback: 3.6,
-        box: { dx: 15, dy: -78, w: 39, h: 15 },
+        hitstun: 20, knockback: 1.8,
+        box: { dx: 10, dy: -52, w: 26, h: 10 },
       },
       ram: {
         anim: 'charge', windAnim: 'wind', motion: 'ram', armor: true,
         dmg: 14, telegraph: 24, startup: 4, active: 46, recovery: 24,
-        hitstun: 0, knockback: 0, knockdown: true, speed: 4.2,
-        box: { dx: 3, dy: -75, w: 30, h: 66 },
+        hitstun: 0, knockback: 0, knockdown: true, speed: 2.8,
+        box: { dx: 2, dy: -50, w: 20, h: 44 },
       },
       fireRain: {
         anim: 'cast', windAnim: 'cast', hazard: 'fireRain',
@@ -330,7 +330,7 @@ export const BOSSES = {
       },
     },
     ai: {
-      near: 75, mid: 170,
+      near: 50, mid: 120,
       weights: {
         near: [['trident', 50], ['retreat', 20], ['fireRain', 15], ['wait', 15]],
         mid: [['approach', 35], ['ram', 25], ['fireRain', 25], ['wait', 15]],

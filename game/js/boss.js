@@ -191,7 +191,7 @@ export class Boss extends Fighter {
   }
 
   teleportBehind(opp, world) {
-    const behind = opp.x - opp.facing * 56;
+    const behind = opp.x - opp.facing * 34;
     const half = this.size.w / 2;
     this.x = Math.max(ARENA_PAD + half, Math.min(W - ARENA_PAD - half, behind));
     this.facing = opp.x >= this.x ? 1 : -1;
@@ -279,7 +279,7 @@ export class FireColumn {
     }
     this.active--;
     if (this.hasHit) return;
-    const box = { x: this.x - 10, y: 0, w: 20, h: FLOOR_Y };
+    const box = { x: this.x - 6, y: 0, w: 12, h: FLOOR_Y };
     for (const target of targets) {
       if (target.isBoss || target.invulnerable) continue;
       if (aabb(box, target.hurtbox())) {
@@ -294,13 +294,13 @@ export class FireColumn {
       // floor marker
       if (this.t % 8 < 4) {
         ctx.fillStyle = '#ff1d42';
-        ctx.fillRect(this.x - 11, FLOOR_Y - 3, 22, 3);
+        ctx.fillRect(this.x - 7, FLOOR_Y - 2, 14, 2);
       }
       return;
     }
     // pixel fire pillar
     for (let y = 0; y < FLOOR_Y; y += 4) {
-      const w = 10 + ((y + this.t * 3) % 12);
+      const w = 6 + ((y + this.t * 3) % 8);
       ctx.fillStyle = (y + this.t) % 12 < 6 ? '#ff6a33' : '#edf060';
       ctx.fillRect(this.x - w / 2, y, w, 4);
     }

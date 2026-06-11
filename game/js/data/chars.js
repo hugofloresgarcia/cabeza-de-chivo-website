@@ -380,7 +380,7 @@ export const CHARS = {
     special: {
       type: 'projectile', label: '¡PALOS!', patch: 'drums',
       dmg: 12, startup: 12, recovery: 18,
-      proj: { w: 18, h: 5, speed: 4, color: '#d9a866', spin: true },
+      proj: { w: 10, h: 3, speed: 2.5, color: '#d9a866', spin: true },
     },
     palette: { // all black fit
       s: '#e8c39e', S: '#caa07c', h: '#5a3a22', e: '#1a1a1a',
@@ -402,7 +402,7 @@ export const CHARS = {
     special: {
       type: 'shockwave', label: '¡BAJEO!', patch: 'square',
       dmg: 13, startup: 16, recovery: 24,
-      proj: { w: 24, h: 16, speed: 2.6, range: 150, knockdown: true, color: '#57A773', ground: true },
+      proj: { w: 14, h: 10, speed: 1.8, range: 100, knockdown: true, color: '#57A773', ground: true },
     },
     palette: {
       s: '#ecc9a3', S: '#cfa87f', h: '#ecc9a3', e: '#1a1a1a',
@@ -432,7 +432,7 @@ export const CHARS = {
     stats: { speed: 0.85, power: 1.2, hp: 115 },
     special: {
       type: 'grab', label: 'DUB SIREN', patch: 'siren',
-      dmg: 14, startup: 10, recovery: 28, range: 40, unblockable: true, knockdown: true,
+      dmg: 14, startup: 10, recovery: 28, range: 20, unblockable: true, knockdown: true,
     },
     palette: {
       s: '#c98850', S: '#a96d3c', h: '#151515', e: '#1a1a1a',
@@ -452,7 +452,7 @@ export const CHARS = {
     special: {
       type: 'projectile', label: '¡ORGANAZO!', patch: 'organ',
       dmg: 13, startup: 16, recovery: 22,
-      proj: { w: 16, h: 16, speed: 1.8, color: '#edf060', orb: true },
+      proj: { w: 9, h: 9, speed: 1.2, color: '#edf060', orb: true },
     },
     palette: {
       s: '#a86a3d', S: '#8a5530', h: '#6e6e6e', e: '#1a1a1a',
@@ -502,7 +502,7 @@ export const CHARS = {
     stats: { speed: 1.2, power: 0.9, hp: 90 },
     special: {
       type: 'lunge', label: '¡FEEDBACK!', patch: 'saw',
-      dmg: 10, startup: 6, lungeSpeed: 6, lungeTicks: 12, recovery: 16,
+      dmg: 10, startup: 6, lungeSpeed: 4, lungeTicks: 12, recovery: 16,
     },
     palette: {
       s: '#b5814f', S: '#96683c', h: '#181818', e: '#1a1a1a',
