@@ -455,7 +455,7 @@ export const CHARS = {
       proj: { w: 9, h: 9, speed: 1.2, color: '#edf060', orb: true },
     },
     palette: {
-      s: '#a86a3d', S: '#8a5530', h: '#6e6e6e', e: '#1a1a1a',
+      s: '#a86a3d', S: '#8a5530', h: '#181818', e: '#1a1a1a',
       c: '#c2452e', C: '#edf060', p: '#7a5c40', b: '#3a2c1c',
       H: '#5a3215', D: '#edf060', d: '#c2452e', F: '#63a9ff',
     },

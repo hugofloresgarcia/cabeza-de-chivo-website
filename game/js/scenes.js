@@ -104,10 +104,17 @@ class TitleScene {
     const diffLabel = DIFFICULTIES[DIFF_ORDER[this.diffIndex]].label;
     text(ctx, `< ${diffLabel} >`, W / 2, 134, { size: 12, color: PALETTE.orange });
 
-    // controls help — the special is the J,K,L arpeggio combo
+    // controls help — the special is the J,K,L arpeggio combo.
+    // Emojis are drawn one by one at fixed x positions: iOS renders color
+    // emoji at unpredictable widths, so a single centered string overflows.
     if (IS_TOUCH) {
-      text(ctx, 'especial: golpe, patada,', W / 2, 160, { size: 8, color: PALETTE.blue });
-      text(ctx, 'escudo seguidos', W / 2, 172, { size: 8, color: PALETTE.blue });
+      text(ctx, 'especial:', W / 2, 156, { size: 8, color: PALETTE.blue });
+      const ey = 174;
+      text(ctx, '👊', W / 2 - 44, ey, { size: 11 });
+      text(ctx, '→', W / 2 - 22, ey, { size: 9, color: PALETTE.blue });
+      text(ctx, '🦵', W / 2, ey, { size: 11 });
+      text(ctx, '→', W / 2 + 22, ey, { size: 9, color: PALETTE.blue });
+      text(ctx, '🛡️', W / 2 + 44, ey, { size: 11 });
     } else {
       text(ctx, 'WASD o flechas: mover/saltar', W / 2, 160, { size: 7, color: PALETTE.blue });
       text(ctx, 'J punch · K kick · L block', W / 2, 172, { size: 7, color: PALETTE.blue });
