@@ -1,0 +1,193 @@
+/* el chivo fantasma — spot-the-difference prank */
+
+#fantasma-root {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+#fantasma-root .f-hidden {
+  display: none !important;
+}
+
+.f-title {
+  color: var(--primary-red);
+  letter-spacing: 0.2em;
+}
+
+.f-story {
+  color: var(--teal-blue);
+  font-style: italic;
+}
+
+.f-warning {
+  color: var(--secondary-orange);
+  font-size: 0.8em;
+  border: 2px dashed var(--secondary-orange);
+  padding: 0.8rem;
+  max-width: 700px;
+  margin: 1.5rem auto;
+}
+
+#f-soundtest {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: var(--primary-red);
+  background: #111;
+  border: 3px double var(--primary-red);
+  padding: 0.7rem 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 0 12px var(--hot-pink);
+}
+
+#f-soundtest:hover {
+  color: var(--hot-pink);
+}
+
+#f-continue a {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+#f-counter {
+  color: var(--secondary-orange);
+  font-weight: bold;
+  letter-spacing: 0.1em;
+}
+
+#f-panels {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.f-panel {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  cursor: crosshair;
+}
+
+.f-panel img,
+.f-panel canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 2px solid var(--primary-red);
+  box-sizing: border-box;
+}
+
+.f-marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: transparent !important;
+}
+
+.f-mark {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: 3px dashed var(--primary-red);
+  border-radius: 50%;
+  background: transparent !important;
+  box-shadow: 0 0 8px var(--primary-red);
+}
+
+.f-miss {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  color: var(--primary-red);
+  background: transparent !important;
+  font-weight: bold;
+  animation: f-miss-fade 0.7s forwards;
+}
+
+@keyframes f-miss-fade {
+  to { opacity: 0; }
+}
+
+.f-hint {
+  color: var(--teal-blue);
+  font-size: 0.8em;
+  font-style: italic;
+}
+
+@media (max-width: 800px) {
+  #f-panels {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* ----- the scare ----- */
+
+#f-scare {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000 !important;
+  overflow: hidden;
+}
+
+#f-scare-shake {
+  position: absolute;
+  inset: 0;
+  background: #000 !important;
+  animation: f-shake 0.07s steps(2) infinite;
+}
+
+#f-scare img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 46% 44%;
+  filter: contrast(1.8) brightness(0.6) saturate(2.6) hue-rotate(-30deg);
+  animation: f-zoom 2.8s ease-out forwards;
+}
+
+#f-scare-flash {
+  position: absolute;
+  inset: 0;
+  background: #f00 !important;
+  mix-blend-mode: overlay;
+  animation: f-flicker 0.15s steps(2) infinite;
+}
+
+@keyframes f-zoom {
+  from { transform: scale(1.1); }
+  to   { transform: scale(2.7); }
+}
+
+@keyframes f-shake {
+  0%   { transform: translate(-12px, 8px); }
+  25%  { transform: translate(10px, -9px); }
+  50%  { transform: translate(-8px, -11px); }
+  75%  { transform: translate(11px, 10px); }
+  100% { transform: translate(-10px, 7px); }
+}
+
+@keyframes f-flicker {
+  0%   { opacity: 0.45; }
+  50%  { opacity: 0; }
+  100% { opacity: 0.6; }
+}
+
+/* ----- end screen ----- */
+
+.f-gotcha {
+  color: var(--primary-red);
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.f-endlinks {
+  font-size: 1.1em;
+}
+
+.f-credit {
+  margin-top: 3rem;
+  font-size: 0.6em;
+  opacity: 0.7;
+}

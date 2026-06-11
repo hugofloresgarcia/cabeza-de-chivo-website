@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href={{ "/assets/css/style.css" | relative_url }}>
+  <link rel="stylesheet" href={{ "/assets/css/fantasma.css" | relative_url }}>
+  <link rel="preload" as="image" href="/assets/img/fantasma/chivo.jpg">
+</head>
+<body>
+  {% include header.html %}
+  <div class="content">
+    {{ content }}
+  </div>
+
+  <div id="fantasma-root">
+
+    <section id="f-intro">
+      <h2 class="f-title">EL CHIVO FANTASMA</h2>
+      <p class="f-story">Dicen que en esta vieja tienda de antigüedades se aparece un chivo fantasma.
+        Nadie lo ha visto… pero las cosas cambian de lugar solas.</p>
+      <p>Encuentra las <strong>7 diferencias</strong> entre las dos fotos.
+        Son muy sutiles — acércate bien a la pantalla y concéntrate.</p>
+      <p class="f-warning">⚠ Debes tener el audio debidamente configurado.
+        Sube el volumen hasta que escuches bien la prueba de sonido.
+        Si padeces del corazón, presión baja, o te asustas fácilmente, NO sigas.
+        NO ACEPTAMOS QUEJAS NI NOS HACEMOS RESPONSABLES.</p>
+      <button id="f-soundtest" type="button">🔊 PRUEBA DE SONIDO</button>
+      <p id="f-continue" class="f-hidden">
+        <a href="#" id="f-start">Escucho bien, quiero ver las imágenes &gt;&gt;</a>
+      </p>
+    </section>
+
+    <section id="f-game" class="f-hidden">
+      <p id="f-counter">DIFERENCIAS: 0 / 7</p>
+      <div id="f-panels">
+        <div class="f-panel" id="f-panel-a">
+          <img id="f-img-a" src="/assets/img/fantasma/tienda.jpg" alt="la tienda">
+          <div class="f-marks"></div>
+        </div>
+        <div class="f-panel" id="f-panel-b">
+          <canvas id="f-canvas-b"></canvas>
+          <div class="f-marks"></div>
+        </div>
+      </div>
+      <p class="f-hint">mira de cerca… las diferencias son muy, muy sutiles…</p>
+    </section>
+
+    <div id="f-scare" class="f-hidden" aria-hidden="true">
+      <div id="f-scare-shake">
+        <img src="/assets/img/fantasma/chivo.jpg" alt="">
+      </div>
+      <div id="f-scare-flash"></div>
+    </div>
+
+    <section id="f-end" class="f-hidden">
+      <h2 class="f-title">JA JA JA JA</h2>
+      <p class="f-gotcha">TE ASUSTÓ EL CHIVO FANTASMA 🐐</p>
+      <p id="f-score"></p>
+      <p class="f-endlinks">
+        <a href="/chivo-fantasma" id="f-again">otra vez</a> ·
+        <a href="#" id="f-share">mándaselo a un amigo</a> ·
+        <a href="/">inicio</a>
+      </p>
+      <p class="f-credit">
+        foto tienda: <a href="https://commons.wikimedia.org/wiki/File:DZ6_1807_A_colorful_nostalgic_shop_packed_with_vintage_Asian_antiques_red_lanterns_and_cultural_curiosities_from_floor_to_ceiling.jpg">PattayaPatrol</a> (CC BY-SA 4.0)
+        · chivo + grito: dominio público
+      </p>
+    </section>
+
+  </div>
+  <script src="/assets/js/fantasma.js"></script>
+</body>
+</html>
