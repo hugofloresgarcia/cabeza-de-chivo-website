@@ -11,7 +11,7 @@ import { Fighter, Projectile, tryHit, resolvePush } from './fighter.js';
 import { Boss, FireColumn } from './boss.js';
 import { Stage } from './stage.js';
 import { FX, Announcer, HealthBars, drawTimer } from './hud.js';
-import { sfx, buttonNote, specialSound } from './audio.js';
+import { sfx, buttonNote, specialSound, playMusic, stopMusic, playOneShot } from './audio.js';
 import { CHARS, CHAR_ORDER } from './data/chars.js';
 
 const FONT = '"IBM Plex Mono", monospace';
@@ -44,6 +44,7 @@ export class SceneManager {
   }
 
   go(name, params = {}) {
+    this.current?.exit?.();
     this.current = this.scenes[name];
     this.current.enter(params);
   }
@@ -76,7 +77,7 @@ class TitleScene {
     if (pad.right.pressed) { this.diffIndex = (this.diffIndex + 1) % 3; sfx.select(); }
     settings.difficulty = DIFF_ORDER[this.diffIndex];
     if (anyAttackPressed() || pad.up.pressed) {
-      sfx.announcer();
+      playOneShot('/assets/audio/chivo-delay.mp3');
       this.mgr.go('select');
     }
   }
@@ -291,6 +292,13 @@ class FightScene {
     this.announcer.say(stage === 'goat' ? 'ROUND 1' : 'ROUND FINAL', { ticks: 70, size: 16 });
     this.announcer.say('¡PELEA!', { ticks: 45, size: 22, color: PALETTE.red });
     sfx.announcer();
+
+    // battle music — the final boss gets the 30%-fast chipmunk-hell mix
+    playMusic('/game/ocho-8bit.mp3', stage === 'devil' ? 1.3 : 1);
+  }
+
+  exit() {
+    stopMusic();
   }
 
   update() {

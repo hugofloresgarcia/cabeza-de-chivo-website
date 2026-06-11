@@ -301,16 +301,19 @@ export function specialSound(patch) {
   pickChord();
 }
 
-// ---- MUSIC SLOT ----------------------------------------------------------
-// To add fight music later, drop a track in /assets/audio/ and call
-// playMusic('/assets/audio/your-track.mp3') from the fight scene.
-// (e.g. the existing /assets/audio/chivo-delay.mp3)
+// ---- MUSIC ----------------------------------------------------------------
+// Battle music. `rate` speeds playback up, pitch and all (tape-style):
+// the devil fight runs the track 30% fast.
 let musicEl = null;
-export function playMusic(url) {
+export function playMusic(url, rate = 1) {
   stopMusic();
   musicEl = new Audio(url);
   musicEl.loop = true;
   musicEl.volume = 0.5;
+  musicEl.preservesPitch = false;
+  musicEl.mozPreservesPitch = false;    // older gecko
+  musicEl.webkitPreservesPitch = false; // older webkit
+  musicEl.playbackRate = rate;
   musicEl.play().catch(() => {});
 }
 export function stopMusic() {
@@ -318,4 +321,11 @@ export function stopMusic() {
     musicEl.pause();
     musicEl = null;
   }
+}
+
+// One-shot sample playback (e.g. the chivo-delay sting on game start).
+export function playOneShot(url, volume = 0.7) {
+  const el = new Audio(url);
+  el.volume = volume;
+  el.play().catch(() => {});
 }
