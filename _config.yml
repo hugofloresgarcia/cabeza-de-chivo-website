@@ -27,6 +27,11 @@ url: "https://cabezadechivo.com" # the base hostname & protocol for your site, e
 # twitter_username: jekyllrb
 github_username:  hugofloresgarcia
 
+# Visitor analytics via GoatCounter (https://www.goatcounter.com).
+# Sign up and claim this code (-> cabezadechivo.goatcounter.com), or change it
+# to match your account. Comment this line out to disable tracking entirely.
+goatcounter: cabezadechivo
+
 # Build settings
 # theme: minima
 plugins:
