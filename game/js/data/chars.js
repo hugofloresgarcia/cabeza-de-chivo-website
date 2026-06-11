@@ -363,7 +363,7 @@ export const CHARS = {
     role: 'bateria',
     stats: { speed: 1.15, power: 0.95, hp: 90 },
     special: {
-      type: 'projectile', label: '¡PALOS!',
+      type: 'projectile', label: '¡PALOS!', castSfx: 'sticks',
       dmg: 12, startup: 12, recovery: 18,
       proj: { w: 10, h: 3, speed: 2.5, color: '#d9a866', spin: true },
     },
@@ -385,7 +385,7 @@ export const CHARS = {
     role: 'bajo',
     stats: { speed: 1.0, power: 1.05, hp: 100 },
     special: {
-      type: 'shockwave', label: '¡BAJEO!',
+      type: 'shockwave', label: '¡BAJEO!', castSfx: 'bassdrop',
       dmg: 13, startup: 16, recovery: 24,
       proj: { w: 14, h: 10, speed: 1.8, range: 100, knockdown: true, color: '#57A773', ground: true },
     },
@@ -408,10 +408,10 @@ export const CHARS = {
   },
   chase: {
     name: 'CHASE',
-    role: 'guitarra',
+    role: 'percusion / dub siren',
     stats: { speed: 0.85, power: 1.2, hp: 115 },
     special: {
-      type: 'grab', label: '¡AGARRON!',
+      type: 'grab', label: 'DUB SIREN', castSfx: 'siren',
       dmg: 14, startup: 10, recovery: 28, range: 20, unblockable: true, knockdown: true,
     },
     palette: {
@@ -427,10 +427,10 @@ export const CHARS = {
   },
   vee: {
     name: 'VEE',
-    role: 'guitarra',
+    role: 'organo',
     stats: { speed: 0.9, power: 1.0, hp: 105 },
     special: {
-      type: 'projectile', label: '¡MISTICO!',
+      type: 'projectile', label: '¡ORGANAZO!', castSfx: 'organ',
       dmg: 13, startup: 16, recovery: 22,
       proj: { w: 9, h: 9, speed: 1.2, color: '#edf060', orb: true },
     },
@@ -448,10 +448,10 @@ export const CHARS = {
   },
   hugo: {
     name: 'HUGO',
-    role: 'voz',
+    role: 'guitarra / noise',
     stats: { speed: 1.2, power: 0.9, hp: 90 },
     special: {
-      type: 'lunge', label: '¡EMBESTIDA!',
+      type: 'lunge', label: '¡FEEDBACK!', castSfx: 'feedback',
       dmg: 10, startup: 6, lungeSpeed: 4, lungeTicks: 12, recovery: 16,
     },
     palette: {

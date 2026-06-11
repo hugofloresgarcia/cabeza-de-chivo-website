@@ -1,7 +1,7 @@
 // Mictlan hellscape background. Static scenery is pre-rendered once per
 // stage; only fire particles and the papel picado banner animate live.
 
-import { W, H, FLOOR_Y, PALETTE } from './constants.js';
+import { W, H, FLOOR_Y } from './constants.js';
 
 const VARIANTS = {
   goat: {
@@ -84,15 +84,29 @@ function buildStatic(v) {
     ctx.fillRect(x + 2, FLOOR_Y + 14, 9, 1);
   }
 
-  // marigold (cempasúchil) clumps along the back of the floor
-  for (let x = 6; x < W; x += 28) {
-    ctx.fillStyle = '#2c5a2a';
-    ctx.fillRect(x + 1, FLOOR_Y - 3, 2, 3);
-    ctx.fillStyle = '#f6a623';
-    ctx.fillRect(x, FLOOR_Y - 6, 4, 4);
-    ctx.fillStyle = '#ffd24a';
-    ctx.fillRect(x + 1, FLOOR_Y - 5, 2, 2);
+  // scattered bones and little skulls along the back of the floor
+  for (let x = 14; x < W; x += 42) {
+    ctx.fillStyle = '#cfc4ae';
+    ctx.fillRect(x, FLOOR_Y - 4, 5, 4);       // skull
+    ctx.fillRect(x + 1, FLOOR_Y, 3, 1);       // jaw
+    ctx.fillStyle = '#1a0b12';
+    ctx.fillRect(x + 1, FLOOR_Y - 3, 1, 1);   // eye sockets
+    ctx.fillRect(x + 3, FLOOR_Y - 3, 1, 1);
+    ctx.fillStyle = '#b8ac96';
+    ctx.fillRect(x + 9, FLOOR_Y - 2, 8, 1);   // long bone
+    ctx.fillRect(x + 8, FLOOR_Y - 3, 2, 2);
+    ctx.fillRect(x + 16, FLOOR_Y - 3, 2, 2);
   }
+
+  // carved stone glyph face recessed into the big pyramid
+  ctx.fillStyle = '#1d0d12';
+  ctx.fillRect(58, FLOOR_Y - 27, 24, 16);
+  ctx.fillStyle = '#2e151c';
+  ctx.fillRect(60, FLOOR_Y - 25, 20, 12);
+  ctx.fillStyle = '#1d0d12';
+  ctx.fillRect(63, FLOOR_Y - 21, 4, 3);       // eye holes (glow drawn live)
+  ctx.fillRect(73, FLOOR_Y - 21, 4, 3);
+  ctx.fillRect(67, FLOOR_Y - 16, 6, 2);       // mouth
 
   // candles on small ledges at the edges
   for (const cx of [10, W - 14]) {
@@ -106,6 +120,14 @@ function buildStatic(v) {
   return canvas;
 }
 
+// Pairs of eyes that blink open in the dark (Scooby-Doo style).
+const EYE_SPOTS = [
+  { x: 64, y: 138, offset: 0 },     // inside the pyramid glyph face
+  { x: 215, y: 140, offset: 140 },
+  { x: 300, y: 142, offset: 260 },
+  { x: 130, y: 144, offset: 330 },
+];
+
 export class Stage {
   constructor(id) {
     this.id = id;
@@ -113,6 +135,11 @@ export class Stage {
     this.static = buildStatic(this.v);
     this.t = 0;
     this.flames = [];
+    this.bat = null;
+    // slow drifting fog wisps
+    this.fog = Array.from({ length: 4 }, (_, i) => ({
+      x: i * 90, y: 96 + i * 14, w: 50 + i * 14, speed: 0.08 + i * 0.04,
+    }));
   }
 
   update() {
@@ -134,10 +161,55 @@ export class Stage {
       f.life--;
     }
     this.flames = this.flames.filter((f) => f.life > 0);
+
+    for (const w of this.fog) {
+      w.x += w.speed;
+      if (w.x - w.w > W) w.x = -w.w;
+    }
+
+    // the occasional bat crossing the sky
+    if (!this.bat && Math.random() < 0.003) {
+      const dir = Math.random() < 0.5 ? 1 : -1;
+      this.bat = { x: dir === 1 ? -8 : W + 8, y: 46 + Math.random() * 40, dir, t: 0 };
+    }
+    if (this.bat) {
+      this.bat.t++;
+      this.bat.x += this.bat.dir * 1.3;
+      this.bat.y += Math.sin(this.bat.t / 5) * 0.8;
+      if (this.bat.x < -12 || this.bat.x > W + 12) this.bat = null;
+    }
   }
 
   draw(ctx) {
     ctx.drawImage(this.static, 0, 0);
+
+    // fog wisps drifting through the ruins
+    ctx.fillStyle = 'rgba(122, 96, 134, 0.16)';
+    for (const w of this.fog) {
+      ctx.fillRect(Math.round(w.x), w.y, w.w, 7);
+      ctx.fillRect(Math.round(w.x) + 8, w.y - 3, w.w - 20, 3);
+    }
+
+    // blinking eyes in the shadows
+    for (const e of EYE_SPOTS) {
+      const phase = (this.t + e.offset) % 420;
+      if (phase > 150) continue;        // hidden most of the time
+      if (phase % 50 > 44) continue;    // quick blink
+      ctx.fillStyle = e.offset % 2 === 0 ? '#ff1d42' : '#edf060';
+      ctx.fillRect(e.x, e.y, 2, 2);
+      ctx.fillRect(e.x + 6, e.y, 2, 2);
+    }
+
+    // bat silhouette, wings alternating
+    if (this.bat) {
+      const bx = Math.round(this.bat.x);
+      const by = Math.round(this.bat.y);
+      ctx.fillStyle = '#0a0306';
+      ctx.fillRect(bx - 1, by, 3, 2);
+      const up = Math.floor(this.bat.t / 4) % 2 === 0;
+      ctx.fillRect(bx - 5, up ? by - 2 : by + 1, 4, 2);
+      ctx.fillRect(bx + 2, up ? by - 2 : by + 1, 4, 2);
+    }
 
     // rising flames
     for (const f of this.flames) {
@@ -145,22 +217,6 @@ export class Stage {
       ctx.fillStyle = frac > 0.6 ? '#edf060' : frac > 0.3 ? '#ff6a33' : '#ff1d42';
       const s = frac > 0.5 ? 3 : 2;
       ctx.fillRect(Math.round(f.x), Math.round(f.y), s, s);
-    }
-
-    // papel picado banner (animated wave) under the HUD
-    const colors = [PALETTE.pink, PALETTE.orange, PALETTE.blue, PALETTE.mint];
-    for (let i = 0; i < 16; i++) {
-      const x = i * 20 + 4;
-      const wave = Math.round(Math.sin(this.t / 40 + i * 0.8) * 2);
-      const y = 30 + wave;
-      ctx.fillStyle = '#555';
-      ctx.fillRect(x, y - 1, 20, 1);
-      ctx.fillStyle = colors[i % colors.length];
-      ctx.fillRect(x + 3, y, 12, 7);
-      ctx.fillRect(x + 5, y + 7, 8, 2);
-      ctx.fillStyle = 'rgba(0,0,0,0.35)';
-      ctx.fillRect(x + 6, y + 2, 2, 2);
-      ctx.fillRect(x + 10, y + 2, 2, 2);
     }
   }
 }

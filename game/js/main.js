@@ -19,7 +19,11 @@ function fitCanvas() {
   const availW = stage.clientWidth || window.innerWidth;
   // The stage shrink-wraps the canvas, so measure the real space left in
   // the viewport below it instead of asking the stage for its height.
-  const availH = Math.max(180, window.innerHeight - stage.getBoundingClientRect().top - 16);
+  // Portrait phones use the Game Boy layout: reserve room for the
+  // touch controls under the canvas.
+  const gameboy = window.matchMedia('(orientation: portrait) and (max-width: 700px)').matches;
+  const reserve = gameboy ? 230 : 16;
+  const availH = Math.max(180, window.innerHeight - stage.getBoundingClientRect().top - reserve);
   let scale = Math.min(availW / W, availH / H);
   // Integer scaling for crispness on big screens; below 2x, fractional
   // scaling so phones aren't stuck with a tiny 1x canvas.

@@ -70,17 +70,19 @@ export function initInput() {
 // player can hold a direction and tap attacks simultaneously.
 
 const TOUCH_LAYOUT = {
+  // d-pad cross (grid-area = button name, see game.css)
   left: [
-    { name: 'left',  label: '◀' },
     { name: 'up',    label: '▲' },
+    { name: 'left',  label: '◀' },
     { name: 'right', label: '▶' },
     { name: 'down',  label: '▼' },
   ],
+  // action buttons use game-icons.net icons (CC BY 3.0)
   right: [
-    { name: 'punch',   label: 'P' },
-    { name: 'kick',    label: 'K' },
-    { name: 'block',   label: 'B' },
-    { name: 'special', label: 'S' },
+    { name: 'punch',   icon: '/game/icons/punch.svg' },
+    { name: 'kick',    icon: '/game/icons/kick.svg' },
+    { name: 'block',   icon: '/game/icons/block.svg' },
+    { name: 'special', icon: '/game/icons/special.svg' },
   ],
 };
 
@@ -92,12 +94,19 @@ function initTouch() {
 
   const buttons = []; // { el, name }
   for (const side of ['left', 'right']) {
-    zones[side].style.display = 'flex';
-    zones[side].classList.add('touch-zone', `touch-${side}`);
+    zones[side].classList.add('touch-zone', `touch-${side}`, 'touch-active');
     for (const def of TOUCH_LAYOUT[side]) {
       const el = document.createElement('div');
       el.className = `touch-btn touch-btn-${def.name}`;
-      el.textContent = def.label;
+      if (side === 'left') el.style.gridArea = def.name;
+      if (def.icon) {
+        const img = document.createElement('img');
+        img.src = def.icon;
+        img.alt = def.name;
+        el.appendChild(img);
+      } else {
+        el.textContent = def.label;
+      }
       zones[side].appendChild(el);
       buttons.push({ el, name: def.name });
     }

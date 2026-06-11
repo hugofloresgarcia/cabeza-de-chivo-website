@@ -92,7 +92,7 @@ export class Fighter {
     if (sp.type === 'grab') {
       return {
         dmg: sp.dmg, startup: sp.startup, active: 3, recovery: sp.recovery,
-        hitstun: 0, knockback: 0, knockdown: true, unblockable: true,
+        hitstun: 0, knockback: 0, knockdown: true, unblockable: true, bigSpark: true,
         box: { dx: 2, dy: -28, w: sp.range, h: 24 },
       };
     }
@@ -235,7 +235,8 @@ export class Fighter {
     if (ctrl.kick.pressed) return this.startAttack('kick', world);
     if (ctrl.special.pressed && this.special && this.specialCd === 0) {
       this.specialCd = SPECIAL_COOLDOWN;
-      world?.sfx?.special?.();
+      const cast = this.special.castSfx ?? 'special';
+      (world?.sfx?.[cast] ?? world?.sfx?.special)?.();
       return this.setState('special');
     }
 
@@ -325,7 +326,7 @@ export class Fighter {
 
     this.hitFlash = 6;
     world?.sfx?.hit?.();
-    world?.addSpark?.(this.x, this.y - 24, 'hit');
+    world?.addSpark?.(this.x, this.y - 24, attack.bigSpark ? 'big' : 'hit');
 
     if (this.health <= 0) {
       // Bosses get staggered for the FINISH HIM window instead of dying;
@@ -356,6 +357,8 @@ export class Fighter {
 
   // ---- Render ----
   animFor(state) {
+    // Grabs read as a reach, not a cast pose.
+    if (state === 'special' && this.special?.type === 'grab') return this.anims.punch;
     const map = {
       idle: 'idle', walkF: 'walk', walkB: 'walk', jump: 'jump', crouch: 'crouch',
       punch: 'punch', kick: 'kick', crouchPunch: 'crouchPunch', jumpKick: 'jumpKick',
@@ -367,7 +370,8 @@ export class Fighter {
 
   frameIndex(anim) {
     // Attacks pick frames by phase: windup / active / recover.
-    if (['punch', 'kick', 'crouchPunch'].includes(this.state) && anim.frames.length >= 3) {
+    const grabbing = this.state === 'special' && this.special?.type === 'grab';
+    if ((['punch', 'kick', 'crouchPunch'].includes(this.state) || grabbing) && anim.frames.length >= 3) {
       const ph = this.attackPhase();
       return ph <= 0 ? 0 : ph === 1 ? 1 : 2;
     }
@@ -395,6 +399,31 @@ export class Fighter {
     }
     ctx.drawImage(frame, dx + sway, dy);
     ctx.globalAlpha = 1;
+
+    // Chase's timbalazo: expanding dub-siren rings while reaching
+    if (this.state === 'special' && this.special?.type === 'grab' && this.attackPhase() <= 1) {
+      const r = 5 + (this.t * 1.2) % 16;
+      ctx.strokeStyle = 'rgba(99,169,255,0.8)';
+      ctx.beginPath();
+      ctx.arc(this.x + this.facing * 10, this.y - 26, r, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(232,106,146,0.5)';
+      ctx.beginPath();
+      ctx.arc(this.x + this.facing * 10, this.y - 26, r + 7, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    // Hugo's feedback lunge leaves a static-noise trail
+    if (this.state === 'special' && this.special?.type === 'lunge' && this.attackPhase() === 1) {
+      for (let i = 0; i < 6; i++) {
+        ctx.fillStyle = Math.random() < 0.5 ? '#ffffff' : '#E86A92';
+        ctx.fillRect(
+          Math.round(this.x - this.facing * (8 + Math.random() * 18)),
+          Math.round(this.y - 28 + Math.random() * 26),
+          2, 2,
+        );
+      }
+    }
 
     if (DEBUG) this.drawBoxes(ctx);
   }

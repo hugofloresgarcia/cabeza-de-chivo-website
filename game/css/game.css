@@ -37,27 +37,54 @@
   image-rendering: crisp-edges;
 }
 
-/* Touch control zones — populated by input.js only on touch devices */
+/* Touch controls: a bar that overlays the bottom of the stage in
+   landscape/desktop, and sits below the canvas (Game Boy style) in
+   portrait. Buttons populated by input.js only on touch devices. */
+#touch-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 12px;
+  pointer-events: none; /* touches hit-tested in JS via coordinates */
+  z-index: 10;
+}
+
 #touch-left,
 #touch-right {
-  position: absolute;
-  bottom: 12px;
   display: none;
-  z-index: 10;
+}
+
+/* d-pad cross */
+#touch-left.touch-active {
+  display: grid;
+  grid-template-areas:
+    '.    up    .'
+    'left .     right'
+    '.    down  .';
+  gap: 6px;
+}
+
+/* action buttons 2x2 */
+#touch-right.touch-active {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
   gap: 10px;
-  flex-wrap: wrap;
-  align-items: flex-end;
 }
 
-#touch-left {
-  left: 12px;
-  width: 160px;
+#touch-left .touch-btn {
+  width: 54px;
+  height: 54px;
+  font-size: 18px;
 }
 
-#touch-right {
-  right: 12px;
-  width: 160px;
-  justify-content: flex-end;
+#game-root .touch-btn img {
+  width: 62%;
+  height: 62%;
+  pointer-events: none;
 }
 
 #game-root .touch-btn {
@@ -81,10 +108,6 @@
   border-color: #edf060;
 }
 
-#rotate-overlay {
-  display: none;
-}
-
 /* ---- Phone-ish screens: game takes the full viewport ---- */
 @media (max-height: 580px), (max-width: 700px) {
   #game-stage {
@@ -103,32 +126,28 @@
   }
 }
 
-/* Portrait on small screens: ask for landscape */
+/* Portrait phones: Game Boy layout — screen on top, controls below */
 @media (orientation: portrait) and (max-width: 700px) {
-  #rotate-overlay {
-    display: flex;
+  body:has(#game-root) h1.title,
+  body:has(#game-root) #ascii-border-top,
+  body:has(#game-root) nav,
+  body:has(#game-root) .content {
+    display: none;
+  }
+  #game-stage {
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    height: 100dvh;
+  }
+  #touch-bar {
+    position: static;
+    flex: 1;
     align-items: center;
-    position: fixed;
-    inset: 0;
-    background-color: #211a1e;
-    color: #edf060;
-    font-family: 'IBM Plex Mono', monospace;
-    z-index: 100;
+    width: 100%;
+    padding: 0 16px;
   }
-  #rotate-overlay .rotate-phone {
-    font-size: 64px;
-    animation: pelea-rotate 1.6s ease-in-out infinite;
+  #touch-left .touch-btn {
+    width: 58px;
+    height: 58px;
   }
-  #rotate-overlay p {
-    margin-top: 1rem;
-    font-size: 16px;
-    padding: 0 2rem;
-  }
-}
-
-@keyframes pelea-rotate {
-  0%, 20% { transform: rotate(0deg); }
-  60%, 100% { transform: rotate(90deg); }
 }
