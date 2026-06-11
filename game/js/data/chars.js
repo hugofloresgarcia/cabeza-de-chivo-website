@@ -459,6 +459,22 @@ export const CHARS = {
         { x: 8, y: 0, rows: ['HHHHHHH'] },
         { x: 7, y: 1, rows: ['HDHDHDHDH'] },
       ],
+      // the dress pattern runs from the shoulders all the way down
+      // (x7-13 is the body core in every torso variant; arms stay clear)
+      torso: [
+        { x: 7, y: 0, rows: [
+          'ddddddd',
+          'dDdFdDd',
+          'ddddddd',
+          'dFdDdFd',
+          'ddddddd',
+          'dDdFdDd',
+          'ddddddd',
+          'dFdDdFd',
+          'ddddddd',
+          'dDdFdDd',
+        ] },
+      ],
     },
     body: {
       shorten: 4, // Vee is the short one

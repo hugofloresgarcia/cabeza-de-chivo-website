@@ -9,6 +9,7 @@ import {
 
 const KNOCKDOWN_LIE = 40;
 const GETUP_TICKS = 20;
+const COMBO_WINDOW = 90; // ticks allowed between combo presses (1.5s)
 
 export class Fighter {
   constructor({ id, name, anims, stats, special, x, facing, isBoss = false, size }) {
@@ -252,7 +253,7 @@ export class Fighter {
     const [a, b, c] = this.combo;
     const comboLanded = this.combo.length === 3
       && a.degree === 'root' && b.degree === 'third' && c.degree === 'fifth'
-      && b.age - a.age <= 40 && c.age - b.age <= 40;
+      && b.age - a.age <= COMBO_WINDOW && c.age - b.age <= COMBO_WINDOW;
     const canCancel = this.grounded
       && ['idle', 'walkF', 'walkB', 'punch', 'kick', 'block'].includes(this.state);
 
