@@ -11,7 +11,9 @@ import { Fighter, Projectile, tryHit, resolvePush } from './fighter.js';
 import { Boss, FireColumn } from './boss.js';
 import { Stage } from './stage.js';
 import { FX, Announcer, HealthBars, drawTimer } from './hud.js';
-import { sfx, buttonNote, specialSound, playMusic, stopMusic, playOneShot } from './audio.js';
+import {
+  sfx, buttonNote, specialSound, playMusic, stopMusic, playOneShot, setChordTranspose,
+} from './audio.js';
 import { CHARS, CHAR_ORDER } from './data/chars.js';
 
 const FONT = '"IBM Plex Mono", monospace';
@@ -300,12 +302,16 @@ class FightScene {
     this.announcer.say('¡PELEA!', { ticks: 45, size: 22, color: PALETTE.red });
     sfx.announcer();
 
-    // battle music — the final boss gets the 30%-fast chipmunk-hell mix
-    playMusic('/game/ocho-8bit.mp3', stage === 'devil' ? 1.3 : 1);
+    // battle music — the final boss gets the 30%-fast chipmunk-hell mix,
+    // and the sfx harmony transposes with it to stay in tune
+    const rate = stage === 'devil' ? 1.3 : 1;
+    playMusic('/game/ocho-8bit.mp3', rate);
+    setChordTranspose(rate);
   }
 
   exit() {
     stopMusic();
+    setChordTranspose(1);
   }
 
   update() {

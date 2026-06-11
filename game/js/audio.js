@@ -106,6 +106,25 @@ function sirenSweep(lo, hi, dur = 1.2, vol = 0.15) {
   lfo.stop(t0 + dur + 0.05);
 }
 
+// When the battle track plays faster (devil fight: 1.3x, pitch and all),
+// the game's harmony transposes by the same ratio to stay in tune with it.
+let chordTranspose = 1;
+export function setChordTranspose(factor) {
+  chordTranspose = factor;
+}
+
+// The active chord with the transpose applied.
+function activeChord() {
+  const ch = CHORDS[lastChord];
+  const t = chordTranspose;
+  return {
+    bass: ch.bass * t,
+    power: ch.power.map((f) => f * t),
+    triad: ch.triad.map((f) => f * t),
+    siren: ch.siren.map((f) => f * t),
+  };
+}
+
 let lastChord = 'V';
 function pickChord() {
   // a V wants to resolve home; from i it's a coin flip
@@ -272,7 +291,7 @@ const DEGREE_INDEX = { root: 0, third: 1, fifth: 2 };
 export function buttonNote(patch, degree) {
   if (!ac) return;
   if (patch === 'drums') return drumHit(degree);
-  const ch = CHORDS[lastChord];
+  const ch = activeChord();
   const f = ch.triad[DEGREE_INDEX[degree]];
   if (patch === 'siren') return sirenSweep(f * 1.9, f * 2.1, 0.16, 0.1);
   if (patch === 'square') return patchNote(patch, f / 2, { dur: 0.13, vol: 0.16 }); // bass
@@ -282,7 +301,7 @@ export function buttonNote(patch, degree) {
 // The combo landed: play the active chord in the character's patch
 // (or a siren sweep / drum fill), then advance the harmony.
 export function specialSound(patch) {
-  const ch = CHORDS[lastChord];
+  const ch = activeChord();
   if (patch === 'drums') {
     // little fill: kick kick snare, kick snare-snare
     const fill = ['root', 'root', 'third', 'root', 'third', 'third'];
