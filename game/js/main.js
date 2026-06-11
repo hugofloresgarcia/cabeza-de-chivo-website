@@ -42,7 +42,7 @@ const assets = { chars: {}, bosses: {} };
 for (const id of CHAR_ORDER) {
   assets.chars[id] = {
     def: CHARS[id],
-    anims: buildAnims(charAnimRows(id), CHARS[id].palette),
+    anims: buildAnims(charAnimRows(id), CHARS[id].palette, 2), // 2x: 48x64 onscreen
   };
 }
 for (const id in BOSSES) {

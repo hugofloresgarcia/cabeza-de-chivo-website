@@ -41,7 +41,8 @@ export class Fighter {
     this.frozen = false;         // scene-controlled (round intro, finish him)
 
     // Body sizes (pushbox/hurtbox), overridable for bosses.
-    this.size = size ?? { w: 12, h: 30, crouchH: 18, airH: 22 };
+    // Players render at 2x sprite scale: 48x64 onscreen.
+    this.size = size ?? { w: 24, h: 60, crouchH: 36, airH: 44 };
   }
 
   get grounded() {
@@ -75,13 +76,13 @@ export class Fighter {
   currentAttack() {
     switch (this.state) {
       case 'punch':
-        return { ...MOVES.punch, box: { dx: 6, dy: -24, w: 12, h: 6 } };
+        return { ...MOVES.punch, box: { dx: 12, dy: -48, w: 24, h: 12 } };
       case 'kick':
-        return { ...MOVES.kick, box: { dx: 6, dy: -16, w: 14, h: 7 } };
+        return { ...MOVES.kick, box: { dx: 12, dy: -32, w: 28, h: 14 } };
       case 'crouchPunch':
-        return { ...MOVES.crouchPunch, box: { dx: 4, dy: -22, w: 10, h: 12 } };
+        return { ...MOVES.crouchPunch, box: { dx: 8, dy: -44, w: 20, h: 24 } };
       case 'jumpKick':
-        return { ...MOVES.jumpKick, box: { dx: 4, dy: -16, w: 12, h: 10 } };
+        return { ...MOVES.jumpKick, box: { dx: 8, dy: -32, w: 24, h: 20 } };
       case 'special':
         return this.specialAttack();
       default:
@@ -96,14 +97,14 @@ export class Fighter {
       return {
         dmg: sp.dmg, startup: sp.startup, active: 3, recovery: sp.recovery,
         hitstun: 0, knockback: 0, knockdown: true, unblockable: true, bigSpark: true,
-        box: { dx: 2, dy: -28, w: sp.range, h: 24 },
+        box: { dx: 4, dy: -56, w: sp.range, h: 48 },
       };
     }
     if (sp.type === 'lunge') {
       return {
         dmg: sp.dmg, startup: sp.startup, active: sp.lungeTicks, recovery: sp.recovery,
-        hitstun: 22, knockback: 2.0, knockdown: false,
-        box: { dx: 1, dy: -28, w: 11, h: 20 },
+        hitstun: 22, knockback: 4.0, knockdown: false,
+        box: { dx: 2, dy: -56, w: 22, h: 40 },
       };
     }
     // projectile / shockwave: no melee box; spawns at end of startup
@@ -350,15 +351,15 @@ export class Fighter {
     this.health = Math.max(0, this.health - dmg);
 
     if (blocked) {
-      this.x += dir * 2;
+      this.x += dir * 4;
       world?.sfx?.block?.();
-      world?.addSpark?.(this.x + dir * -6, this.y - 24, 'block');
+      world?.addSpark?.(this.x + dir * -10, this.y - this.size.h * 0.8, 'block');
       return true;
     }
 
     this.hitFlash = 6;
     world?.sfx?.hit?.();
-    world?.addSpark?.(this.x, this.y - 24, attack.bigSpark ? 'big' : 'hit');
+    world?.addSpark?.(this.x, this.y - this.size.h * 0.8, attack.bigSpark ? 'big' : 'hit');
 
     if (this.health <= 0) {
       // Bosses get staggered for the FINISH HIM window instead of dying;
@@ -366,18 +367,18 @@ export class Fighter {
       if (this.isBoss && this.state !== 'dizzy') {
         this.setState('dizzy');
       } else {
-        this.vy = -2.4;
+        this.vy = -3.6;
         this.vx = 0;
-        this.x += dir * 2;
-        this.knockVx = dir * 1.4;
+        this.x += dir * 4;
+        this.knockVx = dir * 2.4;
         this.setState('ko');
       }
       return true;
     }
 
     if (attack.knockdown) {
-      this.vy = -2.2;
-      this.knockVx = dir * 1.5;
+      this.vy = -3.4;
+      this.knockVx = dir * 2.4;
       this.setState('knockdown');
     } else {
       this.stunTicks = attack.hitstun;
@@ -434,38 +435,39 @@ export class Fighter {
 
     // Andres's head catches fire during his special
     if (this.id === 'andres' && this.state === 'special') {
-      const top = dy + 1;
-      for (let i = 0; i < 6; i++) {
+      const top = dy + 2;
+      for (let i = 0; i < 8; i++) {
         ctx.fillStyle = ['#edf060', '#ff6a33', '#ff1d42'][i % 3];
         ctx.fillRect(
-          Math.round(this.x - 4 + Math.random() * 9),
-          Math.round(top - 1 - Math.random() * 6),
-          2, 2 + (i % 2),
+          Math.round(this.x - 8 + Math.random() * 18),
+          Math.round(top - 2 - Math.random() * 10),
+          3, 3 + (i % 2),
         );
       }
     }
 
     // Chase's dub siren: expanding rings while reaching
     if (this.state === 'special' && this.special?.type === 'grab' && this.attackPhase() <= 1) {
-      const r = 5 + (this.t * 1.2) % 16;
+      const cy = this.y - Math.round(this.size.h * 0.85);
+      const r = 8 + (this.t * 2) % 28;
       ctx.strokeStyle = 'rgba(99,169,255,0.8)';
       ctx.beginPath();
-      ctx.arc(this.x + this.facing * 10, this.y - 26, r, 0, Math.PI * 2);
+      ctx.arc(this.x + this.facing * 18, cy, r, 0, Math.PI * 2);
       ctx.stroke();
       ctx.strokeStyle = 'rgba(232,106,146,0.5)';
       ctx.beginPath();
-      ctx.arc(this.x + this.facing * 10, this.y - 26, r + 7, 0, Math.PI * 2);
+      ctx.arc(this.x + this.facing * 18, cy, r + 11, 0, Math.PI * 2);
       ctx.stroke();
     }
 
     // Hugo's feedback lunge leaves a static-noise trail
     if (this.state === 'special' && this.special?.type === 'lunge' && this.attackPhase() === 1) {
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 9; i++) {
         ctx.fillStyle = Math.random() < 0.5 ? '#ffffff' : '#E86A92';
         ctx.fillRect(
-          Math.round(this.x - this.facing * (8 + Math.random() * 18)),
-          Math.round(this.y - 28 + Math.random() * 26),
-          2, 2,
+          Math.round(this.x - this.facing * (14 + Math.random() * 34)),
+          Math.round(this.y - 56 + Math.random() * 52),
+          3, 3,
         );
       }
     }
@@ -526,8 +528,8 @@ export class Projectile {
     this.vx = owner.facing * def.speed;
     this.w = def.w;
     this.h = def.h;
-    this.x = owner.x + owner.facing * 14;
-    this.y = def.ground ? FLOOR_Y - def.h : owner.y - 26;
+    this.x = owner.x + owner.facing * (owner.size.w + 4);
+    this.y = def.ground ? FLOOR_Y - def.h : owner.y - Math.round(owner.size.h * 0.75);
     this.traveled = 0;
     this.alive = true;
     this.t = 0;

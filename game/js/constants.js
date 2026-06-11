@@ -24,10 +24,11 @@ export const PALETTE = {
   white: '#ffffff',
 };
 
-// Physics
-export const GRAVITY = 0.18;
-export const JUMP_VY = -3.4;
-export const WALK_SPEED = 1.0;       // px/tick, scaled by character speed stat
+// Physics (tuned for 2x sprites: jump apex carries the fighter past
+// mid-screen)
+export const GRAVITY = 0.2;
+export const JUMP_VY = -5.2;
+export const WALK_SPEED = 1.6;       // px/tick, scaled by character speed stat
 
 // Round rules
 export const ROUND_SECONDS = 60;
@@ -37,10 +38,10 @@ export const CHIP_DAMAGE = 0.10;     // fraction of damage taken while blocking
 
 // Normal attacks: damage + frame data in ticks
 export const MOVES = {
-  punch:       { dmg: 6, startup: 5, active: 4, recovery: 8,  hitstun: 14, knockback: 0.6 },
-  kick:        { dmg: 9, startup: 8, active: 4, recovery: 14, hitstun: 20, knockback: 1.6 },
-  crouchPunch: { dmg: 5, startup: 4, active: 4, recovery: 8,  hitstun: 12, knockback: 0.4 },
-  jumpKick:    { dmg: 8, startup: 5, active: 10, recovery: 4, hitstun: 18, knockback: 1.2 },
+  punch:       { dmg: 6, startup: 5, active: 4, recovery: 8,  hitstun: 14, knockback: 1.2 },
+  kick:        { dmg: 9, startup: 8, active: 4, recovery: 14, hitstun: 20, knockback: 3.2 },
+  crouchPunch: { dmg: 5, startup: 4, active: 4, recovery: 8,  hitstun: 12, knockback: 0.8 },
+  jumpKick:    { dmg: 8, startup: 5, active: 10, recovery: 4, hitstun: 18, knockback: 2.4 },
 };
 
 // Difficulty presets — multipliers over Normal. Chosen on the title screen.

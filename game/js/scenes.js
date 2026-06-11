@@ -157,10 +157,10 @@ class SelectScene {
       ctx.strokeStyle = selected && Math.floor(this.t / 8) % 2 === 0 ? PALETTE.orange : PALETTE.red;
       ctx.strokeRect(x + 0.5, y + 0.5, boxW - 1, boxH - 1);
 
-      // face crop from idle frame, scaled 3x
+      // face crop from idle frame (frames are 2x, so source coords double)
       const frame = anims.idle.frames[0];
       ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(frame, 6, 0, 12, 13, x + 1, y + 3, 36, 39);
+      ctx.drawImage(frame, 12, 0, 24, 26, x + 1, y + 3, 36, 39);
 
       text(ctx, def.name, x + boxW / 2, y + boxH + 10, {
         size: 7, color: selected ? PALETTE.orange : PALETTE.paper,
@@ -218,7 +218,8 @@ class VsScene {
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(char.anims.idle.frames[0], 26, 70, 48, 64);
     const bossFrame = boss.anims.idle.frames[0];
-    ctx.drawImage(bossFrame, 144, 58, bossFrame.width * 1.2, bossFrame.height * 1.2);
+    ctx.drawImage(bossFrame, W - 16 - bossFrame.width, 160 - bossFrame.height,
+      bossFrame.width, bossFrame.height);
 
     text(ctx, char.def.name, 50, 156, { size: 10, color: PALETTE.orange });
     text(ctx, boss.def.name, 184, 156, { size: 10, color: PALETTE.red });
