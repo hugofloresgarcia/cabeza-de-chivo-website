@@ -40,12 +40,14 @@ export function consumePressed() {
 }
 
 const gestureCallbacks = [];
-// Register a callback for the first user gesture (audio unlock).
+// Register a callback to run on user gestures (audio unlock/priming).
+// Fired on EVERY gesture — callbacks must be idempotent — so audio
+// priming can retry if the first attempt was blocked.
 export function onFirstGesture(cb) {
   gestureCallbacks.push(cb);
 }
 function fireGesture() {
-  while (gestureCallbacks.length) gestureCallbacks.shift()();
+  for (const cb of gestureCallbacks) cb();
 }
 
 export function initInput() {

@@ -6,6 +6,7 @@ let ac = null;
 export function unlock() {
   if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
   if (ac.state === 'suspended') ac.resume();
+  primeMusic();
 }
 
 function now() {
@@ -306,23 +307,55 @@ export function specialSound(patch) {
 // ---- MUSIC ----------------------------------------------------------------
 // Battle music. `rate` speeds playback up, pitch and all (tape-style):
 // the devil fight runs the track 30% fast.
+//
+// ONE Audio element is created and primed (muted play/pause) inside the
+// first user gesture, then reused forever. iOS only allows play() on an
+// element that was started from a gesture — the devil fight begins
+// several seconds after the last tap, so a fresh element there would be
+// silently blocked.
+const MUSIC_URL = '/game/ocho-8bit.mp3';
 let musicEl = null;
-export function playMusic(url, rate = 1) {
-  stopMusic();
-  musicEl = new Audio(url);
-  musicEl.loop = true;
-  musicEl.volume = 0.5;
-  musicEl.preservesPitch = false;
-  musicEl.mozPreservesPitch = false;    // older gecko
-  musicEl.webkitPreservesPitch = false; // older webkit
-  musicEl.playbackRate = rate;
-  musicEl.play().catch(() => {});
-}
-export function stopMusic() {
-  if (musicEl) {
-    musicEl.pause();
-    musicEl = null;
+let primed = false;
+
+function ensureMusicEl() {
+  if (!musicEl) {
+    musicEl = new Audio(MUSIC_URL);
+    musicEl.loop = true;
+    musicEl.volume = 0.5;
+    musicEl.preload = 'auto';
   }
+  return musicEl;
+}
+
+export function primeMusic() {
+  if (primed) return;
+  primed = true;
+  const el = ensureMusicEl();
+  el.muted = true;
+  el.play().then(() => {
+    el.pause();
+    el.currentTime = 0;
+    el.muted = false;
+  }).catch(() => {
+    el.muted = false;
+    primed = false; // gesture didn't take; retry on the next one
+  });
+}
+
+export function playMusic(url, rate = 1) {
+  const el = ensureMusicEl();
+  if (!el.src.endsWith(url)) el.src = url;
+  el.preservesPitch = false;
+  el.mozPreservesPitch = false;    // older gecko
+  el.webkitPreservesPitch = false; // older webkit
+  el.playbackRate = rate;
+  el.muted = false;
+  try { el.currentTime = 0; } catch { /* not loaded yet — plays from 0 anyway */ }
+  el.play().catch(() => {});
+}
+
+export function stopMusic() {
+  musicEl?.pause();
 }
 
 // One-shot sample playback (e.g. the chivo-delay sting on game start).
