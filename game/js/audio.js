@@ -63,19 +63,21 @@ function noise({ dur = 0.12, vol = 0.2, from = 3000, to = 400, delay = 0 }) {
   src.start(t0);
 }
 
-// ---- shared harmony: A minor, i (Am) and V (E major) ----
+// ---- shared harmony: E minor, i (Em) and V (B7) ----
+// Key of E minor, matching the band's chords: i = Em, V = B7
+// (the B7 "triad" is the dominant shell — root, 3rd, 7th).
 const CHORDS = {
   i: {
-    bass: 55,                          // A1
-    power: [110, 164.8, 220],          // A2 E3 A3
-    triad: [220, 261.6, 329.6],        // A3 C4 E4
-    siren: [440, 659.3],               // A4 <-> E5
+    bass: 41.2,                        // E1
+    power: [82.41, 123.47, 164.81],    // E2 B2 E3
+    triad: [164.81, 196.0, 246.94],    // E3 G3 B3
+    siren: [329.63, 493.88],           // E4 <-> B4
   },
   V: {
-    bass: 41.2,                        // E1
-    power: [82.4, 123.5, 164.8],       // E2 B2 E3
-    triad: [164.8, 207.7, 246.9],      // E3 G#3 B3
-    siren: [329.6, 493.9],             // E4 <-> B4
+    bass: 61.74,                       // B1
+    power: [123.47, 185.0, 246.94],    // B2 F#3 B3
+    triad: [246.94, 311.13, 440.0],    // B3 D#4 A4
+    siren: [493.88, 739.99],           // B4 <-> F#5
   },
 };
 
@@ -223,8 +225,8 @@ export const sfx = {
 };
 
 // ---- musical combat ------------------------------------------------------
-// Latin minor harmony: there is always an ACTIVE chord, either i (Am) or
-// V (E major). The attack buttons are pitched to the active chord —
+// Latin minor harmony: there is always an ACTIVE chord, either i (Em) or
+// V (B7). The attack buttons are pitched to the active chord —
 // punch=root, kick=third, block=fifth — so attacking arpeggiates it.
 // Landing the P,K,B combo triggers the special, which plays the full
 // chord in the character's own synth patch, then moves the harmony on.
