@@ -247,7 +247,7 @@ export const BOSSES = {
     stats: { speed: 0.8, power: 1.0, hp: 160 },
     size: { w: 22, h: 46, crouchH: 46, airH: 46 },
     introText: 'EL CHIVO TE ESPERA',
-    finishText: '¡SE LO LLEVO EL CHIVO!',
+    finishText: '¡LE DIERON MADRE AL CHIVO!',
     anims: {
       idle: { fps: 3, frames: [GOAT_IDLE_A, GOAT_IDLE_B] },
       walk: { fps: 5, frames: [GOAT_IDLE_A, GOAT_WALK_A] },

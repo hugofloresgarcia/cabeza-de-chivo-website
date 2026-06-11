@@ -516,7 +516,7 @@ class VictoryScene {
     }
 
     text(ctx, '¡GANASTE!', W / 2, 56, { size: 20, color: PALETTE.orange });
-    text(ctx, `${char.def.name} salvo al mictlan`, W / 2, 74, { size: 8, color: PALETTE.pink });
+    text(ctx, `¡${char.def.name} se salvó del mictlán!`, W / 2, 74, { size: 8, color: PALETTE.pink });
     if (Math.floor(this.t / 30) % 2 === 0 && this.t > 90) {
       text(ctx, 'TOCA PARA SEGUIR', W / 2, 204, { size: 8, color: PALETTE.paper });
     }
