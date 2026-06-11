@@ -65,7 +65,7 @@ export class Boss extends Fighter {
     switch (this.state) {
       case 'idle':
         this.facing = opp.x >= this.x ? 1 : -1;
-        if (--this.decisionCd <= 0) this.decide(opp);
+        if (--this.decisionCd <= 0) this.decide(opp, world);
         break;
 
       case 'walk': {
@@ -115,7 +115,7 @@ export class Boss extends Fighter {
     this.decisionCd = cd;
   }
 
-  decide(opp) {
+  decide(opp, world) {
     const dist = Math.abs(opp.x - this.x);
     const band = dist < this.aiDef.near ? 'near' : dist < this.aiDef.mid ? 'mid' : 'far';
     const d = diff();
@@ -145,6 +145,7 @@ export class Boss extends Fighter {
       this.setState('walk');
     } else {
       this.move = pick;
+      world?.sfx?.bossTelegraph?.();
       this.setState('attack');
     }
   }
@@ -174,7 +175,10 @@ export class Boss extends Fighter {
       }
       if (!this.hasSpawned) {
         this.hasSpawned = true;
-        if (m.proj) world?.spawnProjectile?.(this, { dmg: a.dmg, proj: m.proj });
+        if (m.proj) {
+          world?.spawnProjectile?.(this, { dmg: a.dmg, proj: m.proj });
+          world?.sfx?.bleat?.();
+        }
         if (m.hazard === 'fireRain') world?.spawnFireRain?.(this, a.dmg);
         if (m.motion === 'teleport') this.teleportBehind(opp, world);
       }
@@ -191,7 +195,7 @@ export class Boss extends Fighter {
     const half = this.size.w / 2;
     this.x = Math.max(ARENA_PAD + half, Math.min(W - ARENA_PAD - half, behind));
     this.facing = opp.x >= this.x ? 1 : -1;
-    world?.sfx?.special?.();
+    world?.sfx?.teleport?.();
   }
 
   receiveHit(attack, dir, attackerPower, world) {

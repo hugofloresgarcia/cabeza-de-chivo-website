@@ -12,8 +12,12 @@ function now() {
   return ac ? ac.currentTime : 0;
 }
 
-// Square/saw blip sweeping from->to Hz.
-function tone({ type = 'square', from = 440, to = 440, dur = 0.1, vol = 0.18, delay = 0 }) {
+// Square/saw blip sweeping from->to Hz. Optional sine-LFO pitch wobble
+// (wobbleHz / wobbleDepth) gives everything a little dub-siren character.
+function tone({
+  type = 'square', from = 440, to = 440, dur = 0.1, vol = 0.18, delay = 0,
+  wobbleHz = 0, wobbleDepth = 0,
+}) {
   if (!ac) return;
   const t0 = now() + delay;
   const osc = ac.createOscillator();
@@ -21,6 +25,16 @@ function tone({ type = 'square', from = 440, to = 440, dur = 0.1, vol = 0.18, de
   osc.type = type;
   osc.frequency.setValueAtTime(from, t0);
   osc.frequency.exponentialRampToValueAtTime(Math.max(20, to), t0 + dur);
+  if (wobbleHz > 0) {
+    const lfo = ac.createOscillator();
+    lfo.type = 'sine';
+    lfo.frequency.setValueAtTime(wobbleHz, t0);
+    const depth = ac.createGain();
+    depth.gain.setValueAtTime(wobbleDepth, t0);
+    lfo.connect(depth).connect(osc.frequency);
+    lfo.start(t0);
+    lfo.stop(t0 + dur + 0.02);
+  }
   gain.gain.setValueAtTime(vol, t0);
   gain.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
   osc.connect(gain).connect(ac.destination);
@@ -110,7 +124,7 @@ export const sfx = {
     noise({ dur: 0.08, vol: 0.07, from: 1200, to: 4000 });
   },
   jump() {
-    tone({ type: 'square', from: 220, to: 520, dur: 0.12, vol: 0.1 });
+    tone({ type: 'square', from: 220, to: 520, dur: 0.13, vol: 0.1, wobbleHz: 11, wobbleDepth: 26 });
   },
   special() {
     tone({ type: 'square', from: 330, to: 330, dur: 0.06, vol: 0.12 });
@@ -118,28 +132,52 @@ export const sfx = {
     tone({ type: 'square', from: 660, to: 660, dur: 0.1, vol: 0.12, delay: 0.12 });
   },
   ko() {
-    tone({ type: 'sawtooth', from: 400, to: 50, dur: 0.7, vol: 0.25 });
+    // dying siren: wobbling fall with a dub echo
+    tone({ type: 'sawtooth', from: 400, to: 50, dur: 0.8, vol: 0.25, wobbleHz: 6, wobbleDepth: 45 });
+    tone({ type: 'sawtooth', from: 300, to: 45, dur: 0.6, vol: 0.1, delay: 0.3, wobbleHz: 6, wobbleDepth: 30 });
     noise({ dur: 0.5, vol: 0.25, from: 3000, to: 100 });
   },
   announcer() {
-    // descending doom sting
-    tone({ type: 'sawtooth', from: 110, to: 110, dur: 0.25, vol: 0.2 });
-    tone({ type: 'sawtooth', from: 82, to: 82, dur: 0.35, vol: 0.2, delay: 0.22 });
+    // descending doom sting with dub-delay echoes
+    tone({ type: 'sawtooth', from: 110, to: 110, dur: 0.25, vol: 0.2, wobbleHz: 5, wobbleDepth: 7 });
+    tone({ type: 'sawtooth', from: 82, to: 82, dur: 0.35, vol: 0.2, delay: 0.22, wobbleHz: 5, wobbleDepth: 6 });
+    tone({ type: 'sawtooth', from: 82, to: 82, dur: 0.3, vol: 0.08, delay: 0.62, wobbleHz: 5, wobbleDepth: 6 });
+    tone({ type: 'sawtooth', from: 82, to: 82, dur: 0.25, vol: 0.03, delay: 1.0, wobbleHz: 5, wobbleDepth: 6 });
   },
   select() {
-    tone({ type: 'square', from: 880, to: 1100, dur: 0.07, vol: 0.1 });
+    tone({ type: 'square', from: 880, to: 1100, dur: 0.08, vol: 0.1, wobbleHz: 14, wobbleDepth: 40 });
   },
   finishHim() {
-    tone({ type: 'sawtooth', from: 65, to: 62, dur: 0.9, vol: 0.3 });
+    tone({ type: 'sawtooth', from: 65, to: 62, dur: 1.1, vol: 0.3, wobbleHz: 2.5, wobbleDepth: 5 });
+    tone({ type: 'sine', from: 33, to: 31, dur: 1.1, vol: 0.25 });
     noise({ dur: 0.6, vol: 0.12, from: 800, to: 100 });
   },
 
-  // ---- instrument-themed special casts (each one a musical phrase) ----
-  sticks() { // Alex: drumstick count-off, 1-2-3-4
-    for (let i = 0; i < 4; i++) {
-      noise({ dur: 0.03, vol: 0.28, from: 4200 + i * 300, to: 3200, delay: i * 0.11 });
-    }
+  // ---- spooky boss voices ----
+  bossTelegraph() {
+    // low wobbling growl under every windup
+    tone({ type: 'sawtooth', from: 55, to: 50, dur: 0.45, vol: 0.16, wobbleHz: 3.5, wobbleDepth: 9 });
+    tone({ type: 'sine', from: 37, to: 34, dur: 0.45, vol: 0.14 });
   },
+  bleat() {
+    // dissonant goat scream: two saws a half-step apart, warbling down
+    tone({ type: 'sawtooth', from: 460, to: 360, dur: 0.4, vol: 0.12, wobbleHz: 9, wobbleDepth: 30 });
+    tone({ type: 'sawtooth', from: 488, to: 380, dur: 0.4, vol: 0.1, wobbleHz: 8, wobbleDepth: 26 });
+    noise({ dur: 0.25, vol: 0.06, from: 2400, to: 900 });
+  },
+  teleport() {
+    // shimmer up, moan down
+    noise({ dur: 0.3, vol: 0.1, from: 300, to: 7000 });
+    tone({ type: 'sine', from: 1300, to: 280, dur: 0.35, vol: 0.1, wobbleHz: 7, wobbleDepth: 80 });
+  },
+  fireRain() {
+    // deep rumble with a sparkle on top
+    tone({ type: 'sawtooth', from: 42, to: 38, dur: 0.8, vol: 0.22, wobbleHz: 2, wobbleDepth: 5 });
+    noise({ dur: 0.7, vol: 0.14, from: 500, to: 80 });
+    tone({ type: 'square', from: 1800, to: 2400, dur: 0.12, vol: 0.05, delay: 0.1, wobbleHz: 12, wobbleDepth: 120 });
+    tone({ type: 'square', from: 2100, to: 2700, dur: 0.12, vol: 0.04, delay: 0.3, wobbleHz: 12, wobbleDepth: 120 });
+  },
+
 };
 
 // ---- musical combat ------------------------------------------------------

@@ -273,7 +273,7 @@ class FightScene {
         for (const x of [px, px - 40, px + 40]) {
           if (x > 4 && x < W - 4) this.hazards.push(new FireColumn(x, dmg));
         }
-        sfx.special();
+        sfx.fireRain();
       },
     };
 

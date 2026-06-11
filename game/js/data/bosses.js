@@ -242,10 +242,10 @@ export const BOSSES = {
   goat: {
     id: 'goat',
     name: 'EL CHIVO',
-    scale: 3,
+    scale: 4,
     palette: GOAT_PALETTE,
     stats: { speed: 0.8, power: 1.0, hp: 160 },
-    size: { w: 34, h: 70, crouchH: 70, airH: 70 },
+    size: { w: 46, h: 92, crouchH: 92, airH: 92 },
     introText: 'EL CHIVO TE ESPERA',
     finishText: '¡SE LO LLEVO EL CHIVO!',
     anims: {
@@ -263,22 +263,22 @@ export const BOSSES = {
         anim: 'swipe', windAnim: 'wind',
         dmg: 9, telegraph: 18, startup: 6, active: 6, recovery: 20,
         hitstun: 18, knockback: 2.8,
-        box: { dx: 12, dy: -52, w: 28, h: 18 },
+        box: { dx: 16, dy: -70, w: 38, h: 24 },
       },
       ram: {
         anim: 'charge', windAnim: 'wind', motion: 'ram',
         dmg: 12, telegraph: 30, startup: 4, active: 50, recovery: 26,
         hitstun: 0, knockback: 0, knockdown: true, speed: 4,
-        box: { dx: 3, dy: -46, w: 24, h: 40 },
+        box: { dx: 4, dy: -62, w: 32, h: 54 },
       },
       bleat: {
         anim: 'bleat', windAnim: 'bleat',
         dmg: 8, telegraph: 20, startup: 4, active: 2, recovery: 30,
-        proj: { w: 14, h: 14, speed: 3, color: '#ffedfb', orb: true },
+        proj: { w: 18, h: 18, speed: 3, color: '#ffedfb', orb: true },
       },
     },
     ai: {
-      near: 64, mid: 150,
+      near: 78, mid: 160,
       weights: {
         near: [['swipe', 50], ['retreat', 25], ['wait', 25]],
         mid: [['approach', 45], ['ram', 30], ['wait', 25]],
