@@ -1,7 +1,7 @@
 // HUD: MK-style health bars, round timer, announcer text, hit sparks,
 // screen shake.
 
-import { W, PALETTE } from './constants.js';
+import { W, H, PALETTE } from './constants.js';
 
 export class FX {
   constructor() {
@@ -95,23 +95,24 @@ export class Announcer {
     const c = this.current;
     if (!c) return;
     if (c.flash && Math.floor(this.t / 8) % 2 === 1) return;
+    const y = Math.round(H * 0.45);
     ctx.save();
     ctx.textAlign = 'center';
     ctx.font = `bold ${c.size}px "IBM Plex Mono", monospace`;
     ctx.fillStyle = PALETTE.black;
-    ctx.fillText(c.text, W / 2 + 1, 86 + 1);
+    ctx.fillText(c.text, W / 2 + 1, y + 1);
     ctx.fillStyle = c.color;
-    ctx.fillText(c.text, W / 2, 86);
+    ctx.fillText(c.text, W / 2, y);
     if (c.sub) {
       ctx.font = 'bold 8px "IBM Plex Mono", monospace';
       ctx.fillStyle = PALETTE.paper;
-      ctx.fillText(c.sub, W / 2, 100);
+      ctx.fillText(c.sub, W / 2, y + 14);
     }
     ctx.restore();
   }
 }
 
-const BAR_W = 120;
+const BAR_W = 88;
 const BAR_H = 9;
 
 export class HealthBars {

@@ -96,21 +96,21 @@ class TitleScene {
       ctx.fillRect(Math.round(f.x), Math.round(f.y), 2, 2);
     }
 
-    text(ctx, 'LA PELEA', W / 2, 52, { size: 26, color: PALETTE.red });
-    text(ctx, 'DEL CHIVO', W / 2, 80, { size: 26, color: PALETTE.red });
-    text(ctx, 'CABEZA DE CHIVO presenta', W / 2, 26, { size: 8, color: PALETTE.pink });
+    text(ctx, 'LA PELEA', W / 2, 72, { size: 24, color: PALETTE.red });
+    text(ctx, 'DEL CHIVO', W / 2, 98, { size: 24, color: PALETTE.red });
+    text(ctx, 'CABEZA DE CHIVO presenta', W / 2, 40, { size: 8, color: PALETTE.pink });
 
     const diffLabel = DIFFICULTIES[DIFF_ORDER[this.diffIndex]].label;
-    text(ctx, `< ${diffLabel} >`, W / 2, 112, { size: 12, color: PALETTE.orange });
+    text(ctx, `< ${diffLabel} >`, W / 2, 134, { size: 12, color: PALETTE.orange });
 
     // keyboard help (touch players get on-screen buttons instead)
     if (!IS_TOUCH) {
-      text(ctx, 'WASD o flechas: mover / saltar / agacharse', W / 2, 134, { size: 7, color: PALETTE.blue });
-      text(ctx, 'J punch · K kick · L block · Ñ(;) especial', W / 2, 146, { size: 7, color: PALETTE.blue });
+      text(ctx, 'WASD o flechas: mover/saltar', W / 2, 160, { size: 7, color: PALETTE.blue });
+      text(ctx, 'J punch · K kick · L block · ; especial', W / 2, 172, { size: 7, color: PALETTE.blue });
     }
 
     if (Math.floor(this.t / 30) % 2 === 0) {
-      text(ctx, IS_TOUCH ? 'TOCA PARA EMPEZAR' : 'PRESS ATTACK', W / 2, 166, { size: 10, color: PALETTE.paper });
+      text(ctx, IS_TOUCH ? 'TOCA PARA EMPEZAR' : 'PRESS ATTACK', W / 2, 206, { size: 10, color: PALETTE.paper });
     }
   }
 }
@@ -137,16 +137,16 @@ class SelectScene {
   draw(ctx) {
     ctx.fillStyle = '#12060c';
     ctx.fillRect(0, 0, W, H);
-    text(ctx, 'ELIGE TU LUCHADOR', W / 2, 18, { size: 12, color: PALETTE.orange });
+    text(ctx, 'ELIGE TU LUCHADOR', W / 2, 20, { size: 11, color: PALETTE.orange });
 
-    const boxW = 40, boxH = 44, gap = 12;
+    const boxW = 38, boxH = 42, gap = 8;
     const totalW = 5 * boxW + 4 * gap;
     const x0 = (W - totalW) / 2;
 
     CHAR_ORDER.forEach((id, i) => {
       const { def, anims } = this.mgr.assets.chars[id];
       const x = x0 + i * (boxW + gap);
-      const y = 30;
+      const y = 34;
       const selected = i === this.cursor;
 
       ctx.fillStyle = selected ? '#5a2230' : '#33181f';
@@ -157,7 +157,7 @@ class SelectScene {
       // face crop from idle frame, scaled 3x
       const frame = anims.idle.frames[0];
       ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(frame, 6, 0, 12, 13, x + 2, y + 3, 36, 39);
+      ctx.drawImage(frame, 6, 0, 12, 13, x + 1, y + 3, 36, 39);
 
       text(ctx, def.name, x + boxW / 2, y + boxH + 10, {
         size: 7, color: selected ? PALETTE.orange : PALETTE.paper,
@@ -168,23 +168,23 @@ class SelectScene {
     const sel = this.mgr.assets.chars[CHAR_ORDER[this.cursor]];
     const previewAnim = sel.anims.idle;
     const fi = Math.floor((this.t * previewAnim.fps) / 60) % previewAnim.frames.length;
-    ctx.drawImage(previewAnim.frames[fi], 70, 94, 48, 64);
+    ctx.drawImage(previewAnim.frames[fi], 32, 120, 54, 72);
 
-    text(ctx, sel.def.name, 160, 108, { size: 12, color: PALETTE.orange, align: 'left' });
-    text(ctx, sel.def.role, 160, 120, { size: 8, color: PALETTE.pink, align: 'left' });
-    text(ctx, `especial: ${sel.def.special.label}`, 160, 132, { size: 7, color: PALETTE.blue, align: 'left' });
+    text(ctx, sel.def.name, 104, 136, { size: 12, color: PALETTE.orange, align: 'left' });
+    text(ctx, sel.def.role, 104, 148, { size: 7, color: PALETTE.pink, align: 'left' });
+    text(ctx, `especial: ${sel.def.special.label}`, 104, 160, { size: 7, color: PALETTE.blue, align: 'left' });
 
     const stats = sel.def.stats;
     const bars = [
       ['VEL', stats.speed / 1.2], ['POW', stats.power / 1.2], ['VIDA', stats.hp / 115],
     ];
     bars.forEach(([label, frac], i) => {
-      const y = 142 + i * 10;
-      text(ctx, label, 160, y + 6, { size: 6, color: PALETTE.paper, align: 'left' });
+      const y = 170 + i * 11;
+      text(ctx, label, 104, y + 6, { size: 6, color: PALETTE.paper, align: 'left' });
       ctx.fillStyle = '#3a1119';
-      ctx.fillRect(190, y, 60, 6);
+      ctx.fillRect(136, y, 64, 6);
       ctx.fillStyle = PALETTE.mint;
-      ctx.fillRect(190, y, Math.round(60 * Math.min(1, frac)), 6);
+      ctx.fillRect(136, y, Math.round(64 * Math.min(1, frac)), 6);
     });
   }
 }
@@ -213,16 +213,16 @@ class VsScene {
     const boss = this.mgr.assets.bosses[this.stage];
 
     ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(char.anims.idle.frames[0], 40, 50, 48, 64);
+    ctx.drawImage(char.anims.idle.frames[0], 26, 70, 48, 64);
     const bossFrame = boss.anims.idle.frames[0];
-    ctx.drawImage(bossFrame, 215, 40, bossFrame.width * 1.4, bossFrame.height * 1.4);
+    ctx.drawImage(bossFrame, 144, 58, bossFrame.width * 1.2, bossFrame.height * 1.2);
 
-    text(ctx, char.def.name, 64, 132, { size: 10, color: PALETTE.orange });
-    text(ctx, boss.def.name, 250, 132, { size: 10, color: PALETTE.red });
+    text(ctx, char.def.name, 50, 156, { size: 10, color: PALETTE.orange });
+    text(ctx, boss.def.name, 184, 156, { size: 10, color: PALETTE.red });
     if (Math.floor(this.t / 10) % 2 === 0) {
-      text(ctx, 'VS', W / 2, 95, { size: 22, color: PALETTE.paper });
+      text(ctx, 'VS', W / 2, 110, { size: 22, color: PALETTE.paper });
     }
-    text(ctx, boss.def.introText, W / 2, 160, { size: 8, color: PALETTE.pink });
+    text(ctx, boss.def.introText, W / 2, 196, { size: 8, color: PALETTE.pink });
   }
 }
 
@@ -242,12 +242,12 @@ class FightScene {
       anims: char.anims,
       stats: char.def.stats,
       special: char.def.special,
-      x: 70,
+      x: 55,
       facing: 1,
     });
 
     const bossAsset = assets.bosses[stage];
-    this.boss = new Boss(bossAsset.def, 240, -1);
+    this.boss = new Boss(bossAsset.def, 185, -1);
     this.boss.anims = bossAsset.anims;
 
     this.stage = new Stage(stage);
@@ -442,7 +442,7 @@ class TransitionScene {
       ctx.fillRect(x, H - hgt, 4, hgt);
     }
     if (this.t > 50 && Math.floor(this.t / 12) % 2 === 0) {
-      text(ctx, '¡EL DIABLO APARECE!', W / 2, 80, { size: 14, color: PALETTE.red });
+      text(ctx, '¡EL DIABLO APARECE!', W / 2, 104, { size: 12, color: PALETTE.red });
     }
   }
 }
@@ -480,17 +480,17 @@ class VictoryScene {
 
     const char = this.mgr.assets.chars[this.charId];
     ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(char.anims.win.frames[0], 136, 70, 48, 64);
+    ctx.drawImage(char.anims.win.frames[0], W / 2 - 24, 96, 48, 64);
 
     for (const c of this.confetti) {
       ctx.fillStyle = c.color;
       ctx.fillRect(Math.round(c.x), Math.round(c.y), 2, 3);
     }
 
-    text(ctx, '¡GANASTE!', W / 2, 40, { size: 20, color: PALETTE.orange });
-    text(ctx, `${char.def.name} salvo al mictlan`, W / 2, 56, { size: 8, color: PALETTE.pink });
+    text(ctx, '¡GANASTE!', W / 2, 56, { size: 20, color: PALETTE.orange });
+    text(ctx, `${char.def.name} salvo al mictlan`, W / 2, 74, { size: 8, color: PALETTE.pink });
     if (Math.floor(this.t / 30) % 2 === 0 && this.t > 90) {
-      text(ctx, 'TOCA PARA SEGUIR', W / 2, 160, { size: 8, color: PALETTE.paper });
+      text(ctx, 'TOCA PARA SEGUIR', W / 2, 204, { size: 8, color: PALETTE.paper });
     }
   }
 }
@@ -522,8 +522,8 @@ class GameOverScene {
   draw(ctx) {
     ctx.fillStyle = '#0a0306';
     ctx.fillRect(0, 0, W, H);
-    text(ctx, 'GAME OVER', W / 2, 60, { size: 22, color: PALETTE.red });
-    text(ctx, '¿CONTINUAR?', W / 2, 95, { size: 12, color: PALETTE.paper });
-    text(ctx, String(Math.max(0, this.count)), W / 2, 125, { size: 24, color: PALETTE.orange });
+    text(ctx, 'GAME OVER', W / 2, 84, { size: 20, color: PALETTE.red });
+    text(ctx, '¿CONTINUAR?', W / 2, 120, { size: 12, color: PALETTE.paper });
+    text(ctx, String(Math.max(0, this.count)), W / 2, 152, { size: 24, color: PALETTE.orange });
   }
 }

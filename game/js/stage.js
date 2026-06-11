@@ -11,7 +11,7 @@ const VARIANTS = {
     floor: '#241318',
     floorLine: '#3c1f26',
     lava: '#ff6a33',
-    emitters: [40, 280],
+    emitters: [36, 200],
   },
   devil: {
     sky: ['#0e0418', '#22081f', '#3a0c24', '#5c1128'],
@@ -20,7 +20,7 @@ const VARIANTS = {
     floor: '#1d0e16',
     floorLine: '#38161f',
     lava: '#ff4422',
-    emitters: [30, 110, 210, 290],
+    emitters: [26, 90, 150, 214],
   },
 };
 
@@ -47,13 +47,13 @@ function buildStatic(v) {
 
   // skull moon
   ctx.fillStyle = '#d8cbb8';
-  ctx.fillRect(250, 38, 22, 18);
-  ctx.fillRect(254, 56, 14, 6);
+  ctx.fillRect(176, 42, 22, 18);
+  ctx.fillRect(180, 60, 14, 6);
   ctx.fillStyle = '#1a0b12';
-  ctx.fillRect(254, 44, 5, 6);
-  ctx.fillRect(263, 44, 5, 6);
-  ctx.fillRect(258, 58, 2, 4);
-  ctx.fillRect(262, 58, 2, 4);
+  ctx.fillRect(180, 48, 5, 6);
+  ctx.fillRect(189, 48, 5, 6);
+  ctx.fillRect(184, 62, 2, 4);
+  ctx.fillRect(188, 62, 2, 4);
 
   // step pyramids (Mictlan silhouettes)
   ctx.fillStyle = v.pyramid;
@@ -63,9 +63,9 @@ function buildStatic(v) {
       ctx.fillRect(cx - w / 2, baseY - (i + 1) * 7, w, 7);
     }
   };
-  pyramid(70, FLOOR_Y - 8, 90);
-  pyramid(220, FLOOR_Y - 8, 60);
-  pyramid(305, FLOOR_Y - 8, 70);
+  pyramid(60, FLOOR_Y - 8, 90);
+  pyramid(160, FLOOR_Y - 8, 56);
+  pyramid(225, FLOOR_Y - 8, 66);
 
   // floor
   ctx.fillStyle = v.floor;
@@ -122,10 +122,10 @@ function buildStatic(v) {
 
 // Pairs of eyes that blink open in the dark (Scooby-Doo style).
 const EYE_SPOTS = [
-  { x: 64, y: 138, offset: 0 },     // inside the pyramid glyph face
-  { x: 215, y: 140, offset: 140 },
-  { x: 300, y: 142, offset: 260 },
-  { x: 130, y: 144, offset: 330 },
+  { x: 64, y: FLOOR_Y - 20, offset: 0 },   // inside the pyramid glyph face
+  { x: 158, y: FLOOR_Y - 18, offset: 140 },
+  { x: 222, y: FLOOR_Y - 16, offset: 260 },
+  { x: 110, y: FLOOR_Y - 14, offset: 330 },
 ];
 
 export class Stage {
@@ -138,7 +138,7 @@ export class Stage {
     this.bat = null;
     // slow drifting fog wisps
     this.fog = Array.from({ length: 4 }, (_, i) => ({
-      x: i * 90, y: 96 + i * 14, w: 50 + i * 14, speed: 0.08 + i * 0.04,
+      x: i * 70, y: FLOOR_Y - 92 + i * 16, w: 50 + i * 14, speed: 0.08 + i * 0.04,
     }));
   }
 

@@ -10,6 +10,8 @@ import { BOSSES } from './data/bosses.js';
 import { SceneManager } from './scenes.js';
 
 const canvas = document.getElementById('game-canvas');
+canvas.width = W;   // keep the backing store in sync with constants
+canvas.height = H;
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 

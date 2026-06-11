@@ -27,6 +27,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  padding-top: 28px; /* breathing room between page top / header and the screen */
   background-color: #000;
 }
 
@@ -81,10 +82,8 @@
   font-size: 18px;
 }
 
-#game-root .touch-btn img {
-  width: 62%;
-  height: 62%;
-  pointer-events: none;
+#touch-right .touch-btn {
+  font-size: 28px; /* emoji buttons */
 }
 
 #game-root .touch-btn {
@@ -144,7 +143,7 @@
     flex: 1;
     align-items: center;
     width: 100%;
-    padding: 0 16px;
+    padding: 16px 16px 0; /* nudge controls down a bit from the screen */
   }
   #touch-left .touch-btn {
     width: 58px;

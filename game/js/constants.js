@@ -1,11 +1,14 @@
 // LA PELEA DEL CHIVO — shared constants & balance tables.
 
-export const W = 320;
-export const H = 180;
+// Square aspect: phones are width-bound, so a narrower canvas means
+// bigger pixels on screen (less squinting), and square fills a portrait
+// layout nicely.
+export const W = 240;
+export const H = 240;
 export const TICKS_PER_SEC = 60;
 export const TICK_MS = 1000 / TICKS_PER_SEC;
 
-export const FLOOR_Y = 158;          // y of the ground line in world px
+export const FLOOR_Y = 210;          // y of the ground line in world px
 export const ARENA_PAD = 8;          // fighters clamp inside [pad, W-pad]
 
 // Site palette (mirrors assets/css/style.css :root)

@@ -77,12 +77,11 @@ const TOUCH_LAYOUT = {
     { name: 'right', label: '▶' },
     { name: 'down',  label: '▼' },
   ],
-  // action buttons use game-icons.net icons (CC BY 3.0)
   right: [
-    { name: 'punch',   icon: '/game/icons/punch.svg' },
-    { name: 'kick',    icon: '/game/icons/kick.svg' },
-    { name: 'block',   icon: '/game/icons/block.svg' },
-    { name: 'special', icon: '/game/icons/special.svg' },
+    { name: 'punch',   label: '👊' },
+    { name: 'kick',    label: '🦵' },
+    { name: 'block',   label: '🛡️' },
+    { name: 'special', label: '😈' },
   ],
 };
 
@@ -99,14 +98,7 @@ function initTouch() {
       const el = document.createElement('div');
       el.className = `touch-btn touch-btn-${def.name}`;
       if (side === 'left') el.style.gridArea = def.name;
-      if (def.icon) {
-        const img = document.createElement('img');
-        img.src = def.icon;
-        img.alt = def.name;
-        el.appendChild(img);
-      } else {
-        el.textContent = def.label;
-      }
+      el.textContent = def.label;
       zones[side].appendChild(el);
       buttons.push({ el, name: def.name });
     }
