@@ -2,7 +2,7 @@
 // and difficulty scaling. Reuses Fighter's physics/boxes/receiveHit.
 
 import { Fighter, aabb } from './fighter.js';
-import { FLOOR_Y, ARENA_PAD, W, WALK_SPEED, diff } from './constants.js';
+import { FLOOR_Y, ARENA_PAD, W, WALK_SPEED, GRAVITY, diff } from './constants.js';
 
 const WALL_STUN = 34;
 
@@ -111,6 +111,7 @@ export class Boss extends Fighter {
 
   toIdle(cd) {
     this.move = null;
+    this.leaping = false;
     this.setState('idle');
     this.decisionCd = cd;
   }
@@ -159,6 +160,23 @@ export class Boss extends Fighter {
     if (m.armor && phase <= 1) this.armored = true;
 
     if (phase === 1) {
+      if (m.motion === 'leap') {
+        // arc onto the player's position, slam where they were
+        if (!this.leaping) {
+          this.leaping = true;
+          this.vy = -4.8;
+          this.y -= 0.01; // leave the ground
+          const airTicks = Math.ceil((2 * 4.8) / GRAVITY);
+          this.leapVx = (opp.x - this.x) / airTicks;
+        }
+        this.vx = this.leapVx;
+        if (this.grounded && this.vy >= 0 && this.t > a.startup + 8) {
+          this.leaping = false;
+          world?.addSpark?.(this.x, this.y - 4, 'big');
+          world?.sfx?.hit?.();
+          this.t = a.startup + a.active; // landed: recovery
+        }
+      }
       if (m.motion === 'ram') {
         this.vx = this.facing * m.speed;
         // wall bounce: whiffing into the arena edge leaves the boss open
@@ -182,6 +200,7 @@ export class Boss extends Fighter {
           world?.sfx?.bleat?.();
         }
         if (m.hazard === 'fireRain') world?.spawnFireRain?.(this, a.dmg);
+        if (m.hazard === 'fireWave') world?.spawnFireWave?.(this, a.dmg);
         if (m.motion === 'teleport') this.teleportBehind(opp, world);
       }
     }
@@ -203,7 +222,9 @@ export class Boss extends Fighter {
   receiveHit(attack, dir, attackerPower, world) {
     if (this.invulnerable) return false;
 
-    // Anti-cheese: after eating 4 hits in a row, shrug off the next one.
+    // Anti-spam: after eating 4 hits in a row the boss shrugs the next
+    // one off at half damage and RETALIATES with an instant armored
+    // counter — mashing one button is no longer a free win.
     if (this.armored || this.hitsInARow >= 4) {
       this.hitsInARow = 0;
       const dmg = Math.max(1, Math.round(attack.dmg * attackerPower * 0.5));
@@ -211,7 +232,13 @@ export class Boss extends Fighter {
       this.hitFlash = 4;
       world?.sfx?.block?.();
       world?.addSpark?.(this.x, this.y - 30, 'block');
-      if (this.health <= 0 && this.state !== 'dizzy') this.setState('dizzy');
+      if (this.health <= 0 && this.state !== 'dizzy') {
+        this.setState('dizzy');
+      } else if (this.health > 0 && this.moves.counter && this.state !== 'attack') {
+        this.move = 'counter';
+        world?.sfx?.bossTelegraph?.();
+        this.setState('attack');
+      }
       return true;
     }
 
@@ -219,7 +246,10 @@ export class Boss extends Fighter {
     const wasHit = super.receiveHit(attack, dir, attackerPower, world);
     if (wasHit && this.state === 'hitstun') {
       this.move = null;
-      this.stunTicks = attack.hitstun ?? 16;
+      // Diminishing hitstun: each consecutive hit stuns less, so the
+      // boss wriggles out of stun-locks even before the counter fires.
+      const dim = Math.pow(0.8, Math.min(this.hitsInARow - 1, 6));
+      this.stunTicks = Math.max(4, Math.round((attack.hitstun ?? 16) * dim));
     }
     if (wasHit && (this.state === 'knockdown' || this.state === 'dizzy')) this.move = null;
     return wasHit;
@@ -257,12 +287,12 @@ export class Boss extends Fighter {
   }
 }
 
-// Falling fire column hazard (devil's fireRain).
+// Falling fire column hazard (devil's fireRain / fireWave).
 export class FireColumn {
-  constructor(x, dmg) {
+  constructor(x, dmg, warn = 40) {
     this.x = x;
     this.dmg = dmg;
-    this.warn = 40;
+    this.warn = warn;
     this.active = 22;
     this.alive = true;
     this.hasHit = false;

@@ -273,6 +273,20 @@ export const BOSSES = {
         hitstun: 0, knockback: 0, knockdown: true, speed: 2.6,
         box: { dx: 2, dy: -30, w: 16, h: 26 },
       },
+      leap: {
+        anim: 'charge', windAnim: 'wind', motion: 'leap',
+        telegraphSfx: 'goatRam',
+        dmg: 11, telegraph: 24, startup: 4, active: 55, recovery: 22,
+        hitstun: 0, knockback: 0, knockdown: true,
+        box: { dx: -11, dy: -20, w: 22, h: 20 },
+      },
+      counter: { // rage answer to button-mashing; never picked by the AI
+        anim: 'swipe', windAnim: 'wind', armor: true,
+        strikeSfx: 'swipeStrike',
+        dmg: 7, telegraph: 6, startup: 2, active: 6, recovery: 16,
+        hitstun: 16, knockback: 2.5,
+        box: { dx: 6, dy: -34, w: 20, h: 14 },
+      },
       bleat: {
         anim: 'bleat', windAnim: 'bleat',
         telegraphSfx: 'bleatWind',
@@ -283,11 +297,11 @@ export const BOSSES = {
     ai: {
       near: 42, mid: 110,
       weights: {
-        near: [['swipe', 50], ['retreat', 25], ['wait', 25]],
-        mid: [['approach', 45], ['ram', 30], ['wait', 25]],
-        far: [['approach', 55], ['bleat', 30], ['wait', 15]],
+        near: [['swipe', 45], ['retreat', 20], ['leap', 15], ['wait', 20]],
+        mid: [['approach', 35], ['ram', 30], ['leap', 15], ['wait', 20]],
+        far: [['approach', 50], ['bleat', 30], ['leap', 10], ['wait', 10]],
       },
-      decision: [20, 45], // ticks between decisions, scaled by aggression
+      decision: [16, 36], // ticks between decisions, scaled by aggression
     },
   },
 
@@ -329,6 +343,17 @@ export const BOSSES = {
         anim: 'cast', windAnim: 'cast', hazard: 'fireRain',
         dmg: 10, telegraph: 20, startup: 4, active: 2, recovery: 36,
       },
+      fireWave: { // wall of flames marching toward the player
+        anim: 'cast', windAnim: 'cast', hazard: 'fireWave',
+        dmg: 10, telegraph: 22, startup: 4, active: 2, recovery: 34,
+      },
+      counter: { // rage answer to button-mashing; never picked by the AI
+        anim: 'swipe', windAnim: 'wind', armor: true,
+        strikeSfx: 'tridentStrike',
+        dmg: 9, telegraph: 5, startup: 2, active: 6, recovery: 14,
+        hitstun: 18, knockback: 3,
+        box: { dx: 8, dy: -52, w: 24, h: 12 },
+      },
       teleport: {
         anim: 'cast', windAnim: 'cast', motion: 'teleport',
         dmg: 0, telegraph: 12, startup: 8, active: 2, recovery: 12,
@@ -337,11 +362,11 @@ export const BOSSES = {
     ai: {
       near: 50, mid: 120,
       weights: {
-        near: [['trident', 50], ['retreat', 20], ['fireRain', 15], ['wait', 15]],
-        mid: [['approach', 35], ['ram', 25], ['fireRain', 25], ['wait', 15]],
-        far: [['approach', 40], ['teleport', 25], ['fireRain', 25], ['wait', 10]],
+        near: [['trident', 45], ['retreat', 15], ['fireRain', 15], ['fireWave', 10], ['wait', 15]],
+        mid: [['approach', 30], ['ram', 25], ['fireRain', 15], ['fireWave', 15], ['wait', 15]],
+        far: [['approach', 35], ['teleport', 25], ['fireWave', 25], ['wait', 15]],
       },
-      decision: [14, 36],
+      decision: [12, 28],
     },
   },
 };

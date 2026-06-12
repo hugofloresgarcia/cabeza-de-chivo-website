@@ -286,6 +286,14 @@ class FightScene {
         }
         sfx.fireRain();
       },
+      // wall of flames marching from the boss toward the player
+      spawnFireWave: (owner, dmg) => {
+        for (let i = 0; i < 5; i++) {
+          const x = owner.x + owner.facing * (30 + i * 34);
+          if (x > 4 && x < W - 4) this.hazards.push(new FireColumn(x, dmg, 28 + i * 12));
+        }
+        sfx.fireRain();
+      },
     };
 
     this.t = 0;
