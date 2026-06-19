@@ -42,7 +42,7 @@
 
 - id: emily-nava-june-2025
   photographer: Emily Nava
-  photographer_url:   # TODO: add Emily's website/portfolio (instagram @emily.nava if no site)
+  photographer_url: https://emilynava.tumblr.com/
   event: "June 2025 · Thalia Hall, Chicago"
   base: /assets/img/photos/emily-nava-june-2025
   photos:
