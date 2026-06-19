@@ -64,8 +64,8 @@ permalink: /epk/
 
 <div class="epk-videos">
   <figure class="epk-clip">
-    <video controls preload="none" playsinline poster="/assets/img/epk/live-1.jpg">
-      <source src="/assets/video/epk/live-1.mp4" type="video/mp4">
+    <video controls preload="none" playsinline poster="/assets/img/epk/live-3.jpg">
+      <source src="/assets/video/epk/live-3.mp4" type="video/mp4">
     </video>
     <figcaption>live · chicago</figcaption>
   </figure>
@@ -76,8 +76,8 @@ permalink: /epk/
     <figcaption>live · chicago</figcaption>
   </figure>
   <figure class="epk-clip">
-    <video controls preload="none" playsinline poster="/assets/img/epk/live-3.jpg">
-      <source src="/assets/video/epk/live-3.mp4" type="video/mp4">
+    <video controls preload="none" playsinline poster="/assets/img/epk/live-1.jpg">
+      <source src="/assets/video/epk/live-1.mp4" type="video/mp4">
     </video>
     <figcaption>live · chicago</figcaption>
   </figure>
