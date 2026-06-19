@@ -83,6 +83,12 @@ nav li a:hover {
   text-align: center;
   opacity: 0.85;
 }
+.footer-goat {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 0.5rem;
+}
+.footer-goat canvas { display: block; }
 
 /* visually hidden but kept for screen readers / SEO (the mask logo is the
    visible title now) */
