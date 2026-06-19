@@ -10,6 +10,14 @@ function preloadAll(p) {
 // Shared state for shuffling
 let hoveredIndex = -1;
 
+// grit: feedback trails. Instead of hard-clearing each frame, lay down a
+// translucent wash so the shuffling polaroids smear and decay (medium smear).
+// Disabled under reduced-motion (we hard-clear instead, no trails).
+const REDUCE_MOTION =
+  window.matchMedia &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const TRAIL_ALPHA = 45; // lower = longer trails; #211a1e over the canvas
+
 function makeSketch(startIndex, containerId) {
   return function (p) {
     let positions = [];
@@ -44,8 +52,13 @@ function makeSketch(startIndex, containerId) {
       p.createCanvas(p.windowWidth, imgHeight).parent(containerId);
       recalculatePositions();
 
-      // Trigger resize again shortly after to account for zoom/layout adjustments
+      // Trigger resize again shortly after to account for zoom/layout adjustments.
+      // Only resize when the width actually changed — resizeCanvas clears the
+      // canvas, which would wipe the feedback trails on every tick otherwise.
+      let lastW = p.windowWidth;
       setInterval(() => {
+        if (p.windowWidth === lastW) return;
+        lastW = p.windowWidth;
         recalculateSizes();
         p.resizeCanvas(p.windowWidth, imgHeight);
         recalculatePositions();
@@ -68,7 +81,14 @@ function makeSketch(startIndex, containerId) {
     };
 
     p.draw = function () {
-      p.background("#211a1e");
+      if (REDUCE_MOTION) {
+        p.background("#211a1e"); // hard clear, no trails
+      } else {
+        // translucent wash -> previous frames smear and decay (feedback trail)
+        p.noStroke();
+        p.fill(33, 26, 30, TRAIL_ALPHA); // #211a1e
+        p.rect(0, 0, p.width, p.height);
+      }
       for (let pos of positions) {
         const img = images[pos.index];
         const ratio = img.width / img.height;

@@ -630,3 +630,162 @@ strong, em {
   .carousel-nav { font-size: 1.5rem; width: 2rem; height: 2.8rem; }
   .epk-photo-teaser img { width: 100px; height: 100px; }
 }
+
+/* ===================== GRIT =====================
+   Degraded-signal / failing-neon texture, scoped to body.grit (main content
+   site only — the /game and /chivo-fantasma pages share this stylesheet but
+   carry no .grit class, so they stay clean). Subtle patina by design.
+   Layers: film grain (::before) + CRT scanlines (::after) overlaying the
+   background/frames/text; photos & video are lifted above the overlay so the
+   imagery stays pristine. Headings get a chromatic split; glow frames buzz.
+   ================================================ */
+
+/* film grain — fixed SVG-noise tile, modulating the page like bad tape */
+.grit::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.1;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  animation: grit-grain 0.7s steps(1) infinite;
+}
+
+/* CRT scanlines — faint dark hairlines every 3px, slow vertical roll */
+.grit::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.24) 2px,
+    rgba(0, 0, 0, 0.24) 3px
+  );
+  animation: grit-scan 10s linear infinite;
+}
+
+/* the grain "boils" — nudge the tile around so it never sits still */
+@keyframes grit-grain {
+  0%   { background-position: 0 0; }
+  25%  { background-position: -40px 30px; }
+  50%  { background-position: 60px -20px; }
+  75%  { background-position: -30px -50px; }
+  100% { background-position: 30px 40px; }
+}
+@keyframes grit-scan {
+  from { background-position-y: 0; }
+  to   { background-position-y: 3px; }
+}
+
+/* keep photos / video / sketches clean: lift them above the overlay layers */
+.grit .carousel-stage,
+.grit .carousel-slide img,
+.grit .epk-clip video,
+.grit .epk-photos img,
+.grit .epk-hero img,
+.grit .epk-bandcamp iframe,
+.grit .epk-photo-teaser img,
+.grit .store-card__img,
+.grit #top-sketch canvas,
+.grit #bottom-sketch canvas,
+.grit #sketch canvas {
+  position: relative;
+  z-index: 9999;
+}
+
+/* occasional neon buzz on the signature double-red / glow frames */
+@keyframes neon-buzz {
+  0%, 86%, 100% { box-shadow: 0 0 12px var(--hot-pink); }
+  87% { box-shadow: 0 0 3px var(--hot-pink); }
+  88% { box-shadow: 0 0 13px var(--hot-pink); }
+  89% { box-shadow: 0 0 2px var(--hot-pink); }
+  90% { box-shadow: 0 0 14px var(--hot-pink); }
+  91% { box-shadow: 0 0 6px var(--hot-pink); }
+}
+.grit .ascii-shows,
+.grit .store-card,
+.grit .epk-card,
+.grit .epk-clip,
+.grit .epk-shows,
+.grit .epk-quote,
+.grit .epk-photos img,
+.grit .epk-hero,
+.grit .epk-bandcamp,
+.grit .carousel-stage,
+.grit .epk-photo-teaser img {
+  animation: neon-buzz 7s infinite;
+}
+/* desync the frames so they don't all flicker in unison */
+.grit .store-card    { animation-duration: 8.5s; animation-delay: -2s; }
+.grit .epk-clip      { animation-duration: 6.5s; animation-delay: -4s; }
+.grit .epk-shows     { animation-duration: 9s;   animation-delay: -1s; }
+.grit .carousel-stage{ animation-duration: 7.5s; animation-delay: -3s; }
+.grit .epk-photos img{ animation-duration: 8s;   animation-delay: -5s; }
+.grit .store-card:nth-child(2n) { animation-delay: -3.5s; }
+.grit .store-card:nth-child(3n) { animation-delay: -6s; }
+
+/* proximity flicker: grit.js toggles .is-near on the frame nearest the cursor.
+   A faster, harder zap takes over the ambient buzz while you hover nearby. */
+@keyframes neon-zap {
+  0%   { box-shadow: 0 0 19px var(--hot-pink); }
+  18%  { box-shadow: 0 0 3px  var(--hot-pink); }
+  36%  { box-shadow: 0 0 21px var(--hot-pink); }
+  52%  { box-shadow: 0 0 2px  var(--hot-pink); }
+  68%  { box-shadow: 0 0 17px var(--hot-pink); }
+  84%  { box-shadow: 0 0 5px  var(--hot-pink); }
+  100% { box-shadow: 0 0 14px var(--hot-pink); }
+}
+.grit .zap {
+  /* one quick 300ms burst on approach, then settle back to the ambient buzz */
+  animation: neon-zap 0.3s steps(1) 1;
+}
+
+/* chromatic split on headings — constant faint offset + periodic burst */
+@keyframes glitch-burst {
+  0%, 92%, 100% {
+    text-shadow: -0.6px 0 rgba(255, 40, 120, 0.5), 0.6px 0 rgba(0, 225, 255, 0.4);
+    transform: translateX(0);
+  }
+  93% { text-shadow: -2px 0 rgba(255, 40, 120, 0.8), 2px 0 rgba(0, 225, 255, 0.7); transform: translateX(1px); }
+  94% { text-shadow:  2px 0 rgba(255, 40, 120, 0.8), -2px 0 rgba(0, 225, 255, 0.7); transform: translateX(-1px); }
+  95% { text-shadow: -2px 0 rgba(255, 40, 120, 0.8), 2px 0 rgba(0, 225, 255, 0.7); transform: translateX(1px); }
+}
+.grit h1,
+.grit h2,
+.grit h3,
+.grit .ascii-title {
+  text-shadow: -0.6px 0 rgba(255, 40, 120, 0.5), 0.6px 0 rgba(0, 225, 255, 0.4);
+  animation: glitch-burst 7s steps(1) infinite;
+}
+.grit h2 { animation-delay: -2.5s; }
+.grit h3 { animation-delay: -4.5s; }
+.grit .ascii-title { animation-delay: -1.5s; }
+
+/* honor reduced motion: keep the static texture, drop every animation */
+@media (prefers-reduced-motion: reduce) {
+  .grit::before,
+  .grit::after,
+  .grit .ascii-shows,
+  .grit .store-card,
+  .grit .epk-card,
+  .grit .epk-clip,
+  .grit .epk-shows,
+  .grit .epk-quote,
+  .grit .epk-photos img,
+  .grit .epk-hero,
+  .grit .epk-bandcamp,
+  .grit .carousel-stage,
+  .grit .epk-photo-teaser img,
+  .grit h1,
+  .grit h2,
+  .grit h3,
+  .grit .ascii-title {
+    animation: none;
+  }
+}
