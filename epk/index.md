@@ -89,8 +89,6 @@ permalink: /epk/
 
 <div class="epk-bio">
 <p>Cabeza de Chivo is a <strong>psychotropical</strong> band from Chicago: infectious rhythms, a driving percussion section, and guitar, bass, and organ trading melodic riffs over addictive dance instrumentals.</p>
-<p>Built on Latin American dance rhythms turned hypnotic and body-moving — equal parts cumbia haze, surf-psych shimmer, and tropical groove. Since their album release at <em>The Empty Bottle</em>, the band has supported <em>Son Rompe Pera</em> at Thalia Hall and played Metro, Park West, Sleeping Village, Taste of Chicago, and Navy Pier, with festival sets at Mission Creek, Chicago Psych Fest, LatinXt, and Old Town School's Square Roots, plus runs through Milwaukee, Minneapolis, Iowa City, and Austin.</p>
-<p class="epk-flag">[ long bio above is a draft — please review ]</p>
 </div>
 
 <div class="epk-rule">~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*</div>
