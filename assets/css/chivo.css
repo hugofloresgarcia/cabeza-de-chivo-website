@@ -74,6 +74,20 @@ nav li a:hover {
   color: var(--secondary-orange); /* Hover color */
 }
 
+/* visually hidden but kept for screen readers / SEO (the mask logo is the
+   visible title now) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* mask logo above the nav */
 .site-logo {
   display: block;
@@ -723,6 +737,10 @@ strong, em {
   position: relative;
   z-index: 9999;
 }
+/* ...but keep the carousel controls above the lifted slide image, or a wide
+   (landscape) photo hides the prev/next buttons on the grit pages */
+.grit .carousel-nav,
+.grit .carousel-counter { z-index: 10000; }
 
 /* occasional neon buzz on the signature double-red / glow frames */
 @keyframes neon-buzz {
