@@ -48,11 +48,12 @@ main, .content, .ascii-shows, header, footer {
 nav ul {
   list-style: none;
   background: #211a1e;
-  padding: 10px; /* was 5px */
+  margin: 0;
+  padding: 0.2rem 10px; /* tight rows: nav is split into 3 stacked <ul> rows */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.6rem 1.4rem; /* row-gap col-gap; wraps cleanly with 9 items */
+  gap: 0.6rem 1.4rem; /* row-gap col-gap */
 }
 
 
