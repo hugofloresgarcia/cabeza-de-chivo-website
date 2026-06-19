@@ -88,10 +88,10 @@ nav li a:hover {
   border: 0;
 }
 
-/* mask logo above the nav */
+/* mask logo above the nav — at most a third of the page width, on any page */
 .site-logo {
   display: block;
-  max-width: 300px;
+  max-width: 33.333vw;
   margin: 1rem auto 0.5rem;
 }
 .site-logo img {
