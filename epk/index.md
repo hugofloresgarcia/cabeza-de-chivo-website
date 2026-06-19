@@ -17,13 +17,13 @@ permalink: /epk/
 ## WATCH
 
 <div class="epk-videos epk-videos--pair">
-  <figure class="epk-clip">
+  <figure class="epk-clip epk-clip--landscape">
     <video controls preload="none" playsinline poster="/assets/img/jimmy-wilson/lajuana-thalia.jpg">
       <source src="/assets/video/jimmy-wilson/lajuana-thalia.mp4" type="video/mp4">
     </video>
     <figcaption>la juana · live at thalia hall · video by jimmy wilson</figcaption>
   </figure>
-  <figure class="epk-clip">
+  <figure class="epk-clip epk-clip--portrait">
     <video controls preload="none" playsinline poster="/assets/img/epk/promo-2.jpg">
       <source src="/assets/video/epk/promo-2.mp4" type="video/mp4">
     </video>
