@@ -26,11 +26,11 @@
   event: "June 2025 · Thalia Hall, Chicago"
   base: /assets/img/photos/joel-cardenas-diaz-june-2025
   photos:
+    - joel-thalia-54.jpg
     - joel-thalia-43.jpg
     - joel-thalia-48.jpg
     - joel-thalia-49.jpg
     - joel-thalia-50.jpg
-    - joel-thalia-54.jpg
     - joel-thalia-56.jpg
     - joel-thalia-57.jpg
     - joel-thalia-62.jpg
@@ -39,3 +39,34 @@
     - joel-thalia-47.jpg
     - joel-thalia-34.jpg
     - joel-thalia-39.jpg
+
+- id: emily-nava-june-2025
+  photographer: Emily Nava
+  photographer_url:   # TODO: add Emily's website/portfolio (instagram @emily.nava if no site)
+  event: "June 2025 · Thalia Hall, Chicago"
+  base: /assets/img/photos/emily-nava-june-2025
+  photos:
+    - emily-thalia-3112.jpg
+    - emily-thalia-3311.jpg
+    - emily-thalia-2959.jpg
+    - emily-thalia-2705.jpg
+    - emily-thalia-2710.jpg
+    - emily-thalia-2772.jpg
+    - emily-thalia-2801.jpg
+    - emily-thalia-2821.jpg
+    - emily-thalia-2859.jpg
+    - emily-thalia-2882.jpg
+    - emily-thalia-2893.jpg
+    - emily-thalia-2896.jpg
+    - emily-thalia-2907.jpg
+    - emily-thalia-2912.jpg
+    - emily-thalia-2923.jpg
+    - emily-thalia-2929.jpg
+    - emily-thalia-2942.jpg
+    - emily-thalia-2998.jpg
+    - emily-thalia-3010.jpg
+    - emily-thalia-3032.jpg
+    - emily-thalia-3067.jpg
+    - emily-thalia-3170.jpg
+    - emily-thalia-3220.jpg
+    - emily-thalia-3278.jpg
