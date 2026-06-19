@@ -65,8 +65,13 @@ nav li a {
 }
 
 
+/* alternate the nav links through bright palette accents (cycles per row) */
+nav li:nth-child(3n+1) a { color: var(--link-blue); }
+nav li:nth-child(3n+2) a { color: var(--mint-green); }
+nav li:nth-child(3n+3) a { color: var(--hot-pink); }
+
 nav li a:hover {
-  color: var(--hot-pink); /* Hover color */
+  color: var(--secondary-orange); /* Hover color */
 }
 
 .ascii-shows {
