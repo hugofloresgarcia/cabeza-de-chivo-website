@@ -50,8 +50,9 @@ nav ul {
   background: #211a1e;
   padding: 10px; /* was 5px */
   display: flex;
-  justify-content: space-around;
-  gap: 1rem; /* optional: space between items */
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem 1.4rem; /* row-gap col-gap; wraps cleanly with 9 items */
 }
 
 

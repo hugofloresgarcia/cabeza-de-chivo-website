@@ -1,0 +1,3 @@
+<pre class="ascii-shows">
+{% assign today = site.time | date: "%Y-%m-%d" %}{% assign past_shows = site.data.shows | sort: "date" | reverse %}{% for show in past_shows %}{% assign show_date = show.date | date: "%Y-%m-%d" %}{% if show_date < today %}>>> <span class="show-date">{{ show.date | date: "%B %e, %Y" }}</span> at <span class="show-venue">{{ show.venue }}</span>.{% if show.note %} <span class="show-note">({{ show.note }})</span>{% endif %}
+{% endif %}{% endfor %}</pre>
