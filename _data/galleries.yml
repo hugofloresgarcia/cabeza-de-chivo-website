@@ -4,7 +4,7 @@
 # appending a block here and dropping web images into base/{full,thumb}.
 - id: camilla-forte-april-2025
   photographer: Camilla Forte
-  photographer_url:   # TODO: add Camilla Forte's website, then her name becomes a link
+  photographer_url: https://www.camillaforte.com/
   event: "April 2025 · Chicago"
   base: /assets/img/photos/camilla-forte-april-2025
   photos:
