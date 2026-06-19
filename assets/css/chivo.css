@@ -128,13 +128,14 @@ canvas {
 
 h1, h2, h3 {
   color: var(--secondary-orange);
+  text-transform: lowercase;
 }
 h1 {
   font-size: 4rem; /* Adjust this to make the font much bigger */
   font-weight: 900; /* Optional: Increase font weight for a bolder look */
   letter-spacing: 0.1em; /* Optional: Add some letter spacing for a wider effect */
   color: var(--secondary-orange); /* Retaining the secondary orange color for emphasis */
-  text-transform: uppercase; /* Optional: Transform the text to uppercase */
+  text-transform: lowercase;
   margin-bottom: 1rem; /* Optional: Add some space below the h1 */
 }
 
@@ -233,7 +234,7 @@ strong, em {
 .store-card__tag {
   align-self: flex-start;
   font-size: 0.7rem;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.1em;
   padding: 2px 8px;
   border: 1px solid var(--secondary-orange);
@@ -300,7 +301,7 @@ strong, em {
 .epk-kicker {
   color: var(--secondary-orange);
   letter-spacing: 0.35em;
-  text-transform: uppercase;
+  text-transform: lowercase;
   font-size: 0.9rem;
   margin: 0.5rem 0 0;
 }
@@ -378,7 +379,7 @@ strong, em {
   padding: 0.6rem;
   color: var(--secondary-orange);
   font-size: 0.8rem;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.15em;
 }
 
@@ -426,7 +427,7 @@ strong, em {
   color: var(--hot-pink);
   font-size: 0.85rem;
   font-style: normal;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.15em;
 }
 
@@ -477,7 +478,7 @@ strong, em {
 .epk-hero figcaption {
   color: var(--hot-pink);
   font-size: 0.75rem;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.15em;
   padding: 0.4rem 0.6rem;
   text-align: right;
@@ -518,7 +519,7 @@ strong, em {
   display: block;
   flex-basis: 100%;
   color: var(--secondary-orange);
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.15em;
   font-size: 0.85rem;
   margin-top: 0.6rem;
@@ -533,7 +534,7 @@ strong, em {
 .gallery-photographer {
   color: var(--secondary-orange);
   letter-spacing: 0.18em;
-  text-transform: uppercase;
+  text-transform: lowercase;
   font-size: 1rem;
   margin: 0;
 }
