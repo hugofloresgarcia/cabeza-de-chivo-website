@@ -74,6 +74,22 @@ nav li a:hover {
   color: var(--secondary-orange); /* Hover color */
 }
 
+/* mask logo above the nav */
+.site-logo {
+  display: block;
+  max-width: 300px;
+  margin: 1rem auto 0.5rem;
+}
+.site-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 4px double var(--primary-red);
+  box-shadow: 0 0 12px var(--hot-pink);
+}
+/* keep the logo crisp above the grit overlay, like the other imagery */
+.grit .site-logo img { position: relative; z-index: 9999; }
+
 .ascii-shows {
   font-family: 'IBM Plex Mono', monospace;
   background: #111;
@@ -103,6 +119,9 @@ nav li a:hover {
   font-size: 1.5rem;
   text-align: center;
   white-space: pre;
+  overflow: hidden; /* clip the fixed-length border string so it can't overflow
+                       the viewport and push the centered layout off-axis */
+  max-width: 100%;
   padding: 0.5rem 0;
 }
 
