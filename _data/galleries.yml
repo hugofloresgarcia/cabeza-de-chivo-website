@@ -1,0 +1,21 @@
+# Photo galleries, one block per photographer-event.
+# Rendered as carousels by _includes/photo-carousel.html on both
+# /gallery/photos/ and the EPK press kit. Add a photographer-event by
+# appending a block here and dropping web images into base/{full,thumb}.
+- id: camilla-forte-april-2025
+  photographer: Camilla Forte
+  photographer_url:   # TODO: add Camilla Forte's website, then her name becomes a link
+  event: "April 2025 · Chicago"
+  base: /assets/img/photos/camilla-forte-april-2025
+  photos:
+    - cabeza-polaroid19.jpg
+    - cabeza-polaroid17.jpg
+    - cabeza-polaroid4.jpg
+    - cabeza-polaroid23.jpg
+    - cabeza-polaroid24.jpg
+    - forte-cabezadechivo-3.jpg
+    - forte-cabezadechivo-7.jpg
+    - forte-cabezadechivo-9.jpg
+    - forte-cabezadechivo-16.jpg
+    - forte-cabezadechivo-17.jpg
+    - forte-cabezadechivo-20.jpg

@@ -1,0 +1,34 @@
+{% comment %}
+  One photo carousel. Pass a gallery object from _data/galleries.yml, e.g.
+  include photo-carousel.html with gallery=g inside a loop over site.data.galleries.
+  Markup only — the behaviour lives in /assets/js/carousel.js, which each host
+  page loads once. Multiple carousels per page are supported.
+{% endcomment %}
+<section class="gallery">
+  <header class="gallery-cred">
+    <p class="gallery-photographer">photographs by
+      {% if include.gallery.photographer_url %}<a href="{{ include.gallery.photographer_url }}">{{ include.gallery.photographer }}</a>{% else %}<span>{{ include.gallery.photographer }}</span>{% endif %}
+    </p>
+    {% if include.gallery.event %}<p class="gallery-event">{{ include.gallery.event }}</p>{% endif %}
+  </header>
+
+  <div class="carousel" data-carousel tabindex="0">
+    <div class="carousel-stage">
+      {% for photo in include.gallery.photos %}
+      <figure class="carousel-slide{% if forloop.first %} is-active{% endif %}">
+        <img src="{{ include.gallery.base }}/full/{{ photo }}" alt="Cabeza de Chivo, photographed by {{ include.gallery.photographer }}" loading="lazy">
+      </figure>
+      {% endfor %}
+      <button class="carousel-nav carousel-prev" aria-label="previous photo" data-prev>&#x2039;</button>
+      <button class="carousel-nav carousel-next" aria-label="next photo" data-next>&#x203a;</button>
+      <div class="carousel-counter"><span data-current>1</span> / {{ include.gallery.photos | size }}</div>
+    </div>
+    <div class="carousel-thumbs">
+      {% for photo in include.gallery.photos %}
+      <button class="carousel-thumb{% if forloop.first %} is-active{% endif %}" data-goto="{{ forloop.index0 }}" aria-label="go to photo {{ forloop.index }}">
+        <img src="{{ include.gallery.base }}/thumb/{{ photo }}" alt="" loading="lazy">
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+</section>
