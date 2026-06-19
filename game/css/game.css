@@ -107,10 +107,31 @@
   border-color: #edf060;
 }
 
+/* persistent "back home" button — only shown when the header is collapsed
+   for fullscreen play (otherwise the nav already has a home link) */
+.game-home {
+  display: none;
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--secondary-orange);
+  background: rgba(17, 17, 17, 0.72);
+  border: 1px solid var(--primary-red);
+  padding: 4px 10px;
+  text-decoration: none;
+}
+.game-home:hover { color: var(--hot-pink); }
+
 /* ---- Phone-ish screens: game takes the full viewport ---- */
 @media (max-height: 580px), (max-width: 700px) {
   #game-stage {
     height: 100dvh;
+  }
+  .game-home {
+    display: block;
   }
 }
 
@@ -118,6 +139,7 @@
    gets the vertical space (phones in landscape). */
 @media (max-height: 580px) and (orientation: landscape) {
   body:has(#game-root) h1.title,
+  body:has(#game-root) .site-logo,
   body:has(#game-root) #ascii-border-top,
   body:has(#game-root) nav,
   body:has(#game-root) .content {
@@ -128,6 +150,7 @@
 /* Portrait phones: Game Boy layout — screen on top, controls below */
 @media (orientation: portrait) and (max-width: 700px) {
   body:has(#game-root) h1.title,
+  body:has(#game-root) .site-logo,
   body:has(#game-root) #ascii-border-top,
   body:has(#game-root) nav,
   body:has(#game-root) .content {
