@@ -74,6 +74,16 @@ nav li a:hover {
   color: var(--secondary-orange); /* Hover color */
 }
 
+/* site copyright footer */
+.site-footer {
+  margin-top: 2.5rem;
+  padding: 1.5rem 1rem;
+  color: var(--secondary-orange);
+  font-size: 0.8rem;
+  text-align: center;
+  opacity: 0.85;
+}
+
 /* visually hidden but kept for screen readers / SEO (the mask logo is the
    visible title now) */
 .sr-only {
