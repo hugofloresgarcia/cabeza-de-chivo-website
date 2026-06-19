@@ -542,14 +542,15 @@ strong, em {
 
 /* bandcamp embed, framed like the neon cards */
 .epk-bandcamp {
-  max-width: 700px;
+  width: fit-content;
+  max-width: 100%;
   margin: 1.5rem auto;
   border: 4px double var(--primary-red);
   box-shadow: 0 0 12px var(--hot-pink);
   background: #111;
   padding: 0.4rem;
 }
-.epk-bandcamp iframe { display: block; }
+.epk-bandcamp iframe { display: block; max-width: 100%; }
 
 /* press-photos teaser on the epk — three thumbs that open the gallery */
 .epk-photo-teaser {
