@@ -3,6 +3,8 @@ layout: home
 title: cabeza de chivo
 ---
 
+<p class="release-banner"><a href="/store/">&#9670; new 7" — <strong>La Juana // Danza del Chivo</strong> — out now · buy the vinyl &raquo;</a></p>
+
 ## UPCOMING SHOWS - 2026
 
 {% include shows-upcoming.html %}

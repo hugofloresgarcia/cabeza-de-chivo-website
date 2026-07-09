@@ -1,0 +1,32 @@
+# ============================================================
+# STORE CATALOG
+# ============================================================
+# Add / edit products here. Each one becomes a card on /store.
+#
+# Fields:
+#   name        (required) product title
+#   type        vinyl | digital | merch   -> shown as a little tag
+#   price       (required) e.g. "$25"  — display only; the real
+#                          price is set inside your Stripe link
+#   image       path to ONE photo, e.g. /assets/img/store/lp.jpg
+#   images      a LIST of photos (front/back/etc). If set, the card
+#                          shows a little flip gallery with arrows.
+#                          Use this OR `image`, not both.
+#   description short blurb (optional)
+#   link        the Stripe Payment Link (https://buy.stripe.com/...)
+#                          OR a Bandcamp URL for digital releases.
+#                          Leave blank to show "coming soon".
+#   sold_out    true/false  -> shows a SOLD OUT badge, hides the button
+#
+# See store/SETUP.md for how to create the Stripe links.
+# ============================================================
+
+- name: 'La Juana // Danza del Chivo'
+  type: vinyl
+  price: "$12"
+  images:
+    - /assets/img/store/la-juana-front.png
+    - /assets/img/store/la-juana-back.png
+  description: '7" 45 — "La Juana" b/w "Danza del Chivo." limited pressing, ships from chicago.'
+  link: "https://buy.stripe.com/3cIdR22TR6mH5AW5KP4Ni00"
+  sold_out: false
