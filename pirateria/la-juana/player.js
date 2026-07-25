@@ -103,6 +103,11 @@
   function setGlyph() {
     playBtn.classList.toggle('playing', !audio.paused);
     playBtn.setAttribute('aria-label', audio.paused ? 'play' : 'pause');
+    // keep the lock-screen / control-center card in sync so background
+    // resume works on phones
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.playbackState = audio.paused ? 'paused' : 'playing';
+    }
   }
 
   function syncDuration() {
@@ -383,6 +388,11 @@
     navigator.mediaSession.setActionHandler('seekforward', function () {
       window.__safeSeek(audio.currentTime + 10);
     });
+    try {
+      navigator.mediaSession.setActionHandler('seekto', function (d) {
+        window.__safeSeek(d.seekTime);
+      });
+    } catch (e) { /* older browsers don't know seekto */ }
   }
 
   setGlyph();
