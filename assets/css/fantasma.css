@@ -38,7 +38,6 @@
   border: 3px double var(--primary-red);
   padding: 0.7rem 1.4rem;
   cursor: pointer;
-  box-shadow: 0 0 12px var(--hot-pink);
 }
 
 #f-soundtest:hover {
@@ -92,7 +91,6 @@
   border: 3px dashed var(--primary-red);
   border-radius: 50%;
   background: transparent !important;
-  box-shadow: 0 0 8px var(--primary-red);
 }
 
 .f-miss {

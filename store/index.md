@@ -1,7 +1,7 @@
 ---
 layout: default
 title: store
-description: 'La Juana // Danza del Chivo — new 7" 45 from Cabeza de Chivo. limited pressing, ships from chicago.'
+description: 'La Juana / La Danza del Chivo — new 7" 45 from Cabeza de Chivo. limited pressing, ships from chicago.'
 image: /assets/img/store/la-juana-share.jpg
 ---
 

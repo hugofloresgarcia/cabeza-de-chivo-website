@@ -115,7 +115,6 @@ nav li a:hover {
   width: 100%;
   height: auto;
   border: 4px double var(--primary-red);
-  box-shadow: 0 0 12px var(--hot-pink);
 }
 /* keep the logo crisp above the grit overlay, like the other imagery */
 .grit .site-logo img { position: relative; z-index: 9999; }
@@ -129,7 +128,6 @@ nav li a:hover {
   margin: auto;
   white-space: pre-wrap;
   border: 4px double var(--primary-red);
-  box-shadow: 0 0 12px var(--hot-pink);
   /* text-indent: 0; */
   text-align: left;
 }
@@ -241,7 +239,6 @@ strong, em {
   text-align: center;
   background: #111;
   border: 4px double var(--primary-red);
-  box-shadow: 0 0 12px var(--hot-pink);
 }
 .release-banner a {
   color: var(--secondary-orange);
@@ -262,7 +259,6 @@ strong, em {
 
 .store-card {
   border: 4px double var(--primary-red);
-  box-shadow: 0 0 12px var(--hot-pink);
   background: #111;
   display: flex;
   flex-direction: column;
@@ -272,7 +268,6 @@ strong, em {
 
 .store-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 0 18px var(--secondary-orange);
 }
 
 .store-card--soldout {
@@ -407,7 +402,7 @@ strong, em {
   background: rgba(17, 17, 17, 0.72);
   border: 1px solid var(--primary-red);
 }
-.store-gallery__nav:hover { color: var(--hot-pink); box-shadow: 0 0 10px var(--hot-pink); }
+.store-gallery__nav:hover { color: var(--hot-pink); }
 .store-gallery__prev { left: 0.4rem; }
 .store-gallery__next { right: 0.4rem; }
 .store-gallery__dots {
@@ -426,7 +421,7 @@ strong, em {
   border: 1px solid var(--secondary-orange);
   background: transparent;
 }
-.store-gallery__dot.is-active { background: var(--secondary-orange); box-shadow: 0 0 6px var(--hot-pink); }
+.store-gallery__dot.is-active { background: var(--secondary-orange); }
 
 /* ===================== EPK (press kit) =====================
    Built from the site's own language: centered, IBM Plex Mono,
@@ -464,7 +459,6 @@ strong, em {
 /* neon card — the site's signature container (double red + pink glow) */
 .epk-card {
   border: 4px double var(--primary-red);
-  box-shadow: 0 0 12px var(--hot-pink);
   background: #111;
   padding: 1rem;
 }
@@ -499,12 +493,11 @@ strong, em {
 .epk-clip {
   margin: 0;
   border: 4px double var(--primary-red);
-  box-shadow: 0 0 12px var(--hot-pink);
   background: #111;
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.epk-clip:hover { transform: translateY(-4px); box-shadow: 0 0 18px var(--secondary-orange); }
+.epk-clip:hover { transform: translateY(-4px); }
 .epk-clip video {
   display: block;
   width: 100%;
@@ -527,7 +520,6 @@ strong, em {
   max-width: 900px;
   margin: 1.5rem auto;
   border: 4px double var(--primary-red);
-  box-shadow: 0 0 12px var(--hot-pink);
   text-align: left;
   list-style: none;
   line-height: 1.9;
@@ -550,7 +542,6 @@ strong, em {
   max-width: 760px;
   margin: 1.5rem auto;
   border: 4px double var(--primary-red);
-  box-shadow: 0 0 12px var(--hot-pink);
   background: #111;
   padding: 1.5rem;
   font-size: 1.2rem;
@@ -580,7 +571,6 @@ strong, em {
   height: auto;
   display: block;
   border: 4px double var(--primary-red);
-  box-shadow: 0 0 12px var(--hot-pink);
 }
 .epk-photos figcaption { color: var(--hot-pink); font-size: 0.8rem; margin-top: 0.5rem; }
 
@@ -605,7 +595,6 @@ strong, em {
   max-width: 550px;
   margin: 1.5rem auto 0;
   border: 4px double var(--primary-red);
-  box-shadow: 0 0 14px var(--hot-pink);
   background: #111;
   overflow: hidden;
 }
@@ -625,7 +614,6 @@ strong, em {
   max-width: 100%;
   margin: 1.5rem auto;
   border: 4px double var(--primary-red);
-  box-shadow: 0 0 12px var(--hot-pink);
   background: #111;
   padding: 0.4rem;
 }
@@ -647,10 +635,9 @@ strong, em {
   height: 150px;
   object-fit: cover;
   border: 4px double var(--primary-red);
-  box-shadow: 0 0 12px var(--hot-pink);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.epk-photo-teaser:hover img { transform: translateY(-4px); box-shadow: 0 0 18px var(--secondary-orange); }
+.epk-photo-teaser:hover img { transform: translateY(-4px); }
 .epk-teaser-cta {
   display: block;
   flex-basis: 100%;
@@ -690,7 +677,6 @@ strong, em {
 .carousel-stage {
   position: relative;
   border: 4px double var(--primary-red);
-  box-shadow: 0 0 12px var(--hot-pink);
   background: #111;
   aspect-ratio: 3 / 2;
   overflow: hidden;
@@ -725,7 +711,7 @@ strong, em {
   z-index: 2;
   transition: color 0.2s ease, box-shadow 0.2s ease;
 }
-.carousel-nav:hover { color: var(--hot-pink); box-shadow: 0 0 12px var(--hot-pink); }
+.carousel-nav:hover { color: var(--hot-pink); }
 .carousel-prev { left: 0.6rem; }
 .carousel-next { right: 0.6rem; }
 .carousel-counter {
@@ -758,7 +744,7 @@ strong, em {
 }
 .carousel-thumb img { width: 76px; height: 76px; object-fit: cover; display: block; }
 .carousel-thumb:hover { opacity: 0.85; }
-.carousel-thumb.is-active { opacity: 1; border-color: var(--primary-red); box-shadow: 0 0 8px var(--hot-pink); }
+.carousel-thumb.is-active { opacity: 1; border-color: var(--primary-red); }
 
 @media (max-width: 600px) {
   .epk-tagline { font-size: 1.1rem; }
@@ -837,53 +823,6 @@ strong, em {
    (landscape) photo hides the prev/next buttons on the grit pages */
 .grit .carousel-nav,
 .grit .carousel-counter { z-index: 10000; }
-
-/* occasional neon buzz on the signature double-red / glow frames */
-@keyframes neon-buzz {
-  0%, 86%, 100% { box-shadow: 0 0 12px var(--hot-pink); }
-  87% { box-shadow: 0 0 3px var(--hot-pink); }
-  88% { box-shadow: 0 0 13px var(--hot-pink); }
-  89% { box-shadow: 0 0 2px var(--hot-pink); }
-  90% { box-shadow: 0 0 14px var(--hot-pink); }
-  91% { box-shadow: 0 0 6px var(--hot-pink); }
-}
-.grit .ascii-shows,
-.grit .store-card,
-.grit .epk-card,
-.grit .epk-clip,
-.grit .epk-shows,
-.grit .epk-quote,
-.grit .epk-photos img,
-.grit .epk-hero,
-.grit .epk-bandcamp,
-.grit .carousel-stage,
-.grit .epk-photo-teaser img {
-  animation: neon-buzz 7s infinite;
-}
-/* desync the frames so they don't all flicker in unison */
-.grit .store-card    { animation-duration: 8.5s; animation-delay: -2s; }
-.grit .epk-clip      { animation-duration: 6.5s; animation-delay: -4s; }
-.grit .epk-shows     { animation-duration: 9s;   animation-delay: -1s; }
-.grit .carousel-stage{ animation-duration: 7.5s; animation-delay: -3s; }
-.grit .epk-photos img{ animation-duration: 8s;   animation-delay: -5s; }
-.grit .store-card:nth-child(2n) { animation-delay: -3.5s; }
-.grit .store-card:nth-child(3n) { animation-delay: -6s; }
-
-/* proximity flicker: grit.js toggles .is-near on the frame nearest the cursor.
-   A faster, harder zap takes over the ambient buzz while you hover nearby. */
-@keyframes neon-zap {
-  0%   { box-shadow: 0 0 19px var(--hot-pink); }
-  18%  { box-shadow: 0 0 3px  var(--hot-pink); }
-  36%  { box-shadow: 0 0 21px var(--hot-pink); }
-  52%  { box-shadow: 0 0 2px  var(--hot-pink); }
-  68%  { box-shadow: 0 0 17px var(--hot-pink); }
-  84%  { box-shadow: 0 0 5px  var(--hot-pink); }
-  100% { box-shadow: 0 0 14px var(--hot-pink); }
-}
-.grit .zap {
-  /* one quick 300ms burst on approach, then settle back to the ambient buzz */
-  animation: neon-zap 0.3s steps(1) 1;
-}
 
 /* chromatic split on headings — constant faint offset + periodic burst */
 @keyframes glitch-burst {

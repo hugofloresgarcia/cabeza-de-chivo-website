@@ -21,12 +21,12 @@
 # See store/SETUP.md for how to create the Stripe links.
 # ============================================================
 
-- name: 'La Juana // Danza del Chivo'
+- name: 'La Juana / La Danza del Chivo'
   type: vinyl
   price: "$12"
   images:
     - /assets/img/store/la-juana-front.png
     - /assets/img/store/la-juana-back.png
-  description: '7" 45 — "La Juana" b/w "Danza del Chivo." limited pressing, ships from chicago.'
+  description: '7" 45 — "La Juana" b/w "La Danza del Chivo." limited pressing, ships from chicago.'
   link: "https://buy.stripe.com/3cIdR22TR6mH5AW5KP4Ni00"
   sold_out: false
