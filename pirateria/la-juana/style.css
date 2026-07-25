@@ -339,6 +339,17 @@ h1 {
 
 .fin { margin-bottom: 0; }
 
+/* slideshow photo credit, tucked at the very bottom */
+.photocred {
+  font-size: 0.7rem;
+  color: var(--pale);
+  opacity: 0.6;
+  margin: 1.6rem 0 0;
+}
+
+.photocred a { color: var(--link-blue); }
+.photocred a:hover { color: var(--gold); }
+
 .noscript {
   position: relative;
   z-index: 3;
