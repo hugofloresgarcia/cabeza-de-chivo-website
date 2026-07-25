@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cabeza de Chivo — La Juana</title>
+  <meta name="description" content="La Juana — side A of the Cabeza de Chivo 7&quot; La Juana / La Danza del Chivo, out now. photos from Thalia Hall, june 2026.">
+  <meta property="og:title" content="Cabeza de Chivo — La Juana">
+  <meta property="og:description" content="La Juana — side A of the Cabeza de Chivo 7&quot; La Juana / La Danza del Chivo, out now.">
+  <meta property="og:type" content="music.song">
+  <meta property="og:image" content="photos/cover.jpg">
+  <link rel="icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap">
+    <div id="stage" role="button" tabindex="0" aria-label="photos from the show — shuffle to the next one">
+      <img id="ph-a" alt="cabeza de chivo" draggable="false">
+      <img id="ph-b" alt="cabeza de chivo" draggable="false">
+    </div>
+
+    <section class="deck">
+      <h1>La Juana</h1>
+      <p class="sub">Cabeza de Chivo · <em>La Juana</em> (versión pirata)<br>
+        from the 7" <em>La Juana / La Danza del Chivo</em></p>
+      <div class="transport">
+        <button id="play" aria-label="play">
+          <svg id="ic-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 2.2 13.6 8l-10 5.8z"/></svg>
+          <svg id="ic-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.4 2.4h3.4v11.2H3.4zM9.2 2.4h3.4v11.2H9.2z"/></svg>
+        </button>
+        <span id="cur" class="time">0:00</span>
+        <div class="wave">
+          <canvas id="wavecv" aria-hidden="true"></canvas>
+          <input id="seek" type="range" min="0" max="100" value="0" step="0.25" aria-label="seek">
+        </div>
+        <span id="dur" class="time">–:––</span>
+      </div>
+      <div class="map">
+        <canvas id="ssm" aria-hidden="true"></canvas>
+        <p class="mapcap">map of the song · tap to travel</p>
+      </div>
+      <div class="dlzone">
+        <button id="dl" class="dl-btn">⬇ FREE mp3 DOWNLOAD ⬇ descarga GRATIS ✅ 100% no virus</button>
+        <pre id="dl-term" class="dl-term" hidden></pre>
+        <p class="dl-support">if you want to support us — <a href="/store/">buy the vinyl »</a></p>
+        <a id="dl-real" href="la-juana.mp3" download="Cabeza_De_Chivo-La_Juana-(version_pirata)-[2026]-[NO_VIRUS]-xX_CDC_Xx.mp3" hidden aria-hidden="true"></a>
+      </div>
+      <p class="hint">&gt;&gt;&gt; tap the photo to shuffle · <a href="#liner">more below</a> &lt;&lt;&lt;</p>
+    </section>
+  </main>
+
+  <section class="liner">
+    <p class="divider" id="liner">&gt;&gt;&gt; ✳ &lt;&lt;&lt;</p>
+    <p><em>La Juana</em> (versión pirata) — from the new Cabeza de Chivo 7"
+      <em>La Juana / La Danza del Chivo</em>, out now.</p>
+    <p class="buy"><a href="/store/">◆ buy the vinyl »</a></p>
+    <ul class="credits">
+      <li>album art — Tito Torres · layout — Bryan Herrera</li>
+      <li>7" released with the <a href="https://futurerootz.bandcamp.com/album/cabeza-de-chivo-la-juana-la-danza-del-chivo">Future Rootz collective</a> — official release on bandcamp</li>
+      <li>photos — <a href="https://www.instagram.com/fdj.mx/">Joel Cardenas Díaz</a> + <a href="https://emilynava.tumblr.com/">Emily Nava</a>, thalia hall, chicago, june 2026</li>
+    </ul>
+    <p class="divider fin">&gt;&gt;&gt; ✳ &lt;&lt;&lt;</p>
+  </section>
+
+  <!-- ?v= busts stale media caches if the encode ever changes -->
+  <audio id="audio" src="la-juana.mp3?v=pirata2" preload="metadata"></audio>
+  <noscript>
+    <div class="noscript"><audio controls src="la-juana.mp3"></audio></div>
+  </noscript>
+
+  <div id="garden" aria-hidden="true"></div>
+  <script src="chivo-garden.js"></script>
+  <script src="player.js"></script>
+  <script src="selfsim.js"></script>
+  <script src="limewire.js"></script>
+</body>
+</html>

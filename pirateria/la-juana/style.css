@@ -1,0 +1,404 @@
+/* cabeza de chivo — la juana player.
+   dressed in the site's own language (see assets/css/chivo.css):
+   #211a1e ground, #111 boxes, IBM Plex Mono, lowercase gold headings,
+   double-red border + hot-pink glow on the signature frames. */
+
+:root {
+  --primary-red: #ff1d42;
+  --gold: #edf060;
+  --mint-green: #57A773;
+  --pale: #ffedfb;
+  --link-blue: #63a9ff;
+  --hot-pink: #E86A92;
+  --ground: #211a1e;
+  --box: #111;
+}
+
+html, body { background: var(--ground); }
+
+html { scroll-behavior: smooth; }
+
+body {
+  color: var(--pale);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+  min-height: 100dvh;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+.wrap {
+  min-height: 100dvh;
+  box-sizing: border-box;
+  padding: 1.4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- photo stage: the signature neon frame ---- */
+
+#stage {
+  position: relative;
+  width: min(92vw, 640px);
+  height: min(46dvh, 480px);
+  background: var(--box);
+  border: 4px double var(--primary-red);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#stage img {
+  position: absolute;
+  inset: 0.6rem;
+  margin: auto;
+  max-width: calc(100% - 1.2rem);
+  max-height: calc(100% - 1.2rem);
+  width: auto;
+  height: auto;
+  opacity: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#stage:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 6px;
+}
+
+/* ---- title + transport, framed like an .ascii-shows card ---- */
+
+.deck {
+  width: min(92vw, 640px);
+  box-sizing: border-box;
+  background: var(--box);
+  border: 4px double var(--primary-red);
+  padding: 1rem 1.1rem 1.2rem;
+  position: relative;
+  z-index: 3;
+}
+
+h1 {
+  color: var(--gold);
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 0;
+}
+
+.sub {
+  color: var(--hot-pink);
+  font-style: italic;
+  font-size: 0.9rem;
+  margin: 0.2rem 0 1.1rem;
+}
+
+.sub em { color: var(--link-blue); }
+
+.transport {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+#play {
+  font-family: inherit;
+  background: var(--box);
+  color: var(--link-blue);
+  border: 2px solid var(--link-blue);
+  padding: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+#play svg {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+  background: transparent;
+}
+
+#play:hover,
+#play:focus-visible {
+  background: var(--link-blue);
+  color: var(--box);
+  outline: none;
+}
+
+/* svg ignores the html `hidden` attribute, so state is a class on the button */
+#play #ic-pause { display: none; }
+#play.playing #ic-play { display: none; }
+#play.playing #ic-pause { display: block; }
+
+.time {
+  font-variant-numeric: tabular-nums;
+  min-width: 3.1rem;
+  font-size: 0.85rem;
+  color: var(--pale);
+}
+
+#cur { text-align: right; }
+#dur { text-align: left; }
+
+/* seek: neon waveform canvas + invisible range on top for keyboard/SR */
+
+.wave {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 56px;
+  background: var(--box);
+}
+
+#wavecv {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+#seek {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.wave:focus-within {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+/* ---- self-similarity map ---- */
+
+.map {
+  margin-top: 1.1rem;
+}
+
+#ssm {
+  width: clamp(130px, 20dvh, 190px);
+  aspect-ratio: 1;
+  border: 4px double var(--primary-red);
+  background: var(--box);
+  cursor: pointer;
+  touch-action: none;
+}
+
+.mapcap {
+  color: var(--gold);
+  text-transform: lowercase;
+  letter-spacing: 0.15em;
+  font-size: 0.72rem;
+  opacity: 0.85;
+  margin: 0.45rem 0 0;
+}
+
+/* ---- the FREE DOWNLOAD zone (limewire, mi amor) ---- */
+
+.dlzone { margin-top: 1.2rem; }
+
+.dl-btn {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: #39FF14; /* limewire lime */
+  background: var(--box);
+  border: 2px dashed #39FF14;
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+  animation: dl-blink 1.1s steps(2) infinite;
+  transition: transform 0.15s ease;
+}
+
+.dl-btn:hover,
+.dl-btn:focus-visible {
+  color: var(--box);
+  background: #39FF14;
+  animation: none;
+  outline: none;
+}
+
+@keyframes dl-blink {
+  0%   { border-color: #39FF14; color: #39FF14; }
+  50%  { border-color: var(--gold); color: var(--gold); }
+  100% { border-color: #39FF14; color: #39FF14; }
+}
+
+.dl-term {
+  margin: 0.8rem auto 0;
+  max-width: 420px;
+  text-align: left;
+  background: #000;
+  color: #39FF14;
+  border: 1px solid #39FF14;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  min-height: 2em;
+}
+
+.dl-support {
+  color: var(--pale);
+  font-size: 0.78rem;
+  opacity: 0.85;
+  margin: 0.6rem 0 0;
+}
+
+.dl-support a { color: var(--gold); font-weight: 700; }
+.dl-support a:hover { color: var(--hot-pink); }
+
+.manifesto {
+  color: var(--pale);
+  font-size: 0.85rem;
+  border: 2px dashed var(--gold);
+  background: var(--box);
+  padding: 0.9rem 1rem;
+  margin: 1.4rem 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dl-btn { animation: none; }
+}
+
+.hint {
+  color: var(--gold);
+  opacity: 0.75;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  margin: 1.1rem 0 0;
+}
+
+.hint a { color: var(--link-blue); }
+.hint a:hover { color: var(--gold); }
+
+/* ---- liner (scroll down) ---- */
+
+.liner {
+  width: min(88vw, 560px);
+  margin: 0 auto;
+  padding: 1.5rem 0 4.5rem;
+  position: relative;
+  z-index: 3;
+}
+
+.divider {
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  text-align: center;
+  margin: 2.2rem 0;
+}
+
+.divider:target { color: var(--hot-pink); }
+
+.buy {
+  font-size: 1.15rem;
+  margin: 1.4rem 0;
+}
+
+.buy a {
+  color: var(--gold);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.buy a:hover { color: var(--hot-pink); }
+
+.credits {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+  font-size: 0.85rem;
+}
+
+.credits li { margin: 0.4rem 0; }
+
+.credits a { color: var(--link-blue); }
+.credits a:hover { color: var(--gold); }
+
+.liner em { color: var(--link-blue); }
+
+.fin { margin-bottom: 0; }
+
+.noscript {
+  position: relative;
+  z-index: 3;
+  padding: 1rem;
+}
+
+/* ---- garden canvas: floats over everything, never blocks clicks ---- */
+
+#garden {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+#garden img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* drifting "buy the vinyl" chips — clickable even though the garden isn't */
+.float-buy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: auto;
+  will-change: transform;
+  display: inline-block;
+  white-space: nowrap;
+  background: var(--box);
+  border: 2px solid var(--gold);
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.55rem;
+  text-decoration: none;
+}
+
+.float-buy:hover,
+.float-buy:focus-visible {
+  background: var(--gold);
+  color: var(--box);
+  outline: none;
+}
+
+/* short landscape screens: shrink the stage, keep controls */
+@media (max-height: 480px) {
+  #stage { height: 38dvh; }
+  .sub { margin-bottom: 0.5rem; }
+  .hint, .map { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  #stage img { transition: none !important; }
+  #play { transition: none; }
+}
