@@ -324,8 +324,15 @@
   let started = false;
   let lvl = 0;
 
+  // iOS: routing the element through WebAudio (createMediaElementSource)
+  // puts playback under the ringer/silent switch — audio "plays" but the
+  // speaker stays silent. skip the analyser there; the garden still runs
+  // at full speed while playing, just without loudness modulation.
+  const IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
   function initAnalyser() {
-    if (started) return;
+    if (started || IOS) return;
     started = true;
     try {
       const Ctx = window.AudioContext || window.webkitAudioContext;
