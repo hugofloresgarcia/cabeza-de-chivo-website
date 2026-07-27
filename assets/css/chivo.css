@@ -60,7 +60,12 @@ nav ul {
 nav li a {
   color: var(--primary-red);
   font-weight: bold;
-  font-size: 1.85rem; /* 28px roughly */
+  /* scales with the viewport: 16px on a phone, ~22px on a laptop. fixed at
+     1.85rem the nine links wrapped into enough rows to fill a phone screen */
+  font-size: clamp(1rem, 2.6vw, 1.35rem);
+  /* keeps the tap target usable now that the text is smaller */
+  display: inline-block;
+  padding: 0.25rem 0;
   transition: color 0.3s ease;
 }
 
@@ -747,6 +752,8 @@ strong, em {
 .carousel-thumb.is-active { opacity: 1; border-color: var(--primary-red); }
 
 @media (max-width: 600px) {
+  /* tighten the nav rows so the menu doesn't eat the whole screen */
+  nav ul { gap: 0.3rem 0.9rem; padding: 0.15rem 8px; }
   .epk-tagline { font-size: 1.1rem; }
   .carousel-nav { font-size: 1.5rem; width: 2rem; height: 2.8rem; }
   .epk-photo-teaser img { width: 100px; height: 100px; }
