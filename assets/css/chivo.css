@@ -202,6 +202,30 @@ strong, em {
   color: var(--link-blue);
 }
 
+/* file-index pages under /assets/print/ — these are plain documents handed to
+   printers, so they opt out of the display sizing the band pages use
+   (22px body, 4rem h1) and get readable document typography instead */
+.print-index {
+  font-size: 15px;
+  max-width: 44rem;
+  margin: 0 auto;
+}
+.print-index h1 {
+  font-size: 1.6rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.6rem;
+}
+.print-index table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.2rem;
+}
+.print-index th,
+.print-index td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid #3a2f35;
+}
+
 .show-note {
   color: #FF6347; /* Tomato red or any color you prefer */
   font-weight: bold; /* Make it bolder for emphasis */
