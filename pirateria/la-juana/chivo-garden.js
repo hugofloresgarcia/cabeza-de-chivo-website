@@ -1,8 +1,7 @@
-// floating masks for "la juana" — cabeza de chivo.
-// no p5, no drawing: real copies of the mask cutout (favicon.png) drifting
-// around the viewport like calcomanías. while the song plays they drift at
-// full speed and bob with the loudness (window.__gardenLevel, set by
-// player.js); paused = near-still. photo changes teleport a few of them —
+// floating "buy the vinyl" chip for "la juana" — cabeza de chivo.
+// a single clickable chip drifting around the viewport. while the song plays
+// it drifts at full speed and bobs with the loudness (window.__gardenLevel,
+// set by player.js); paused = near-still. photo changes can teleport it —
 // hard cuts everywhere, per the band.
 
 (function () {
@@ -13,8 +12,6 @@
     window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const N = 12;
-  const SRC = 'mask-float.png'; // the mask cutout, background keyed out
   const masks = [];
 
   function rnd(a, b) { return a + Math.random() * (b - a); }
@@ -22,46 +19,19 @@
   function level() { return window.__gardenLevel || 0; }
   function playing() { return !!window.__gardenPlaying; }
 
-  for (let i = 0; i < N; i++) {
-    const el = document.createElement('img');
-    el.src = SRC;
-    el.alt = '';
-    el.draggable = false;
-    const size = rnd(14, 44);
-    el.style.width = size + 'px';
-    garden.appendChild(el);
-    masks.push({
-      el: el,
-      size: size,
-      x: rnd(-60, window.innerWidth),
-      y: rnd(-60, window.innerHeight),
-      vx: rnd(8, 26) * (Math.random() < 0.5 ? -1 : 1),   // px/s
-      vy: rnd(5, 18) * (Math.random() < 0.5 ? -1 : 1),
-      rot: rnd(-14, 14),
-      rotAmp: rnd(4, 12),
-      bobAmp: rnd(3, 9),
-      freq: rnd(0.4, 1.1),
-      phase: rnd(0, Math.PI * 2),
-      flip: Math.random() < 0.5 ? -1 : 1,                // some face the other way
-    });
-  }
-
-  // 2-3 drifting "buy the vinyl" chips — the one popup ad we actually mean.
-  // they ride the same physics as the masks but stay clickable.
-  const BUY_TEXTS = ['buy the vinyl »', '◆ BUY THE VINYL ◆', 'compra el vinilo »'];
-  const nBuy = 2 + (Math.random() < 0.5 ? 1 : 0);
-  for (let i = 0; i < nBuy; i++) {
+  // a single drifting "buy the vinyl" chip — the one popup ad we actually mean.
+  {
     const el = document.createElement('a');
     el.href = '/store/';
     el.className = 'float-buy';
-    el.textContent = BUY_TEXTS[i % BUY_TEXTS.length];
+    el.textContent = 'buy the vinyl »';
     garden.appendChild(el);
     masks.push({
       el: el,
       size: 150, // wrap margin; roughly the chip width
       x: rnd(0, window.innerWidth * 0.8),
       y: rnd(0, window.innerHeight * 0.8),
-      vx: rnd(6, 14) * (Math.random() < 0.5 ? -1 : 1), // a touch slower than the masks
+      vx: rnd(6, 14) * (Math.random() < 0.5 ? -1 : 1),
       vy: rnd(4, 10) * (Math.random() < 0.5 ? -1 : 1),
       rot: rnd(-8, 8),
       rotAmp: rnd(2, 6),
