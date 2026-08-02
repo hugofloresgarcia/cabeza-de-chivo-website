@@ -1,7 +1,7 @@
 // the FREE DOWNLOAD button — a loving recreation of 2003.
 // clicking it runs a fake gnutella download (peers, leechers, 14.4kbps,
-// one stall) in a little terminal, then triggers the real mp3 download
-// with a period-correct rip filename. slightly annoying on purpose:
+// one stall) in a little terminal, then triggers the real mp3 download.
+// slightly annoying on purpose:
 // sometimes the button dodges your first click. jaja casi.
 
 (function () {
@@ -18,11 +18,12 @@
     'conectando a la red gnutella...',
     'buscando peers... encontrados: 2 seeds, 47 leechers',
     'connecting to xX_chivo_fan_2003_Xx @ 14.4kbps...',
-    'verificando: 100% no virus ✅ (confía)',
+    'verificando integridad del archivo... ✅ (confía)',
     'descargando la_juana.mp3 ...',
   ];
   const STALL = '!!! STALLED — reintentando...';
   const DONE = '✳ listo. gracias por piratear con cabeza de chivo ✳';
+  const BUY = 'anda comprá el vinilo cabrón!!!';
 
   // the spirits in the machine — each haunts the log once, at a random moment
   const SPOOKS = [
@@ -109,6 +110,7 @@
           log.push(bar(100));
           while (spooks.length) pushSpook(spooks.shift()); // no ghost left behind
           log.push(DONE);
+          log.push(BUY);
           render();
           real.click(); // the actual, honest download
           btn.textContent = '⬇ DOWNLOAD AGAIN ⬇ ✅✅ (free forever)';
