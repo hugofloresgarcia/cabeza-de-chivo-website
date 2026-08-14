@@ -49,6 +49,14 @@
   venue: Edgewater Music Fest, Chicago
   url:
   note:
+- date: 2026-09-26
+  venue: Armitage County Fair, Chicago
+  url: https://www.armitagecountyfair.com/
+  note:
+- date: 2026-10-17
+  venue: Ramova Theatre, Chicago
+  url: https://www.songkick.com/concerts/43261327-balthvs-at-ramova-theatre
+  note: supporting BALTHVS
 # past shows
 - date: 2025-04-05
   venue: Mission Creek Fest, Iowa City
